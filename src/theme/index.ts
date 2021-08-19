@@ -2,6 +2,7 @@ import {
   configureFonts,
   DefaultTheme as PaperDefaultTheme,
 } from "react-native-paper";
+import { TextStyle } from "react-native";
 
 declare global {
   namespace ReactNativePaper {
@@ -15,16 +16,17 @@ declare global {
       greenBackgroundLight: string;
       secondaryGreen: string;
       error: string;
+      darkBlackGreen: string;
     }
 
     interface Theme {
       tallHeader: any;
-      whiteHeader: any;
       primaryHeader: any;
       headerButtonLabel: {
         fontSize: number;
         inverseColor: string;
       };
+      defaultTextStyle: TextStyle;
     }
   }
 }
@@ -54,6 +56,7 @@ const colors = {
   primaryGreen: "#B2F272",
   darkGreen: "#739F13",
   blackGreen: "#4B6A4E",
+  darkBlackGreen: "#384f3b",
   lightGreen: "#BAE75B",
   greenBackgroundLight: "#D6F6B6",
   secondaryGreen: "#C4F592",
@@ -82,5 +85,8 @@ export const theme = {
       textAlign: "center",
       color: colors.white,
     },
+  },
+  defaultTextStyle: {
+    textAlign: "center",
   },
 };

@@ -15,7 +15,7 @@ export const AppScreen: React.FC = () => {
   //   return <AppLoading />;
   // }
 
-  const x = 1;
+  const x = 3;
   if (x < 2) {
     return <AppScreenStack />;
   } else {
