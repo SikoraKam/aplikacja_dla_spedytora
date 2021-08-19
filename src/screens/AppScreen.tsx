@@ -1,5 +1,6 @@
 import React from "react";
 import { AppScreenStack } from "./AppScreenStack";
+import { AuthScreenStack } from "./auth/AuthScreenStack";
 
 export const AppScreen: React.FC = () => {
   // const { isLoading, isAuthenticated } = useAuth();
@@ -14,12 +15,10 @@ export const AppScreen: React.FC = () => {
   //   return <AppLoading />;
   // }
 
-  //   if (isAuthenticated) {
-  //     return <AppScreenStack />;
-  //   } else {
-  //     return <AuthScreenStack />;
-  //   }
-  // };
-
-  return <AppScreenStack />;
+  const x = 1;
+  if (x < 2) {
+    return <AppScreenStack />;
+  } else {
+    return <AuthScreenStack />;
+  }
 };
