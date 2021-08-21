@@ -8,6 +8,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo/vector-icons": "^12.0.0",
+    "@hookform/resolvers": "^2.8.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/drawer": "^6.1.4",
     "@react-navigation/native": "^6.0.2",
@@ -17,20 +19,25 @@
     "expo-updates": "~0.8.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hook-form": "^7.12.2",
     "react-native": "0.63.4",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
+    "react-native-svg": "12.1.1",
     "react-native-unimodules": "~0.14.5",
+    "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
+    "yup": "^0.32.9",
     "zustand": "^3.5.9"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "@types/react": "~16.9.35",
+    "@types/react": "^17.0.19",
     "@types/react-native": "~0.63.2",
+    "@types/yup": "^0.29.13",
     "babel-preset-expo": "8.3.0",
     "jest-expo": "^42.0.0",
     "typescript": "~4.0.0"
