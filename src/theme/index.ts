@@ -17,6 +17,7 @@ declare global {
       secondaryGreen: string;
       error: string;
       darkBlackGreen: string;
+      background: string;
     }
 
     interface Theme {
@@ -63,6 +64,7 @@ const colors = {
   white: "#FFFFFF",
   black: "#000000",
   error: "#ea4747",
+  background: "#ffffff",
 };
 
 export const theme = {

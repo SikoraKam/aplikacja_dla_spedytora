@@ -32,7 +32,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   screenContainer: {
-    backgroundColor: theme.colors.white,
     flex: 1,
   },
   headlineStyle: {

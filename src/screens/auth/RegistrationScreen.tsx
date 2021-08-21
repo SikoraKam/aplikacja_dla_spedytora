@@ -1,54 +1,57 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { AuthScreenStackParamList } from "./AuthScreenStack";
-import * as yup from "yup";
-import { View } from "react-native";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { Headline } from "react-native-paper";
+import { theme } from "../../theme";
+import { RegistrationForm } from "../../components/auth/RegistrationForm";
 
-type RegisterFormData = {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-};
 type RegisterScreenProps = StackScreenProps<
   AuthScreenStackParamList,
   "Registration"
 >;
 
-const RegisterSchema = yup.object().shape({
-  name: yup.string().required("Nick jest wymagany"),
-  email: yup
-    .string()
-    .email("Podaj poprawny adres email")
-    .required("Adres email jest wymagany"),
-  password: yup
-    .string()
-    .min(8, "Hasło musi składać się z min. 8 znaków")
-    .required("Hasło jest wymagane"),
-  passwordConfirm: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Hasła muszą się zgadzać")
-    .required("Powtórz hasło"),
-});
-
 export const RegistrationScreen: React.FC<RegisterScreenProps> = () => {
-  const {
-    register,
-    setValue,
-    setError,
-    handleSubmit,
-  } = useForm<RegisterFormData>({
-    resolver: yupResolver(RegisterSchema),
-  });
-
-  useEffect(() => {
-    register("name");
-    register("email");
-    register("password");
-    register("passwordConfirm");
-  }, [register]);
-
-  return <View></View>;
+  return (
+    <KeyboardAvoidingView style={styles.screenContainer}>
+      <ScrollView style={styles.scrollContainer}>
+        <View>
+          <Headline style={styles.headlineStyle}>Tytuł Aplikacji</Headline>
+          <Text style={styles.subheader}>
+            Zarejestruj się aby korzystać z aplikacji
+          </Text>
+        </View>
+        <RegistrationForm />
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 };
+
+const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  headlineStyle: {
+    ...theme.defaultTextStyle,
+    fontWeight: "bold",
+    color: theme.colors.darkBlackGreen,
+    fontSize: 36,
+    lineHeight: 36,
+    marginBottom: 12,
+    marginTop: 24,
+  },
+  subheader: {
+    ...theme.defaultTextStyle,
+    color: theme.colors.darkBlackGreen,
+    fontSize: 14,
+  },
+});

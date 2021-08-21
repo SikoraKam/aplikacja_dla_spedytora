@@ -6,13 +6,14 @@ import { Button } from "react-native-paper";
 type MainButtonComponentProps = {
   text: string;
   onPress(): void;
-  buttonStyle: ViewStyle;
-};
+  buttonStyle?: ViewStyle;
+} & React.ComponentProps<typeof Button>;
 
 export const MainButtonComponent: React.FC<MainButtonComponentProps> = ({
   text,
   onPress,
   buttonStyle,
+  ...props
 }) => {
   return (
     <Button
@@ -20,6 +21,7 @@ export const MainButtonComponent: React.FC<MainButtonComponentProps> = ({
       onPress={onPress}
       style={[styles.buttonStyle, buttonStyle]}
       labelStyle={styles.labelStyle}
+      {...props}
     >
       {text}
     </Button>
@@ -30,7 +32,8 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: theme.colors.lightGreen,
     marginHorizontal: 12,
-    paddingVertical: 4,
+    paddingVertical: 8,
+    borderRadius: 8,
   },
   labelStyle: {
     color: theme.colors.darkBlackGreen,
