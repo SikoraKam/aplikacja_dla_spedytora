@@ -38,6 +38,10 @@ const styles = StyleSheet.create({
     ...theme.defaultTextStyle,
     fontWeight: "bold",
     color: theme.colors.darkBlackGreen,
+    fontSize: 36,
+    lineHeight: 36,
+    marginBottom: 12,
+    marginTop: 24,
   },
   buttonGroup: {
     flex: 1,

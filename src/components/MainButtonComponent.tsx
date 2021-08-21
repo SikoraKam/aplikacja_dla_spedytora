@@ -7,7 +7,7 @@ type MainButtonComponentProps = {
   text: string;
   onPress(): void;
   buttonStyle?: ViewStyle;
-} & React.ComponentProps<typeof Button>;
+} & Omit<React.ComponentProps<typeof Button>, "children">;
 
 export const MainButtonComponent: React.FC<MainButtonComponentProps> = ({
   text,

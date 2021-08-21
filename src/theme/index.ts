@@ -1,3 +1,4 @@
+import React from "react";
 import {
   configureFonts,
   DefaultTheme as PaperDefaultTheme,
@@ -78,14 +79,22 @@ export const theme = {
     headerTitleAlign: "center",
     headerStyle: {
       elevation: 0,
-      height: 100,
-      backgroundColor: colors.greenBackgroundLight,
+      height: 80,
+      backgroundColor: colors.background,
       shadowColor: "transparent",
     },
     headerTitleStyle: {
-      fontSize: 30,
+      fontSize: 24,
       textAlign: "center",
-      color: colors.white,
+      color: colors.darkBlackGreen,
+    },
+  },
+  authHeader: {
+    headerStyle: {
+      elevation: 0,
+      height: 80,
+      backgroundColor: colors.background,
+      shadowColor: "transparent",
     },
   },
   defaultTextStyle: {
