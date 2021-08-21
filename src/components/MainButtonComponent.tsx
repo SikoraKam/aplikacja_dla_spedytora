@@ -20,6 +20,7 @@ export const MainButtonComponent: React.FC<MainButtonComponentProps> = ({
       mode={"contained"}
       onPress={onPress}
       style={[styles.buttonStyle, buttonStyle]}
+      contentStyle={styles.buttonContentStyle}
       labelStyle={styles.labelStyle}
       {...props}
     >
@@ -32,10 +33,12 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: theme.colors.lightGreen,
     marginHorizontal: 12,
-    paddingVertical: 8,
     borderRadius: 8,
   },
   labelStyle: {
     color: theme.colors.darkBlackGreen,
+  },
+  buttonContentStyle: {
+    paddingVertical: 8,
   },
 });

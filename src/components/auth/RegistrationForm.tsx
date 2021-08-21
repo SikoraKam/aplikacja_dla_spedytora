@@ -7,8 +7,12 @@ import { MainInputComponent } from "../MainInputComponent";
 import { HelperText } from "react-native-paper";
 import { MainButtonComponent } from "../MainButtonComponent";
 import { setResponseErrors } from "../../utils";
+import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
+import { AuthScreenStackParamList } from "../../screens/auth/AuthScreenStack";
 
-type RegistrationFormProps = {};
+type RegistrationFormProps = {
+  navigation: any;
+};
 
 type RegisterFormData = {
   name: string;
@@ -34,7 +38,9 @@ const RegisterSchema = yup.object().shape({
     .required("Powtórz hasło"),
 });
 
-export const RegistrationForm: React.FC<RegistrationFormProps> = () => {
+export const RegistrationForm: React.FC<RegistrationFormProps> = ({
+  navigation,
+}) => {
   const {
     register,
     setValue,
@@ -58,12 +64,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = () => {
   const onSubmit = async () => {
     setIsRegistrationInProcess(true);
     Keyboard.dismiss();
-
-    try {
-      // TODO await function for register
-    } catch (error) {
-      setResponseErrors(error, setError);
-    }
+    navigation.push("ProfileSelection");
     setIsRegistrationInProcess(false);
   };
 

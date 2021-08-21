@@ -17,7 +17,9 @@ type RegisterScreenProps = StackScreenProps<
   "Registration"
 >;
 
-export const RegistrationScreen: React.FC<RegisterScreenProps> = () => {
+export const RegistrationScreen: React.FC<RegisterScreenProps> = ({
+  navigation,
+}) => {
   return (
     <KeyboardAvoidingView style={styles.screenContainer}>
       <ScrollView style={styles.scrollContainer}>
@@ -27,7 +29,7 @@ export const RegistrationScreen: React.FC<RegisterScreenProps> = () => {
             Zarejestruj się aby korzystać z aplikacji
           </Text>
         </View>
-        <RegistrationForm />
+        <RegistrationForm navigation={navigation} />
       </ScrollView>
     </KeyboardAvoidingView>
   );

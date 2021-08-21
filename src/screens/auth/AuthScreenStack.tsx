@@ -6,12 +6,14 @@ import { LoginScreen } from "./LoginScreen";
 import { PasswordRecoveryScreen } from "./PasswordRecoveryScreen";
 import { theme } from "../../theme";
 import { AppLogo } from "../../components/AppLogo";
+import { ProfileSelectionScreen } from "./ProfileSelectionScreen";
 
 export type AuthScreenStackParamList = {
   Welcome: undefined;
   Registration: undefined;
   Login: undefined;
   PasswordRecovery: undefined;
+  ProfileSelection: undefined;
 };
 
 const Stack = createStackNavigator<AuthScreenStackParamList>();
@@ -43,6 +45,10 @@ export const AuthScreenStack: React.FC = () => {
       <Stack.Screen
         name={"PasswordRecovery"}
         component={PasswordRecoveryScreen}
+      />
+      <Stack.Screen
+        name={"ProfileSelection"}
+        component={ProfileSelectionScreen}
       />
     </Stack.Navigator>
   );
