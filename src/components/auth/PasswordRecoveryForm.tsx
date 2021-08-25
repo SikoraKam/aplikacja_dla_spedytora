@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Keyboard, StyleSheet, View } from "react-native";
-import { setResponseErrors } from "../../utils";
+import { setResponseErrors } from "../../utils/setResponseErrors";
 import { MainInputComponent } from "../MainInputComponent";
 import { Button, HelperText } from "react-native-paper";
 import { MainButtonComponent } from "../MainButtonComponent";

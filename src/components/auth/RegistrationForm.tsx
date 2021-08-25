@@ -6,7 +6,7 @@ import { Keyboard, ScrollView, StyleSheet, View } from "react-native";
 import { MainInputComponent } from "../MainInputComponent";
 import { HelperText } from "react-native-paper";
 import { MainButtonComponent } from "../MainButtonComponent";
-import { setResponseErrors } from "../../utils";
+import { setResponseErrors } from "../../utils/setResponseErrors";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { AuthScreenStackParamList } from "../../screens/auth/AuthScreenStack";
 
