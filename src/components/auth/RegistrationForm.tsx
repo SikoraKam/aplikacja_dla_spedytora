@@ -9,6 +9,7 @@ import { MainButtonComponent } from "../MainButtonComponent";
 import { setResponseErrors } from "../../utils/setResponseErrors";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { AuthScreenStackParamList } from "../../screens/auth/AuthScreenStack";
+import { registerRequest } from "../../services/AuthService";
 
 type RegistrationFormProps = {
   navigation: any;
@@ -16,6 +17,7 @@ type RegistrationFormProps = {
 
 type RegisterFormData = {
   name: string;
+  lastName: string;
   email: string;
   password: string;
   passwordConfirm: string;
@@ -61,11 +63,22 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     register("passwordConfirm");
   }, [register]);
 
-  const onSubmit = async () => {
+  const onSubmit = async ({
+    name,
+    lastName,
+    email,
+    password,
+  }: RegisterFormData) => {
     setIsRegistrationInProcess(true);
     Keyboard.dismiss();
-    navigation.push("ProfileSelection");
+
+    try {
+      await registerRequest(name, lastName, email, password);
+    } catch (err) {
+      setResponseErrors(err, setError);
+    }
     setIsRegistrationInProcess(false);
+    navigation.push("Login");
   };
 
   return (

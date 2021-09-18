@@ -1,7 +1,7 @@
 import axios from "../utils/axios";
-import { deleteToken } from "../utils/tokenUtils";
+import { deleteToken, setToken } from "../utils/tokenUtils";
 
-export const register = async (
+export const registerRequest = async (
   name: string,
   lastname: string,
   email: string,
@@ -9,19 +9,23 @@ export const register = async (
 ) => {
   return axios.post("auth/register", {
     name,
-    lastname,
+    lastName: lastname,
     email,
     password,
   });
 };
 
-export const login = async (email: string, password: string) =>
-  axios.post("auth/login", {
+export const loginRequest = async (email: string, password: string) => {
+  console.log("OOOOO");
+  const response = await axios.post("auth/login", {
     email,
     password,
   });
+  console.log("XDDDD ==> ", response.data.access_token);
+  await setToken(response.data.access_token);
+};
 
-const logout = async () => {
+const logoutRequest = async () => {
   await axios.post("auth/logout");
   await deleteToken();
 };

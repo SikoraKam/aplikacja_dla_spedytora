@@ -8,6 +8,7 @@ import { MainInputComponent } from "../MainInputComponent";
 import { Button, HelperText } from "react-native-paper";
 import { MainButtonComponent } from "../MainButtonComponent";
 import { theme } from "../../theme";
+import { loginRequest } from "../../services/AuthService";
 
 type LoginFormProps = {
   onPressRecoveryPasswordScreenButton(): void;
@@ -48,15 +49,17 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     register("password");
   }, [register]);
 
-  const onSubmit = async () => {
+  const onSubmit = async ({ email, password }: LoginFormData) => {
     setIsLoginInProcess(true);
     Keyboard.dismiss();
 
     try {
-      // TODO await function for register
+      await loginRequest(email, password);
     } catch (error) {
       setResponseErrors(error, setError);
+      console.log(error.message);
     }
+    console.log("HEHEHE GICIOR");
     setIsLoginInProcess(false);
   };
 

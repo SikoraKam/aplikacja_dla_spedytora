@@ -1,7 +1,6 @@
-import { AxiosAuthRefreshRequestConfig } from 'axios-auth-refresh';
-
-import axios from './axios';
-import { deleteToken, setToken } from './tokenUtils';
+import { AxiosAuthRefreshRequestConfig } from "axios-auth-refresh";
+import { deleteToken, setToken } from "./tokenUtils";
+import axios from "axios";
 
 interface RefreshTokenResponse {
   access_token: string;
@@ -19,7 +18,7 @@ interface RefreshTokenResponse {
 export const refreshTokenInterceptor = async (failedRequest: any) => {
   try {
     const response = await axios.post<RefreshTokenResponse>(
-      'auth/refresh',
+      "auth/refresh",
       null,
       {
         skipAuthRefresh: true,
@@ -29,7 +28,7 @@ export const refreshTokenInterceptor = async (failedRequest: any) => {
     await setToken(access_token);
 
     failedRequest.response.config.headers[
-      'Authorization'
+      "Authorization"
     ] = `Bearer ${access_token}`;
   } catch (error) {
     await deleteToken();
