@@ -14,7 +14,7 @@ export const setResponseErrors = (error: any, setError: Function) => {
   }
   Object.entries(errors).forEach(([key, messages]) => {
     setError(key, {
-      type: "server",
+      type: 'server',
       message: messages[0],
     });
   });
