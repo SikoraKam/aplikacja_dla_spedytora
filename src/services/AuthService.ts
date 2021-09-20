@@ -26,6 +26,6 @@ export const loginRequest = async (email: string, password: string) => {
 };
 
 const logoutRequest = async () => {
-  await axios.post("auth/logout");
+  // await axios.post("auth/logout");
   await deleteToken();
 };

@@ -1,22 +1,13 @@
 import React from "react";
 import { AppScreenStack } from "./AppScreenStack";
 import { AuthScreenStack } from "./auth/AuthScreenStack";
+import { useAuthStore } from "../store/useAuthStore";
 
 export const AppScreen: React.FC = () => {
-  // const { isLoading, isAuthenticated } = useAuth();
-  // const [fontsLoaded] = useFonts({
-  //   Inter_100Thin,
-  //   Inter_300Light,
-  //   Inter_400Regular,
-  //   Inter_500Medium,
-  // });
+  const token = useAuthStore((state) => state.token);
+  const isAuthenticated = token !== null;
 
-  // if (isLoading || !fontsLoaded) {
-  //   return <AppLoading />;
-  // }
-
-  const x = 3;
-  if (x < 2) {
+  if (isAuthenticated) {
     return <AppScreenStack />;
   } else {
     return <AuthScreenStack />;
