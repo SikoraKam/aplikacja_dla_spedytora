@@ -1,9 +1,9 @@
-import axios from 'axios';
-import createAuthRefreshInterceptor from 'axios-auth-refresh';
-import Constants from 'expo-constants';
+import axios from "axios";
+import createAuthRefreshInterceptor from "axios-auth-refresh";
+import Constants from "expo-constants";
 
-import { refreshTokenInterceptor } from './refreshTokenInterceptor';
-import { tokenInterceptor } from './tokenInterceptor';
+import { refreshTokenInterceptor } from "./refreshTokenInterceptor";
+import { tokenInterceptor } from "./tokenInterceptor";
 
 /**
  * Create global HTTP client instance
@@ -12,7 +12,7 @@ import { tokenInterceptor } from './tokenInterceptor';
 const instance = axios.create({
   baseURL: Constants.manifest.extra.apiBaseUrl,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 

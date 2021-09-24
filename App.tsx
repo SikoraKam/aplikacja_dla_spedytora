@@ -6,6 +6,10 @@ import { AppScreen } from "./src/screens/AppScreen";
 import { theme } from "./src/theme";
 
 export default function App() {
+  if (__DEV__) {
+    import("./ReactotronConfig");
+  }
+
   return (
     <PaperProvider>
       <NavigationContainer theme={MyTheme}>

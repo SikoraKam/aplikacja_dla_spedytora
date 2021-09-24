@@ -57,9 +57,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       await loginRequest(email, password);
     } catch (error) {
       setResponseErrors(error, setError);
-      console.log(error.message);
     }
-    console.log("HEHEHE GICIOR");
     setIsLoginInProcess(false);
   };
 

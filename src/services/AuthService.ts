@@ -16,12 +16,10 @@ export const registerRequest = async (
 };
 
 export const loginRequest = async (email: string, password: string) => {
-  console.log("OOOOO");
   const response = await axios.post("auth/login", {
     email,
     password,
   });
-  console.log("XDDDD ==> ", response.data.access_token);
   await setToken(response.data.access_token);
 };
 
