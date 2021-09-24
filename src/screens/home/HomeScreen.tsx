@@ -3,6 +3,7 @@ import { HomeScreenStackParamList } from "./HomeScreenStack";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { theme } from "../../theme";
+import { HistoryItem } from "../../components/home/HistoryItem";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -15,6 +16,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </Text>
         <Text style={styles.historyButtonSeeMoreTextStyle}>Zobacz więcej</Text>
       </TouchableOpacity>
+
+      <View>
+        <HistoryItem />
+        <HistoryItem />
+        <HistoryItem />
+      </View>
     </View>
   );
 };
