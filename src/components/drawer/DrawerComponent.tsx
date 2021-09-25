@@ -12,23 +12,22 @@ export const DrawerComponent: React.FC<DrawerContentComponentProps> = (
   props: DrawerContentComponentProps
 ) => {
   return (
-    <DrawerContentScrollView style={styles.container} {...props}>
+    <View style={styles.container} {...props}>
       <View style={styles.profileSection}>
         <Avatar.Text size={80} label="XD" style={styles.avatarStyle} />
         <Text style={styles.profileTextStyle}>IMIE I NAZWISKO</Text>
       </View>
-      <View style={{ backgroundColor: theme.colors.primaryGreen, flex: 1 }}>
-        <DrawerItemList {...props} />
-      </View>
-    </DrawerContentScrollView>
+      <DrawerItemList {...props} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   profileSection: {
-    height: 180,
+    height: 200,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: theme.colors.white,
   },
   profileTextStyle: {
     ...theme.defaultTextStyle,
@@ -36,8 +35,10 @@ const styles = StyleSheet.create({
   },
   avatarStyle: {
     marginBottom: 8,
+    backgroundColor: theme.colors.primaryGreen,
   },
   container: {
     flex: 1,
+    backgroundColor: theme.colors.greenBackgroundLight,
   },
 });
