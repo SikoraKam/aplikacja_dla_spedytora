@@ -8,6 +8,7 @@ import {
   HomeScreenStack,
   HomeScreenStackParamList,
 } from "./home/HomeScreenStack";
+import { DrawerComponent } from "../components/drawer/DrawerComponent";
 
 export type DrawerScreensParamList = {
   Home: NavigatorScreenParams<HomeScreenStackParamList>;
@@ -16,7 +17,7 @@ const Drawer = createDrawerNavigator(); // TODO types
 
 export const AppScreenStack: React.FC = () => {
   return (
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator initialRouteName="Home" drawerContent={DrawerComponent}>
       <Drawer.Screen
         name="Home"
         component={HomeScreenStack}
