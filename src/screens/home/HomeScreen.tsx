@@ -4,6 +4,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { theme } from "../../theme";
 import { HistoryItem } from "../../components/home/HistoryItem";
+import { MainButtonComponent } from "../../components/MainButtonComponent";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -21,6 +22,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <HistoryItem />
         <HistoryItem />
         <HistoryItem />
+      </View>
+
+      <View style={styles.addButtonContainer}>
+        <MainButtonComponent
+          buttonStyle={styles.addButtonStyle}
+          text="Zrealizuj nowe zlecenie"
+          onPress={() => null}
+        />
       </View>
     </View>
   );
@@ -48,4 +57,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
   },
+  addButtonContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 20,
+  },
+  addButtonStyle: {},
 });

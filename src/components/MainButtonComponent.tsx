@@ -19,7 +19,7 @@ export const MainButtonComponent: React.FC<MainButtonComponentProps> = ({
     <Button
       mode={"contained"}
       onPress={onPress}
-      style={[styles.buttonStyle, buttonStyle]}
+      style={[buttonStyle, styles.buttonStyle]}
       contentStyle={styles.buttonContentStyle}
       labelStyle={styles.labelStyle}
       {...props}

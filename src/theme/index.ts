@@ -62,7 +62,7 @@ const colors = {
   darkBlackGreen: "#384f3b",
   lightGreen: "#BAE75B",
   greenBackgroundLight: "#D6F6B6",
-  greenyWhite: "#FCFFF5",
+  greenyWhite: "#fbffeb",
   secondaryGreen: "#C4F592",
   white: "#FFFFFF",
   black: "#000000",
