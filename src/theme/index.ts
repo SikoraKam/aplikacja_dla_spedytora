@@ -70,12 +70,19 @@ const colors = {
   background: "#ffffff",
 };
 
+const sizes = {
+  iconHeaderSize: 20,
+};
+
 export const theme = {
   ...PaperDefaultTheme,
   fonts: configureFonts(fontConfig),
   colors: {
     ...PaperDefaultTheme.colors,
     ...colors,
+  },
+  sizes: {
+    ...sizes,
   },
   mainHeader: {
     headerTitleAlign: "center",
@@ -101,5 +108,8 @@ export const theme = {
   },
   defaultTextStyle: {
     textAlign: "center",
+  },
+  defaultIconHeaderStyle: {
+    color: colors.darkBlackGreen,
   },
 };
