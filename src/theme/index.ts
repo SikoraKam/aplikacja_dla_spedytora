@@ -19,6 +19,7 @@ declare global {
       error: string;
       darkBlackGreen: string;
       background: string;
+      greenyWhite: string;
     }
 
     interface Theme {
@@ -61,11 +62,16 @@ const colors = {
   darkBlackGreen: "#384f3b",
   lightGreen: "#BAE75B",
   greenBackgroundLight: "#D6F6B6",
+  greenyWhite: "#fbffeb",
   secondaryGreen: "#C4F592",
   white: "#FFFFFF",
   black: "#000000",
   error: "#ea4747",
   background: "#ffffff",
+};
+
+const sizes = {
+  iconHeaderSize: 20,
 };
 
 export const theme = {
@@ -74,6 +80,9 @@ export const theme = {
   colors: {
     ...PaperDefaultTheme.colors,
     ...colors,
+  },
+  sizes: {
+    ...sizes,
   },
   mainHeader: {
     headerTitleAlign: "center",
@@ -99,5 +108,8 @@ export const theme = {
   },
   defaultTextStyle: {
     textAlign: "center",
+  },
+  defaultIconHeaderStyle: {
+    color: colors.darkBlackGreen,
   },
 };
