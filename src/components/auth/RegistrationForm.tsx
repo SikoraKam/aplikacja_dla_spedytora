@@ -53,8 +53,6 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     resolver: yupResolver(RegisterSchema),
   });
 
-  const [isRegistrationInProcess, setIsRegistrationInProcess] = useState(false);
-
   useEffect(() => {
     register("name");
     register("lastName");
@@ -69,16 +67,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     email,
     password,
   }: RegisterFormData) => {
-    setIsRegistrationInProcess(true);
-    Keyboard.dismiss();
-
-    try {
-      await registerRequest(name, lastName, email, password);
-    } catch (err) {
-      setResponseErrors(err, setError);
-    }
-    setIsRegistrationInProcess(false);
-    navigation.push("Login");
+    navigation.push("ProfileSelection", { name, lastName, email, password });
   };
 
   return (
@@ -141,8 +130,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
       <MainButtonComponent
         text="Dalej"
         buttonStyle={styles.buttonStyle}
-        loading={isRegistrationInProcess}
-        disabled={isRegistrationInProcess}
+        // loading={isRegistrationInProcess}
+        // disabled={isRegistrationInProcess}
         onPress={handleSubmit(onSubmit)}
       />
     </>

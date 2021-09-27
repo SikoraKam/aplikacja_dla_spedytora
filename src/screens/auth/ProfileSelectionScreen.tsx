@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { AuthScreenStackParamList } from "./AuthScreenStack";
-import { StyleSheet, Text, View } from "react-native";
+import { Keyboard, StyleSheet, Text, View } from "react-native";
 import { Headline } from "react-native-paper";
 import { theme } from "../../theme";
 import { ProfileTypeComponent } from "../../components/auth/ProfileTypeComponent";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { registerRequest } from "../../services/AuthService";
+import { setResponseErrors } from "../../utils/setResponseErrors";
+import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 
 type ProfileSelectionScreenProps = StackScreenProps<
   AuthScreenStackParamList,
   "ProfileSelection"
 >;
 
-export const ProfileSelectionScreen: React.FC<ProfileSelectionScreenProps> = ({}) => {
+export const ProfileSelectionScreen: React.FC<ProfileSelectionScreenProps> = ({
+  route,
+  navigation,
+}) => {
+  const [isRegistrationInProcess, setIsRegistrationInProcess] = useState(false);
+
+  const handleChooseProfileType = async (profileType: ProfileTypeEnum) => {
+    const { name, lastName, email, password } = route;
+
+    setIsRegistrationInProcess(true);
+    Keyboard.dismiss();
+
+    try {
+      await registerRequest(name, lastName, email, password, profileType);
+    } catch (err) {
+      console.warn(err);
+    }
+    setIsRegistrationInProcess(false);
+  };
+
   return (
     <View style={styles.screenContainer}>
       <View>

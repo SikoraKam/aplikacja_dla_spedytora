@@ -6,11 +6,13 @@ import { string } from "yup";
 type ProfileTypeComponentProps = {
   iconComponent: any;
   text: string;
+  onPress(): void;
 };
 
 export const ProfileTypeComponent: React.FC<ProfileTypeComponentProps> = ({
   iconComponent,
   text,
+  onPress,
 }) => {
   return (
     <TouchableOpacity style={styles.containerStyle}>

@@ -7,13 +7,14 @@ import { PasswordRecoveryScreen } from "./PasswordRecoveryScreen";
 import { theme } from "../../theme";
 import { AppLogo } from "../../components/AppLogo";
 import { ProfileSelectionScreen } from "./ProfileSelectionScreen";
+import { ProfileSelectionRouteParameters } from "../../types/routeParameters/ProfileSelectionRouteParameters";
 
 export type AuthScreenStackParamList = {
   Welcome: undefined;
   Registration: undefined;
   Login: undefined;
   PasswordRecovery: undefined;
-  ProfileSelection: undefined;
+  ProfileSelection: ProfileSelectionRouteParameters;
 };
 
 const Stack = createStackNavigator<AuthScreenStackParamList>();
