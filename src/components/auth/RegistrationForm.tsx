@@ -67,7 +67,12 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     email,
     password,
   }: RegisterFormData) => {
-    navigation.push("ProfileSelection", { name, lastName, email, password });
+    navigation.navigate("ProfileSelection", {
+      name: name,
+      lastName: lastName,
+      email: email,
+      password,
+    });
   };
 
   return (

@@ -8,6 +8,8 @@ import { theme } from "../../theme";
 import { AppLogo } from "../../components/AppLogo";
 import { ProfileSelectionScreen } from "./ProfileSelectionScreen";
 import { ProfileSelectionRouteParameters } from "../../types/routeParameters/ProfileSelectionRouteParameters";
+import { DrawerScreenProps } from "@react-navigation/drawer";
+import { DrawerScreensParamList } from "../AppScreenStack";
 
 export type AuthScreenStackParamList = {
   Welcome: undefined;
@@ -18,6 +20,8 @@ export type AuthScreenStackParamList = {
 };
 
 const Stack = createStackNavigator<AuthScreenStackParamList>();
+
+type AuthScreenStackProps = DrawerScreenProps<DrawerScreensParamList>;
 
 export const AuthScreenStack: React.FC = () => {
   return (
