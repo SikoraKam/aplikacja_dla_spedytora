@@ -1,6 +1,7 @@
 import axios from "../utils/axios";
 import { deleteToken, setToken } from "../utils/tokenUtils";
 import { ProfileTypeEnum } from "../types/user/ProfileTypeEnum";
+import { useAuthStore } from "../store/useAuthStore";
 
 export const registerRequest = async (
   name: string,
@@ -26,7 +27,8 @@ export const loginRequest = async (email: string, password: string) => {
   await setToken(response.data.access_token);
 };
 
-const logoutRequest = async () => {
+export const logoutRequest = async () => {
   // await axios.post("auth/logout");
   await deleteToken();
+  useAuthStore.setState({ token: null });
 };

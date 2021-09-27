@@ -33,6 +33,7 @@ export const AppScreen: React.FC = () => {
 
   if (isAuthenticated) {
     if (!isReady) {
+      console.log("IS LOADING ====>");
       return <AppLoading />;
     }
     if (userDataError || userProfileDataError) {
