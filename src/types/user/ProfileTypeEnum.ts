@@ -1,4 +1,4 @@
 export enum ProfileTypeEnum {
-  Spedytor = "spedytor",
-  Dostawca = "dostawca",
+  Forwarder = "spedytor",
+  Provider = "dostawca",
 }

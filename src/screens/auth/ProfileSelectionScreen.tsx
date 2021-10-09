@@ -46,14 +46,14 @@ export const ProfileSelectionScreen: React.FC<ProfileSelectionScreenProps> = ({
 
       <View style={styles.profileSelectionContainer}>
         <ProfileTypeComponent
-          onPress={() => handleChooseProfileType(ProfileTypeEnum.Dostawca)}
+          onPress={() => handleChooseProfileType(ProfileTypeEnum.Provider)}
           iconComponent={
             <MaterialCommunityIcons name={"truck-fast-outline"} size={50} />
           }
           text="Doręczyciel"
         />
         <ProfileTypeComponent
-          onPress={() => handleChooseProfileType(ProfileTypeEnum.Spedytor)}
+          onPress={() => handleChooseProfileType(ProfileTypeEnum.Forwarder)}
           iconComponent={<Foundation name={"clipboard-notes"} size={50} />}
           text="Spedytor"
         />
