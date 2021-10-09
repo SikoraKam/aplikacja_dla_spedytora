@@ -12,7 +12,7 @@ import {
 export type DrawerScreensParamList = {
   Home: NavigatorScreenParams<HomeScreenStackParamList>;
 };
-const Drawer = createDrawerNavigator(); // TODO types
+const Drawer = createDrawerNavigator<DrawerScreensParamList>(); // TODO types
 
 export const AppScreenStack: React.FC = () => {
   return (

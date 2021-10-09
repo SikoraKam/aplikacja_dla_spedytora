@@ -1,5 +1,5 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { AppScreen } from "./src/screens/AppScreen";
@@ -8,6 +8,8 @@ import AppLoading from "expo-app-loading";
 import { useProfile } from "./src/hooks/user/useProfile";
 import useSWR from "swr";
 import { fetcher } from "./src/utils/fetcher";
+import { useAuthStore } from "./src/store/useAuthStore";
+import { getToken } from "./src/utils/tokenUtils";
 
 export default function App() {
   // if (!isReady) {
@@ -19,6 +21,18 @@ export default function App() {
   //     />
   //   );
   // }
+
+  const setAuthToken = useAuthStore(useCallback((state) => state.setToken, []));
+
+  useEffect(() => {
+    const getTokenFromStorage = async () => {
+      const tokenFromStorage = await getToken();
+
+      if (tokenFromStorage) setAuthToken(tokenFromStorage);
+    };
+
+    getTokenFromStorage();
+  }, []);
   return (
     <PaperProvider>
       <NavigationContainer theme={MyTheme}>

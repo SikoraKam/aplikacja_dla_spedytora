@@ -1,8 +1,8 @@
 import useSWR from "swr";
 import { fetcher } from "../../utils/fetcher";
 
-export const useUser = (id: number) => {
-  const { data, error } = useSWR(`users/${id}`, fetcher);
+export const useUser = () => {
+  const { data, error } = useSWR("users/user", fetcher);
 
   return {
     user: data,

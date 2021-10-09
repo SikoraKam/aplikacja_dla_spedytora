@@ -7,23 +7,20 @@ import { useProfile } from "../hooks/user/useProfile";
 import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
 import { Text } from "react-native";
+import { useUser } from "../hooks/user/useUser";
 
 export const AppScreen: React.FC = () => {
   const token = useAuthStore((state) => state.token);
   const isAuthenticated = token !== null;
+  console.log(token);
 
   const [isReady, setIsReady] = useState(false);
 
   const {
-    user: userProfileData,
-    isLoading: userProfileDataIsLoading,
-    isError: userProfileDataError,
-  } = useProfile();
-
-  const { data: userData, error: userDataError } = useSWR(
-    () => "users/" + userProfileData.userId,
-    fetcher
-  );
+    user: userData,
+    isLoading: userDataIsLoading,
+    isError: userDataError,
+  } = useUser();
 
   useEffect(() => {
     if (userData && !userDataError) {
@@ -33,9 +30,10 @@ export const AppScreen: React.FC = () => {
 
   if (isAuthenticated) {
     if (!isReady) {
+      console.log("IS LOADING ====>");
       return <AppLoading />;
     }
-    if (userDataError || userProfileDataError) {
+    if (userDataError) {
       return <Text>ERROR</Text>;
     }
     return <AppScreenStack />;

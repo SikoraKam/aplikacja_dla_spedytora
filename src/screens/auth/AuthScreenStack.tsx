@@ -7,16 +7,21 @@ import { PasswordRecoveryScreen } from "./PasswordRecoveryScreen";
 import { theme } from "../../theme";
 import { AppLogo } from "../../components/AppLogo";
 import { ProfileSelectionScreen } from "./ProfileSelectionScreen";
+import { ProfileSelectionRouteParameters } from "../../types/routeParameters/ProfileSelectionRouteParameters";
+import { DrawerScreenProps } from "@react-navigation/drawer";
+import { DrawerScreensParamList } from "../AppScreenStack";
 
 export type AuthScreenStackParamList = {
   Welcome: undefined;
   Registration: undefined;
   Login: undefined;
   PasswordRecovery: undefined;
-  ProfileSelection: undefined;
+  ProfileSelection: ProfileSelectionRouteParameters;
 };
 
 const Stack = createStackNavigator<AuthScreenStackParamList>();
+
+type AuthScreenStackProps = DrawerScreenProps<DrawerScreensParamList>;
 
 export const AuthScreenStack: React.FC = () => {
   return (

@@ -5,6 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { theme } from "../../theme";
 import { HistoryItem } from "../../components/home/HistoryItem";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
+import { logoutRequest } from "../../services/AuthService";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -29,6 +30,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           buttonStyle={styles.addButtonStyle}
           text="Zrealizuj nowe zlecenie"
           onPress={() => null}
+        />
+        <MainButtonComponent
+          buttonStyle={styles.addButtonStyle}
+          text="wyloguj"
+          onPress={() => logoutRequest()}
         />
       </View>
     </View>
