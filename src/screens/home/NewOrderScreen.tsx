@@ -1,9 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
 import { theme } from "../../theme";
+import { ModalComponent } from "../../components/shared/ModalComponent";
+import { Button } from "react-native-paper";
+import { MainInputComponent } from "../../components/MainInputComponent";
+import { NewOrderDestinationsSection } from "../../components/home/NewOrderDestinationsSection";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -16,6 +20,9 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 }) => {
   const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
   const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [placeStartValue, setPlaceStartValue] = useState("");
 
   const dateStartInputTextChange = (value: Date) =>
     !!value && setDateStartInputValue(value);
@@ -39,18 +46,35 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     />
   );
 
+  const renderModalContent = () => <Text>HEHEH</Text>;
+
   return (
-    <View style={styles.screenContainer}>
-      <View>
+    <>
+      <View style={styles.screenContainer}>
         <Text style={styles.subTitleStyle}>Data rozpoczęcia i zakończenia</Text>
         <View style={styles.dateInputsContainer}>
           {renderDateStartInput()}
           {renderDateEndInput()}
         </View>
+
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <MainInputComponent
+            text={placeStartValue}
+            setText={setPlaceStartValue}
+            editable={false}
+            label="Miejsce startu"
+          />
+        </TouchableOpacity>
+
+        <NewOrderDestinationsSection />
       </View>
 
-      <View></View>
-    </View>
+      <ModalComponent
+        renderContent={renderModalContent}
+        visible={isModalVisible}
+        hideModal={() => setIsModalVisible(false)}
+      />
+    </>
   );
 };
 
