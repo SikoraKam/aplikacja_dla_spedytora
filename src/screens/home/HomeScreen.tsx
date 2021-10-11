@@ -29,7 +29,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <MainButtonComponent
           buttonStyle={styles.addButtonStyle}
           text="Zrealizuj nowe zlecenie"
-          onPress={() => null}
+          onPress={() => navigation.push("NewOrderScreen")}
         />
         <MainButtonComponent
           buttonStyle={styles.addButtonStyle}

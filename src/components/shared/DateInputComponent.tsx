@@ -1,15 +1,25 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
+import { DatePicker } from "./DatePicker";
+import { theme } from "../../theme";
+import { format } from "date-fns";
 
-export const DateInputComponent = ({
+type DateInputComponentProps = {
+  dateInputValue: Date;
+  dateInputOnTextChange(value: Date): void;
+  dateEditingDisabled: boolean;
+};
+
+export const DateInputComponent: React.FC<DateInputComponentProps> = ({
   dateInputValue,
   dateInputOnTextChange,
   dateEditingDisabled,
-  disableAllEditing,
 }) => {
   const renderDateSection = () => (
     <View style={inputContainerStyle}>
-      <Text style={inputDateTextStyle}>{dateInputValue}</Text>
+      <Text style={inputDateTextStyle}>
+        {format(dateInputValue, "dd/MM/yyyy")}
+      </Text>
     </View>
   );
 
@@ -24,9 +34,7 @@ export const DateInputComponent = ({
 
   return (
     <View style={dateSectionStyle}>
-      {dateEditingDisabled || disableAllEditing
-        ? renderDateSection()
-        : renderDatePicker()}
+      {dateEditingDisabled ? renderDateSection() : renderDatePicker()}
     </View>
   );
 };
@@ -35,36 +43,24 @@ const {
   inputDateTextStyle,
   dateSectionStyle,
   inputContainerStyle,
-  iconsContainerStyle,
-  tooltipStyle,
 } = StyleSheet.create({
   dateSectionStyle: {
-    paddingVertical: 3 * HEIGHT_COEFFICIENT,
-    height: 50 * HEIGHT_COEFFICIENT,
-    marginHorizontal: 12 * HEIGHT_COEFFICIENT,
-    borderRadius: 10 * HEIGHT_COEFFICIENT,
+    paddingVertical: 3,
+    height: 50,
+    marginHorizontal: 12,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: FADED_BLUE,
+    borderColor: theme.colors.primaryGreen,
   },
   inputDateTextStyle: {
-    color: MEDIUM_GRAY,
-    ...defaultEbookEntryFormFontStyle,
-    paddingVertical: 14 * HEIGHT_COEFFICIENT,
-    marginRight: 25 * HEIGHT_COEFFICIENT,
+    paddingVertical: 14,
+    marginRight: 25,
   },
   inputContainerStyle: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 44 * HEIGHT_COEFFICIENT,
-    paddingHorizontal: 12 * HEIGHT_COEFFICIENT,
-  },
-  iconsContainerStyle: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  tooltipStyle: {
-    paddingVertical: 10 * HEIGHT_COEFFICIENT,
-    paddingHorizontal: 12 * HEIGHT_COEFFICIENT,
+    height: 44,
+    paddingHorizontal: 12,
   },
 });

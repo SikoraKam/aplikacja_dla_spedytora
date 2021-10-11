@@ -11,6 +11,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { theme } from "../../theme";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { NewOrderScreen } from "./NewOrderScreen";
 
 type HomeScreenStackProps = DrawerScreenProps<DrawerScreensParamList, "Home">;
 

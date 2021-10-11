@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import { Modal, Platform, TouchableOpacity, View } from "react-native";
+import {
+  Modal,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { format } from "date-fns";
 
 type DatePickerProps = {
-  onDateChange(date: Date): void;
-  input(arg: any): React.FC;
+  onDateChange(date: any): void;
+  input(arg: any): JSX.Element;
   date: any;
-  onIosPickerClose(): void;
+  onIosPickerClose?(): void;
+  disabled?: boolean;
 };
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -37,12 +43,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <>
       <TouchableOpacity
-        onPress={() => this.handleOpen(true)}
+        onPress={() => handleOpen(true)}
         style={style.inputContainer}
       >
-        {input({ formattedDate: this.props.getFormattedDate(date) })}
+        {input(date)}
       </TouchableOpacity>
-      {Platform.OS === "android" && this.state.displayCalendar && (
+      {Platform.OS === "android" && displayCalendar && (
         <DateTimePicker
           value={date || new Date()}
           mode="date"
@@ -56,14 +62,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <Modal visible={isOpen} transparent={true}>
           <TouchableOpacity
             style={{ flex: 1 }}
-            onPress={() => this.handleOpen(false)}
+            onPress={() => handleOpen(false)}
           >
             <View style={style.pickerContainer}>
               <DateTimePicker
                 value={date || new Date()}
                 mode="date"
                 display="spinner"
-                onChange={this.props.onDateChange}
+                onChange={handleChange}
                 minimumDate={new Date()}
                 {...props}
               />
@@ -74,3 +80,15 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     </>
   );
 };
+
+const style = StyleSheet.create({
+  inputContainer: {
+    width: "100%",
+  },
+  pickerContainer: {
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: "white",
+  },
+});
