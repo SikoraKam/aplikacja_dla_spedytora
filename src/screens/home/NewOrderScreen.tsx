@@ -48,6 +48,8 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
           {renderDateEndInput()}
         </View>
       </View>
+
+      <View></View>
     </View>
   );
 };
