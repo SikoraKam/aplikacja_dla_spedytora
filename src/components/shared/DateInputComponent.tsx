@@ -45,7 +45,6 @@ const {
   inputContainerStyle,
 } = StyleSheet.create({
   dateSectionStyle: {
-    paddingVertical: 3,
     height: 50,
     marginHorizontal: 12,
     borderRadius: 10,
@@ -54,13 +53,11 @@ const {
   },
   inputDateTextStyle: {
     paddingVertical: 14,
-    marginRight: 25,
+    textAlign: "center",
   },
   inputContainerStyle: {
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 44,
-    paddingHorizontal: 12,
+    paddingHorizontal: 28,
   },
 });

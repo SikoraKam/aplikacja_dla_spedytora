@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { theme } from "../../theme";
 
 type DatePickerProps = {
   onDateChange(date: any): void;
@@ -89,6 +90,6 @@ const style = StyleSheet.create({
     width: "100%",
     position: "absolute",
     bottom: 0,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
   },
 });

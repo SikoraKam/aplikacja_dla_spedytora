@@ -1,8 +1,9 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import React, { useState } from "react";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
+import { theme } from "../../theme";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -13,23 +14,39 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   navigation,
   route,
 }) => {
-  const [dateInputValue, setDateInputValue] = useState(new Date());
-  const dateInputTextChange = (value: Date) =>
-    !!value && setDateInputValue(value);
+  const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
+  const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
 
-  const renderDateInput = () => (
+  const dateStartInputTextChange = (value: Date) =>
+    !!value && setDateStartInputValue(value);
+
+  const dateEndInputTextChange = (value: Date) =>
+    !!value && setDateEndInputValue(value);
+
+  const renderDateStartInput = () => (
     <DateInputComponent
-      dateInputValue={dateInputValue}
-      dateInputOnTextChange={dateInputTextChange}
+      dateInputValue={dateStartInputValue}
+      dateInputOnTextChange={dateStartInputTextChange}
+      dateEditingDisabled={false}
+    />
+  );
+
+  const renderDateEndInput = () => (
+    <DateInputComponent
+      dateInputValue={dateEndInputValue}
+      dateInputOnTextChange={dateEndInputTextChange}
       dateEditingDisabled={false}
     />
   );
 
   return (
     <View style={styles.screenContainer}>
-      <View style={styles.dateInputsContainer}>
-        {renderDateInput()}
-        {renderDateInput()}
+      <View>
+        <Text style={styles.subTitleStyle}>Data rozpoczęcia i zakończenia</Text>
+        <View style={styles.dateInputsContainer}>
+          {renderDateStartInput()}
+          {renderDateEndInput()}
+        </View>
       </View>
     </View>
   );
@@ -41,5 +58,12 @@ const styles = StyleSheet.create({
   },
   dateInputsContainer: {
     flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  subTitleStyle: {
+    ...theme.defaultTextStyle,
+    textAlign: "center",
+    fontSize: 18,
+    paddingBottom: 12,
   },
 });
