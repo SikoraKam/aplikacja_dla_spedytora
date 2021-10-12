@@ -1,7 +1,8 @@
 import { ModalComponent } from "../shared/ModalComponent";
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { MainInputComponent } from "../MainInputComponent";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { TileComponent } from "../shared/TileComponent";
+import { theme } from "../../theme";
 
 type NewOrderDestinationsSectionProps = {};
 
@@ -10,20 +11,21 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
 
   const renderModalContent = () => <Text>HEHEH</Text>;
 
+  const array = ["text", "hehhehe", "jcjsdjcd"];
+
   return (
     <>
-      <View>
-        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <MainInputComponent
-            text={""}
-            setText={() => {}}
-            editable={false}
-            label="Cele"
-            multiline
-            style={{ height: 80 }}
-          />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.sectionContainer}
+        onPress={() => setIsModalVisible(true)}
+      >
+        <View style={styles.tilesContainerStyle}>
+          {array.map((element) => (
+            <TileComponent name={element} />
+          ))}
+        </View>
+      </TouchableOpacity>
+
       <ModalComponent
         renderContent={renderModalContent}
         visible={isModalVisible}
@@ -32,3 +34,16 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  sectionContainer: {
+    justifyContent: "center",
+    marginBottom: 16,
+    marginHorizontal: 24,
+    backgroundColor: theme.colors.greenyWhite,
+  },
+  tilesContainerStyle: {
+    marginVertical: 5,
+    marginHorizontal: 12,
+  },
+});

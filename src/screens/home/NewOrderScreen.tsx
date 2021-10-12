@@ -46,7 +46,36 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     />
   );
 
-  const renderModalContent = () => <Text>HEHEH</Text>;
+  const renderModalContent = () => (
+    <>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+    </>
+  );
 
   return (
     <>
@@ -63,6 +92,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
             setText={setPlaceStartValue}
             editable={false}
             label="Miejsce startu"
+            style={{ marginHorizontal: 24 }}
           />
         </TouchableOpacity>
 
@@ -70,6 +100,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
       </View>
 
       <ModalComponent
+        title={"Miejsce rozpoczęcia"}
         renderContent={renderModalContent}
         visible={isModalVisible}
         hideModal={() => setIsModalVisible(false)}
@@ -81,6 +112,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
+    backgroundColor: theme.colors.background,
   },
   dateInputsContainer: {
     flexDirection: "row",

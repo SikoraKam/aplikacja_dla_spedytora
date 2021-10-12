@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Portal, Provider, Modal } from "react-native-paper";
+import { Button, Portal, Provider, Dialog } from "react-native-paper";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { theme } from "../../theme";
 
@@ -7,23 +7,43 @@ type ModalComponentProps = {
   renderContent(): JSX.Element;
   visible: boolean;
   hideModal(): void;
+  title: string;
+  approveResults(): void;
 };
 
 export const ModalComponent: React.FC<ModalComponentProps> = ({
   renderContent,
   visible,
   hideModal,
+  approveResults,
+  title,
 }) => {
+  const handleButtonConfirm = () => {
+    approveResults();
+    hideModal();
+  };
+
   return (
     <Provider>
       <Portal>
-        <Modal
+        <Dialog
           visible={visible}
           onDismiss={hideModal}
-          contentContainerStyle={styles.containerStyle}
+          style={styles.containerStyle}
         >
-          <ScrollView>{renderContent()}</ScrollView>
-        </Modal>
+          {/*<Dialog.Title>{title}</Dialog.Title>*/}
+          {/*<Dialog.Content>*/}
+          <Dialog.ScrollArea>
+            <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
+              <Text>This is a scrollable area</Text>
+            </ScrollView>
+          </Dialog.ScrollArea>
+          {/*</Dialog.Content>*/}
+          {/*<Dialog.Actions>*/}
+          {/*  <Button onPress={hideModal}>Cancel</Button>*/}
+          {/*  <Button onPress={handleButtonConfirm}>Ok</Button>*/}
+          {/*</Dialog.Actions>*/}
+        </Dialog>
       </Portal>
     </Provider>
   );
@@ -31,8 +51,8 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
 
 const styles = StyleSheet.create({
   containerStyle: {
+    flex: 1,
     backgroundColor: theme.colors.white,
-    padding: 40,
     marginHorizontal: 28,
     marginVertical: 52,
   },
