@@ -74,6 +74,16 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
       <Text>HEHEH</Text>
       <Text>HEHEH</Text>
       <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
+      <Text>HEHEH</Text>
     </>
   );
 
@@ -99,12 +109,15 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         <NewOrderDestinationsSection />
       </View>
 
-      <ModalComponent
-        title={"Miejsce rozpoczęcia"}
-        renderContent={renderModalContent}
-        visible={isModalVisible}
-        hideModal={() => setIsModalVisible(false)}
-      />
+      <View style={{ flex: 1, height: 900 }}>
+        <ModalComponent
+          title={"Miejsce rozpoczęcia"}
+          renderContent={renderModalContent}
+          visible={isModalVisible}
+          hideModal={() => setIsModalVisible(false)}
+          approveResults={() => null}
+        />
+      </View>
     </>
   );
 };

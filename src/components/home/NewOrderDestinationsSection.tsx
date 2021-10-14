@@ -30,6 +30,8 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
         renderContent={renderModalContent}
         visible={isModalVisible}
         hideModal={() => setIsModalVisible(false)}
+        approveResults={() => null}
+        title={"Wybierz cele"}
       />
     </>
   );

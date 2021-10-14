@@ -24,28 +24,31 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   };
 
   return (
-    <Provider>
-      <Portal>
-        <Dialog
-          visible={visible}
-          onDismiss={hideModal}
-          style={styles.containerStyle}
-        >
-          {/*<Dialog.Title>{title}</Dialog.Title>*/}
-          {/*<Dialog.Content>*/}
-          <Dialog.ScrollArea>
-            <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
-              <Text>This is a scrollable area</Text>
-            </ScrollView>
-          </Dialog.ScrollArea>
-          {/*</Dialog.Content>*/}
-          {/*<Dialog.Actions>*/}
-          {/*  <Button onPress={hideModal}>Cancel</Button>*/}
-          {/*  <Button onPress={handleButtonConfirm}>Ok</Button>*/}
-          {/*</Dialog.Actions>*/}
-        </Dialog>
-      </Portal>
-    </Provider>
+    <Portal>
+      <Dialog
+        visible={visible}
+        onDismiss={hideModal}
+        style={styles.containerStyle}
+      >
+        <Dialog.Title>{title}</Dialog.Title>
+        <Dialog.ScrollArea style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={{
+              paddingHorizontal: 24,
+              maxHeight: 900,
+            }}
+          >
+            {renderContent()}
+          </ScrollView>
+        </Dialog.ScrollArea>
+        <Dialog.Actions style={styles.dialogActionsContainer}>
+          <Button style={styles.buttonActionStyle} onPress={hideModal}>
+            Cancel
+          </Button>
+          <Button onPress={handleButtonConfirm}>Ok</Button>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
   );
 };
 
@@ -55,5 +58,14 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     marginHorizontal: 28,
     marginVertical: 52,
+    height: 900,
+  },
+  dialogActionsContainer: {
+    right: 0,
+    bottom: 0,
+    padding: 16,
+  },
+  buttonActionStyle: {
+    paddingHorizontal: 16,
   },
 });
