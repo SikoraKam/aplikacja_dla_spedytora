@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { MainInputComponent } from "../MainInputComponent";
-import { TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { ModalComponent } from "../shared/ModalComponent";
 import { ModalContentItem } from "../shared/ModalContentItem";
+import { PlaceObject } from "../../types/places/PlaceObject";
 
-type StartPlaceSectionProps = {};
+type StartPlaceSectionProps = {
+  places: PlaceObject[];
+  isLoading: boolean;
+};
 
-export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({}) => {
+export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
+  places,
+  isLoading,
+}) => {
   const array = [
     "jjdjdjd",
     "dsdsdds",
@@ -23,13 +30,13 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({}) => {
   const [pressedItemId, setPressedItemId] = useState<string | null>(null);
 
   const renderModalContent = () =>
-    array.map((element) => (
+    places?.map((element: PlaceObject) => (
       <ModalContentItem
-        key={element}
-        title={element}
-        description={element}
-        onPress={() => setPressedItemId(element)}
-        isSelected={pressedItemId === element}
+        key={element._id}
+        title={element.name}
+        description={element.name}
+        onPress={() => setPressedItemId(element._id)}
+        isSelected={pressedItemId === element._id}
       />
     ));
 

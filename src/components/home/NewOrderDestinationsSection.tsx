@@ -4,10 +4,15 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TileComponent } from "../shared/TileComponent";
 import { theme } from "../../theme";
 import { ModalContentItem } from "../shared/ModalContentItem";
+import { PlaceObject } from "../../types/places/PlaceObject";
 
-type NewOrderDestinationsSectionProps = {};
+type NewOrderDestinationsSectionProps = {
+  places: PlaceObject[];
+};
 
-export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionProps> = () => {
+export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionProps> = ({
+  places,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItemsArray, setSelectedItemsArray] = useState<string[]>([]);
 
@@ -26,13 +31,13 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   };
 
   const renderModalContent = () =>
-    array.map((element) => (
+    places?.map((element) => (
       <ModalContentItem
-        key={element}
-        title={element}
-        description={element}
-        onPress={() => handleSelectItem(element)}
-        isSelected={checkIfElementIsSelected(element)}
+        key={element._id}
+        title={element.name}
+        description={element.name}
+        onPress={() => handleSelectItem(element._id)}
+        isSelected={checkIfElementIsSelected(element._id)}
       />
     ));
 
