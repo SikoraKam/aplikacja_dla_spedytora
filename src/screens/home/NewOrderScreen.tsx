@@ -1,11 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
 import { theme } from "../../theme";
 import { NewOrderDestinationsSection } from "../../components/home/NewOrderDestinationsSection";
 import { StartPlaceSection } from "../../components/home/StartPlaceSection";
+import { ProviderSection } from "../../components/home/ProviderSection";
+import { MainButtonComponent } from "../../components/MainButtonComponent";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -43,16 +45,36 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 
   return (
     <>
-      <View style={styles.screenContainer}>
-        <Text style={styles.subTitleStyle}>Data rozpoczęcia i zakończenia</Text>
-        <View style={styles.dateInputsContainer}>
-          {renderDateStartInput()}
-          {renderDateEndInput()}
-        </View>
+      <ScrollView>
+        <View style={styles.screenContainer}>
+          <Text style={styles.subTitleStyle}>
+            Data rozpoczęcia i zakończenia
+          </Text>
+          <View style={styles.dateInputsContainer}>
+            {renderDateStartInput()}
+            {renderDateEndInput()}
+          </View>
 
-        <StartPlaceSection />
-        <NewOrderDestinationsSection />
-      </View>
+          <Text style={styles.subTitleStyle}>Miejsce startu</Text>
+          <StartPlaceSection />
+          <Text style={styles.subTitleStyle}>Cele podróży</Text>
+          <NewOrderDestinationsSection />
+          <Text style={styles.subTitleStyle}>Dostawca</Text>
+          <ProviderSection />
+        </View>
+      </ScrollView>
+      <MainButtonComponent
+        buttonStyle={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          marginHorizontal: 0,
+          borderTopRightRadius: 24,
+          borderTopLeftRadius: 24,
+        }}
+        text={"Dalej"}
+        onPress={() => null}
+      />
     </>
   );
 };
@@ -61,6 +83,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: theme.colors.background,
+    marginBottom: 80,
   },
   dateInputsContainer: {
     flexDirection: "row",
@@ -71,5 +94,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     paddingBottom: 12,
+    marginTop: 12,
   },
 });

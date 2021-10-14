@@ -36,7 +36,15 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
       />
     ));
 
-  const array = ["text", "hehhehe", "jcjsdjcd"];
+  const array = [
+    "text",
+    "hehhehe",
+    "jcjsdjcd",
+    "dddds",
+    "dssdsd",
+    "dsdsdds",
+    "psdpdsp",
+  ];
 
   return (
     <>
