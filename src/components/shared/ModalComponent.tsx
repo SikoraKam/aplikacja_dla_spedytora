@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text } from "react-native";
 import { theme } from "../../theme";
 
 type ModalComponentProps = {
-  renderContent(): JSX.Element;
+  renderContent(): JSX.Element[];
   visible: boolean;
   hideModal(): void;
   title: string;

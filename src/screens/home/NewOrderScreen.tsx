@@ -1,13 +1,11 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
 import { theme } from "../../theme";
-import { ModalComponent } from "../../components/shared/ModalComponent";
-import { Button } from "react-native-paper";
-import { MainInputComponent } from "../../components/MainInputComponent";
 import { NewOrderDestinationsSection } from "../../components/home/NewOrderDestinationsSection";
+import { StartPlaceSection } from "../../components/home/StartPlaceSection";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -20,9 +18,6 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 }) => {
   const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
   const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [placeStartValue, setPlaceStartValue] = useState("");
 
   const dateStartInputTextChange = (value: Date) =>
     !!value && setDateStartInputValue(value);
@@ -46,47 +41,6 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     />
   );
 
-  const renderModalContent = () => (
-    <>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-      <Text>HEHEH</Text>
-    </>
-  );
-
   return (
     <>
       <View style={styles.screenContainer}>
@@ -96,27 +50,8 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
           {renderDateEndInput()}
         </View>
 
-        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <MainInputComponent
-            text={placeStartValue}
-            setText={setPlaceStartValue}
-            editable={false}
-            label="Miejsce startu"
-            style={{ marginHorizontal: 24 }}
-          />
-        </TouchableOpacity>
-
+        <StartPlaceSection />
         <NewOrderDestinationsSection />
-      </View>
-
-      <View style={{ flex: 1, height: 900 }}>
-        <ModalComponent
-          title={"Miejsce rozpoczęcia"}
-          renderContent={renderModalContent}
-          visible={isModalVisible}
-          hideModal={() => setIsModalVisible(false)}
-          approveResults={() => null}
-        />
       </View>
     </>
   );
