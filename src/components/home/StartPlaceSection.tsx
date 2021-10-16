@@ -14,20 +14,16 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
   places,
   isLoading,
 }) => {
-  const array = [
-    "jjdjdjd",
-    "dsdsdds",
-    "dsdsdsdsd",
-    "dsdsddsdds",
-    "dsdsdssddds",
-    "dsdssdds",
-    "dsdsddsas",
-    "dsdsdcdvfds",
-  ];
-
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [placeStartValue, setPlaceStartValue] = useState("");
-  const [pressedItemId, setPressedItemId] = useState<string | null>(null);
+  const [placeStartValue, setPlaceStartValue] = useState<string | undefined>(
+    ""
+  );
+  const [pressedItem, setPressedItem] = useState<PlaceObject | null>(null);
+
+  const handleApproveResults = () => {
+    setPlaceStartValue(pressedItem?.name);
+    setIsModalVisible(false);
+  };
 
   const renderModalContent = () =>
     places?.map((element: PlaceObject) => (
@@ -35,8 +31,8 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
         key={element._id}
         title={element.name}
         description={element.name}
-        onPress={() => setPressedItemId(element._id)}
-        isSelected={pressedItemId === element._id}
+        onPress={() => setPressedItem(element)}
+        isSelected={pressedItem?._id === element._id}
       />
     ));
 
@@ -57,7 +53,7 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
         renderContent={renderModalContent}
         visible={isModalVisible}
         hideModal={() => setIsModalVisible(false)}
-        approveResults={() => null}
+        approveResults={handleApproveResults}
       />
     </>
   );

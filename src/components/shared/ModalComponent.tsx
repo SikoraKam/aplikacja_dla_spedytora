@@ -9,6 +9,7 @@ type ModalComponentProps = {
   hideModal(): void;
   title: string;
   approveResults(): void;
+  cancelSelection?(): void;
 };
 
 export const ModalComponent: React.FC<ModalComponentProps> = ({
@@ -17,9 +18,14 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   hideModal,
   approveResults,
   title,
+  cancelSelection = () => {},
 }) => {
   const handleButtonConfirm = () => {
     approveResults();
+  };
+
+  const handleCancel = () => {
+    cancelSelection();
     hideModal();
   };
 
@@ -42,7 +48,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
           </ScrollView>
         </Dialog.ScrollArea>
         <Dialog.Actions style={styles.dialogActionsContainer}>
-          <Button style={styles.buttonActionStyle} onPress={hideModal}>
+          <Button style={styles.buttonActionStyle} onPress={handleCancel}>
             Cancel
           </Button>
           <Button onPress={handleButtonConfirm}>Ok</Button>

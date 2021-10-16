@@ -22,6 +22,7 @@ export const MainInputComponent: React.FC<MainInputComponentProps> = ({
   return (
     <TextInput
       label={label}
+      value={text}
       mode={"outlined"}
       outlineColor={theme.colors.darkGreen}
       onChangeText={setText}

@@ -14,20 +14,34 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   places,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedItemsArray, setSelectedItemsArray] = useState<string[]>([]);
+  const [selectedItemsArray, setSelectedItemsArray] = useState<PlaceObject[]>(
+    []
+  );
 
-  const handleSelectItem = (elementId: string) => {
+  const [approvedArray, setApprovedArray] = useState<PlaceObject[]>([]);
+
+  const handleSelectItem = (placeElement: PlaceObject) => {
     const prevArray = [...selectedItemsArray];
-    const elementIsSelected = prevArray.includes(elementId);
+    const elementIsSelected = prevArray.includes(placeElement);
 
     if (elementIsSelected)
-      setSelectedItemsArray(prevArray.filter((item) => item !== elementId));
-    else setSelectedItemsArray([...prevArray, elementId]);
+      setSelectedItemsArray(prevArray.filter((item) => item !== placeElement));
+    else setSelectedItemsArray([...prevArray, placeElement]);
   };
 
-  const checkIfElementIsSelected = (elementId: string) => {
+  const checkIfElementIsSelected = (placeElement: PlaceObject) => {
     const array = [...selectedItemsArray];
-    return array.includes(elementId);
+    return array.includes(placeElement);
+  };
+
+  const handleApproveResults = () => {
+    setApprovedArray(selectedItemsArray);
+    setIsModalVisible(false);
+  };
+
+  const handleCancelResults = () => {
+    setApprovedArray([]);
+    setSelectedItemsArray([]);
   };
 
   const renderModalContent = () =>
@@ -36,20 +50,10 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
         key={element._id}
         title={element.name}
         description={element.name}
-        onPress={() => handleSelectItem(element._id)}
-        isSelected={checkIfElementIsSelected(element._id)}
+        onPress={() => handleSelectItem(element)}
+        isSelected={checkIfElementIsSelected(element)}
       />
     ));
-
-  const array = [
-    "text",
-    "hehhehe",
-    "jcjsdjcd",
-    "dddds",
-    "dssdsd",
-    "dsdsdds",
-    "psdpdsp",
-  ];
 
   return (
     <>
@@ -58,9 +62,15 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
         onPress={() => setIsModalVisible(true)}
       >
         <View style={styles.tilesContainerStyle}>
-          {array.map((element) => (
-            <TileComponent name={element} />
-          ))}
+          {approvedArray.length ? (
+            approvedArray.map((element: PlaceObject) => (
+              <TileComponent name={element.name} />
+            ))
+          ) : (
+            <Text style={styles.emptyDestinationsTextStyle}>
+              Kliknij aby dodać cele
+            </Text>
+          )}
         </View>
       </TouchableOpacity>
 
@@ -68,8 +78,9 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
         renderContent={renderModalContent}
         visible={isModalVisible}
         hideModal={() => setIsModalVisible(false)}
-        approveResults={() => null}
+        approveResults={handleApproveResults}
         title={"Wybierz cele"}
+        cancelSelection={handleCancelResults}
       />
     </>
   );
@@ -85,5 +96,9 @@ const styles = StyleSheet.create({
   tilesContainerStyle: {
     marginVertical: 5,
     marginHorizontal: 12,
+  },
+  emptyDestinationsTextStyle: {
+    textAlign: "center",
+    paddingVertical: 12,
   },
 });
