@@ -7,17 +7,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import React from "react";
 import { HomeScreen } from "./HomeScreen";
-import { HomeScreen2 } from "./HomeScreen2";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { theme } from "../../theme";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { NewOrderScreen } from "./NewOrderScreen";
 
 type HomeScreenStackProps = DrawerScreenProps<DrawerScreensParamList, "Home">;
 
 export type HomeScreenStackParamList = {
   HomeScreen: undefined;
-  HomeScreen2: undefined;
+  NewOrderScreen: undefined;
 };
 
 const Stack = createStackNavigator<HomeScreenStackParamList>();
@@ -33,9 +33,9 @@ export const HomeScreenStack: React.FC<HomeScreenStackProps> = ({
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerLeft: DrawerIcon }} // TODO drawer icon
+        options={{ headerLeft: DrawerIcon }}
       />
-      <Stack.Screen name="HomeScreen2" component={HomeScreen2} />
+      <Stack.Screen name="NewOrderScreen" component={NewOrderScreen} />
     </Stack.Navigator>
   );
 };
