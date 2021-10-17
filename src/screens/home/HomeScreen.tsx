@@ -1,15 +1,30 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { theme } from "../../theme";
-import { HistoryItem } from "../../components/home/HistoryItem";
+import { OrdersListItem } from "../../components/home/OrdersListItem";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
 import { logoutRequest } from "../../services/AuthService";
+import { useOrders } from "../../hooks/orders/useOrders";
+import { useProfileStore } from "../../store/useProfileStore";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const profileType = useProfileStore((state) => state.profileType);
+  const [lastThreeElements, setLastThreeElements] = useState([]);
+
+  const {
+    orders: ordersData,
+    isLoading: isOrdersDataLoading,
+    isError: isOrdersDataError,
+  } = useOrders(profileType);
+
+  useEffect(() => {
+    setLastThreeElements(ordersData.slice(-3));
+  }, [ordersData]);
+
   return (
     <View style={{ flex: 1 }}>
       <TouchableOpacity style={styles.historyButtonStyle}>
@@ -20,9 +35,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       </TouchableOpacity>
 
       <View>
-        <HistoryItem />
-        <HistoryItem />
-        <HistoryItem />
+        {lastThreeElements?.map((element) => (
+          <OrdersListItem orderItem={element} />
+        ))}
       </View>
 
       <View style={styles.addButtonContainer}>
