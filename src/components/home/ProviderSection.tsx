@@ -3,33 +3,32 @@ import { MainInputComponent } from "../MainInputComponent";
 import { TouchableOpacity } from "react-native";
 import { ModalComponent } from "../shared/ModalComponent";
 import { ModalContentItem } from "../shared/ModalContentItem";
+import { UserObject } from "../../types/user/UserObject";
 
-type ProviderSectionProps = {};
+type ProviderSectionProps = {
+  providers: UserObject[];
+};
 
-export const ProviderSection: React.FC<ProviderSectionProps> = ({}) => {
-  const array = [
-    "jjdjdjd",
-    "dsdsdds",
-    "dsdsdsdsd",
-    "dsdsddsdds",
-    "dsdsdssddds",
-    "dsdssdds",
-    "dsdsddsas",
-    "dsdsdcdvfds",
-  ];
-
+export const ProviderSection: React.FC<ProviderSectionProps> = ({
+  providers,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [placeStartValue, setPlaceStartValue] = useState("");
-  const [pressedItemId, setPressedItemId] = useState<string | null>(null);
+  const [providerValue, setProviderValue] = useState<string | undefined>("");
+  const [pressedItem, setPressedItem] = useState<UserObject | null>(null);
+
+  const handleApproveResults = () => {
+    setProviderValue(`${pressedItem?.name} ${pressedItem?.lastName}`);
+    setIsModalVisible(false);
+  };
 
   const renderModalContent = () =>
-    array.map((element) => (
+    providers?.map((element: UserObject) => (
       <ModalContentItem
-        key={element}
-        title={element}
-        description={element}
-        onPress={() => setPressedItemId(element)}
-        isSelected={pressedItemId === element}
+        key={element._id}
+        title={element.name}
+        description={element.lastName}
+        onPress={() => setPressedItem(element)}
+        isSelected={pressedItem?._id === element._id}
       />
     ));
 
@@ -37,8 +36,8 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({}) => {
     <>
       <TouchableOpacity onPress={() => setIsModalVisible(true)}>
         <MainInputComponent
-          text={placeStartValue}
-          setText={setPlaceStartValue}
+          text={providerValue}
+          setText={setProviderValue}
           editable={false}
           label="Dostawca"
           style={{ marginHorizontal: 24 }}
@@ -50,7 +49,7 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({}) => {
         renderContent={renderModalContent}
         visible={isModalVisible}
         hideModal={() => setIsModalVisible(false)}
-        approveResults={() => null}
+        approveResults={handleApproveResults}
       />
     </>
   );

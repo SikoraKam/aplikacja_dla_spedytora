@@ -8,9 +8,8 @@ import { NewOrderDestinationsSection } from "../../components/home/NewOrderDesti
 import { StartPlaceSection } from "../../components/home/StartPlaceSection";
 import { ProviderSection } from "../../components/home/ProviderSection";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
-import { useUser } from "../../hooks/user/useUser";
 import { usePlaces } from "../../hooks/places/usePlaces";
-import AppLoading from "expo-app-loading";
+import { useProviders } from "../../hooks/user/useProviders";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -26,6 +25,12 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     isLoading: placesDataIsLoading,
     isError: placesDataError,
   } = usePlaces();
+
+  const {
+    providers: providersData,
+    isLoading: providersDataIsLoading,
+    isError: providersDataError,
+  } = useProviders();
 
   const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
   const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
@@ -52,9 +57,6 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     />
   );
 
-  console.log("placesDataIsLoading: ", placesDataIsLoading);
-  console.log("DATA: ", placesData);
-
   return (
     <>
       <ScrollView>
@@ -75,7 +77,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
           <Text style={styles.subTitleStyle}>Cele podróży</Text>
           <NewOrderDestinationsSection places={placesData} />
           <Text style={styles.subTitleStyle}>Dostawca</Text>
-          <ProviderSection />
+          <ProviderSection providers={providersData} />
         </View>
       </ScrollView>
       <MainButtonComponent
