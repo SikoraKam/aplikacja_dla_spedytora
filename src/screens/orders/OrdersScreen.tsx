@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -21,12 +21,17 @@ type OrdersScreenProps = StackScreenProps<
 
 export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
+  const [ordersArray, setOrdersArray] = useState([]); // copy to reverse array without reflecting array from backend
 
   const {
     orders: ordersData,
     isLoading: isOrdersDataLoading,
     isError: isOrdersDataError,
   } = useOrders(profileType);
+
+  useEffect(() => {
+    setOrdersArray(ordersData);
+  }, [ordersData]);
 
   const renderListItem = ({ item, index }: ListRenderItemInfo<OrderObject>) => (
     <OrdersListItem key={`${item?._id}${index}`} orderItem={item} />
@@ -36,7 +41,7 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
     <View style={styles.screenContainer}>
       <View style={styles.ordersList}>
         {!isOrdersDataLoading ? (
-          <FlatList data={ordersData.reverse()} renderItem={renderListItem} />
+          <FlatList data={ordersArray.reverse()} renderItem={renderListItem} />
         ) : (
           <Text>Loading</Text>
         )}

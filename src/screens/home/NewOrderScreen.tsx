@@ -16,7 +16,7 @@ import { displayOneButtonAlert } from "../../utils/displayAlert";
 import { createOrder } from "../../services/PostService";
 import { useProfileStore } from "../../store/useProfileStore";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
-import { mutate } from "swr";
+import { useOrders } from "../../hooks/orders/useOrders";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -30,6 +30,8 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   route,
 }) => {
   const userId = useProfileStore((state) => state._id);
+  const profileType = useProfileStore((state) => state.profileType);
+  const { mutate } = useOrders(profileType);
 
   const {
     places: placesData,
@@ -107,7 +109,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         orderStatus: createOrderInitialStatus,
       };
 
-      await mutate("/api/orders", createOrder(orderBody));
+      await mutate(createOrder(orderBody));
 
       navigation.popToTop();
     } catch (error) {
