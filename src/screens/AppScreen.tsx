@@ -9,12 +9,14 @@ import { fetcher } from "../utils/fetcher";
 import { Text } from "react-native";
 import { useUser } from "../hooks/user/useUser";
 import { useProfileStore } from "../store/useProfileStore";
+import { logoutRequest } from "../services/AuthService";
 
 export const AppScreen: React.FC = () => {
   const token = useAuthStore((state) => state.token);
   const setProfileType = useProfileStore(
     useCallback((state) => state.setProfileType, [])
   );
+  const setUserId = useProfileStore(useCallback((state) => state.setId, []));
   const isAuthenticated = token !== null;
   console.log(token);
 
@@ -29,13 +31,18 @@ export const AppScreen: React.FC = () => {
   useEffect(() => {
     if (userData && !userDataError) {
       setProfileType(userData?.profileType);
+      setUserId(userData?._id);
       setIsReady(true);
     }
   }, [userData, userDataError]);
 
   if (isAuthenticated) {
+    if (userDataError) {
+      console.log(userDataError);
+      // logoutRequest();
+    }
+
     if (!isReady) {
-      console.log("IS LOADING ====>");
       return <AppLoading />;
     }
     if (userDataError) {

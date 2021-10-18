@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { theme } from "../../theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { OrderObject } from "../../types/orders/OrderObject";
-import { useOrders } from "../../hooks/orders/useOrders";
 import { format } from "date-fns";
 
 type OrdersListItemProps = {
@@ -54,13 +53,13 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
             numberOfLines={1}
             style={[styles.textStyle, styles.firstColumnText]}
           >
-            {format(orderItem?.dateStart, "dd/MM/yyyy")}
+            {format(new Date(orderItem?.dateStart), "dd/MM/yyyy")}
           </Text>
           <Text
             numberOfLines={1}
             style={[styles.textStyle, styles.secondColumnText]}
           >
-            {format(orderItem?.dateEnd, "dd/MM/yyyy")}
+            {format(new Date(orderItem?.dateEnd), "dd/MM/yyyy")}
           </Text>
           <View style={{ flexDirection: "column" }}>
             <Text

@@ -8,10 +8,12 @@ import { PlaceObject } from "../../types/places/PlaceObject";
 
 type NewOrderDestinationsSectionProps = {
   places: PlaceObject[];
+  setSelectedPlacesId(ids: string[]): void;
 };
 
 export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionProps> = ({
   places,
+  setSelectedPlacesId,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItemsArray, setSelectedItemsArray] = useState<PlaceObject[]>(
@@ -37,11 +39,15 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   const handleApproveResults = () => {
     setApprovedArray(selectedItemsArray);
     setIsModalVisible(false);
+    if (selectedItemsArray) {
+      setSelectedPlacesId(selectedItemsArray.map((element) => element._id));
+    }
   };
 
   const handleCancelResults = () => {
     setApprovedArray([]);
     setSelectedItemsArray([]);
+    setSelectedPlacesId([]);
   };
 
   const renderModalContent = () =>

@@ -7,10 +7,12 @@ import { UserObject } from "../../types/user/UserObject";
 
 type ProviderSectionProps = {
   providers: UserObject[];
+  setSelectedProviderId(id: string): void;
 };
 
 export const ProviderSection: React.FC<ProviderSectionProps> = ({
   providers,
+  setSelectedProviderId,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [providerValue, setProviderValue] = useState<string | undefined>("");
@@ -19,6 +21,7 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({
   const handleApproveResults = () => {
     setProviderValue(`${pressedItem?.name} ${pressedItem?.lastName}`);
     setIsModalVisible(false);
+    if (pressedItem) setSelectedProviderId(pressedItem?._id);
   };
 
   const renderModalContent = () =>

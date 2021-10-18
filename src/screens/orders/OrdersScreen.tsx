@@ -36,7 +36,7 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
     <View style={styles.screenContainer}>
       <View style={styles.ordersList}>
         {!isOrdersDataLoading ? (
-          <FlatList data={ordersData} renderItem={renderListItem} />
+          <FlatList data={ordersData.reverse()} renderItem={renderListItem} />
         ) : (
           <Text>Loading</Text>
         )}

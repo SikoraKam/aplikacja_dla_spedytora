@@ -22,7 +22,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   } = useOrders(profileType);
 
   useEffect(() => {
-    setLastThreeElements(ordersData.slice(-3));
+    setLastThreeElements(ordersData?.slice(-3).reverse());
   }, [ordersData]);
 
   return (

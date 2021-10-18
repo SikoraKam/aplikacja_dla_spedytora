@@ -8,11 +8,13 @@ import { PlaceObject } from "../../types/places/PlaceObject";
 type StartPlaceSectionProps = {
   places: PlaceObject[];
   isLoading: boolean;
+  setSelectedPlaceId(id: string): void;
 };
 
 export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
   places,
   isLoading,
+  setSelectedPlaceId,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [placeStartValue, setPlaceStartValue] = useState<string | undefined>(
@@ -23,6 +25,7 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
   const handleApproveResults = () => {
     setPlaceStartValue(pressedItem?.name);
     setIsModalVisible(false);
+    if (pressedItem) setSelectedPlaceId(pressedItem?._id);
   };
 
   const renderModalContent = () =>
