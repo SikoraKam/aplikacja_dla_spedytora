@@ -7,13 +7,15 @@ import { format } from "date-fns";
 
 type OrdersListItemProps = {
   orderItem: OrderObject;
+  onPress?(): void;
 };
 
 export const OrdersListItem: React.FC<OrdersListItemProps> = ({
   orderItem,
+  onPress,
 }) => {
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.rowContainer}>
           <Text

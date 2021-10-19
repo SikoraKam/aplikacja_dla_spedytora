@@ -7,20 +7,28 @@ import { ModalContentItem } from "../shared/ModalContentItem";
 import { PlaceObject } from "../../types/places/PlaceObject";
 
 type NewOrderDestinationsSectionProps = {
-  places: PlaceObject[];
-  setSelectedPlacesId(ids: string[]): void;
+  places?: PlaceObject[];
+  setSelectedPlacesId?(ids: string[]): void;
+  disabled?: boolean;
+  initialDestinationsArray?: PlaceObject[];
 };
 
 export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionProps> = ({
   places,
   setSelectedPlacesId,
+  disabled = false,
+  initialDestinationsArray = [],
 }) => {
+  console.log(initialDestinationsArray);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItemsArray, setSelectedItemsArray] = useState<PlaceObject[]>(
     []
   );
 
-  const [approvedArray, setApprovedArray] = useState<PlaceObject[]>([]);
+  const [approvedArray, setApprovedArray] = useState<PlaceObject[]>(
+    initialDestinationsArray
+  );
 
   const handleSelectItem = (placeElement: PlaceObject) => {
     const prevArray = [...selectedItemsArray];
@@ -39,7 +47,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   const handleApproveResults = () => {
     setApprovedArray(selectedItemsArray);
     setIsModalVisible(false);
-    if (selectedItemsArray) {
+    if (selectedItemsArray && !!setSelectedPlacesId) {
       setSelectedPlacesId(selectedItemsArray.map((element) => element._id));
     }
   };
@@ -47,11 +55,11 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   const handleCancelResults = () => {
     setApprovedArray([]);
     setSelectedItemsArray([]);
-    setSelectedPlacesId([]);
+    if (!!setSelectedPlacesId) setSelectedPlacesId([]);
   };
 
   const renderModalContent = () =>
-    places?.map((element) => (
+    places!.map((element) => (
       <ModalContentItem
         key={element._id}
         title={element.name}
@@ -64,6 +72,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   return (
     <>
       <TouchableOpacity
+        disabled={disabled}
         style={styles.sectionContainer}
         onPress={() => setIsModalVisible(true)}
       >
@@ -80,14 +89,16 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
         </View>
       </TouchableOpacity>
 
-      <ModalComponent
-        renderContent={renderModalContent}
-        visible={isModalVisible}
-        hideModal={() => setIsModalVisible(false)}
-        approveResults={handleApproveResults}
-        title={"Wybierz cele"}
-        cancelSelection={handleCancelResults}
-      />
+      {!!places && (
+        <ModalComponent
+          renderContent={renderModalContent}
+          visible={isModalVisible}
+          hideModal={() => setIsModalVisible(false)}
+          approveResults={handleApproveResults}
+          title={"Wybierz cele"}
+          cancelSelection={handleCancelResults}
+        />
+      )}
     </>
   );
 };
@@ -99,6 +110,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     backgroundColor: theme.colors.greenyWhite,
   },
+
   tilesContainerStyle: {
     marginVertical: 5,
     marginHorizontal: 12,

@@ -6,7 +6,7 @@ import { format } from "date-fns";
 
 type DateInputComponentProps = {
   dateInputValue: Date;
-  dateInputOnTextChange(value: Date): void;
+  dateInputOnTextChange?(value: Date): void;
   dateEditingDisabled: boolean;
 };
 
@@ -18,19 +18,20 @@ export const DateInputComponent: React.FC<DateInputComponentProps> = ({
   const renderDateSection = () => (
     <View style={inputContainerStyle}>
       <Text style={inputDateTextStyle}>
-        {format(dateInputValue, "dd/MM/yyyy")}
+        {format(new Date(dateInputValue), "dd/MM/yyyy")}
       </Text>
     </View>
   );
 
-  const renderDatePicker = () => (
-    <DatePicker
-      date={dateInputValue}
-      onDateChange={dateInputOnTextChange}
-      disabled={dateEditingDisabled}
-      input={renderDateSection}
-    />
-  );
+  const renderDatePicker = () =>
+    !!dateInputOnTextChange && (
+      <DatePicker
+        date={dateInputValue}
+        onDateChange={dateInputOnTextChange}
+        disabled={dateEditingDisabled}
+        input={renderDateSection}
+      />
+    );
 
   return (
     <View style={dateSectionStyle}>

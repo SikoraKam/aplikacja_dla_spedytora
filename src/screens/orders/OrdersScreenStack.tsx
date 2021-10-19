@@ -5,6 +5,8 @@ import React from "react";
 import { theme } from "../../theme";
 import { DrawerIcon } from "../home/HomeScreenStack";
 import { OrdersScreen } from "./OrdersScreen";
+import { OrderDetailsRouteParams } from "../../types/routeParameters/OrderDetailsRouteParams";
+import { OrderDetailsScreen } from "./OrderDetailsScreen";
 
 type OrdersScreenStackProps = DrawerScreenProps<
   DrawerScreensParamList,
@@ -13,6 +15,7 @@ type OrdersScreenStackProps = DrawerScreenProps<
 
 export type OrdersScreenStackParamList = {
   OrdersScreen: undefined;
+  OrderDetailsScreen: OrderDetailsRouteParams;
 };
 
 const Stack = createStackNavigator<OrdersScreenStackParamList>();
@@ -28,6 +31,11 @@ export const OrdersScreenStack: React.FC<OrdersScreenStackProps> = ({
       <Stack.Screen
         name="OrdersScreen"
         component={OrdersScreen}
+        options={{ headerLeft: DrawerIcon }}
+      />
+      <Stack.Screen
+        name="OrderDetailsScreen"
+        component={OrderDetailsScreen}
         options={{ headerLeft: DrawerIcon }}
       />
     </Stack.Navigator>

@@ -11,7 +11,7 @@ import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/typ
 import { OrdersScreenStackParamList } from "./OrdersScreenStack";
 import { useProfileStore } from "../../store/useProfileStore";
 import { useOrders } from "../../hooks/orders/useOrders";
-import { OrdersListItem } from "../../components/home/OrdersListItem";
+import { OrdersListItem } from "../../components/orders/OrdersListItem";
 import { OrderObject } from "../../types/orders/OrderObject";
 
 type OrdersScreenProps = StackScreenProps<
@@ -33,8 +33,16 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
     setOrdersArray(ordersData);
   }, [ordersData]);
 
+  const onPressItem = (item: OrderObject) => {
+    navigation.push("OrderDetailsScreen", { order: item });
+  };
+
   const renderListItem = ({ item, index }: ListRenderItemInfo<OrderObject>) => (
-    <OrdersListItem key={`${item?._id}${index}`} orderItem={item} />
+    <OrdersListItem
+      key={`${item?._id}${index}`}
+      orderItem={item}
+      onPress={() => onPressItem(item)}
+    />
   );
 
   return (
