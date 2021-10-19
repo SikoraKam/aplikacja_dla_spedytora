@@ -40,7 +40,7 @@ export const HomeScreenStack: React.FC<HomeScreenStackProps> = ({
   );
 };
 
-const DrawerIcon = () => {
+export const DrawerIcon = () => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity

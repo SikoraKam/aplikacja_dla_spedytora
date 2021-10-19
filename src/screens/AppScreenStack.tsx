@@ -8,11 +8,16 @@ import {
   HomeScreenStack,
   HomeScreenStackParamList,
 } from "./home/HomeScreenStack";
+import {
+  OrdersScreenStack,
+  OrdersScreenStackParamList,
+} from "./orders/OrdersScreenStack";
 
 export type DrawerScreensParamList = {
   Home: NavigatorScreenParams<HomeScreenStackParamList>;
+  Orders: NavigatorScreenParams<OrdersScreenStackParamList>;
 };
-const Drawer = createDrawerNavigator<DrawerScreensParamList>(); // TODO types
+const Drawer = createDrawerNavigator<DrawerScreensParamList>();
 
 export const AppScreenStack: React.FC = () => {
   return (
@@ -24,7 +29,7 @@ export const AppScreenStack: React.FC = () => {
       />
       <Drawer.Screen
         name="Deliverers"
-        component={HomeScreenStack}
+        component={OrdersScreenStack}
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>

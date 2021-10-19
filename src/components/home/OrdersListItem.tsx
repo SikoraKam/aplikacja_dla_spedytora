@@ -2,10 +2,16 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { theme } from "../../theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { OrderObject } from "../../types/orders/OrderObject";
+import { format } from "date-fns";
 
-interface HistoryItemProps {}
+type OrdersListItemProps = {
+  orderItem: OrderObject;
+};
 
-export const HistoryItem: React.FC<HistoryItemProps> = ({}) => {
+export const OrdersListItem: React.FC<OrdersListItemProps> = ({
+  orderItem,
+}) => {
   return (
     <TouchableWithoutFeedback>
       <View style={styles.container}>
@@ -14,18 +20,20 @@ export const HistoryItem: React.FC<HistoryItemProps> = ({}) => {
             numberOfLines={1}
             style={[styles.textStyle, styles.firstColumnText]}
           >
-            Skąd
+            {orderItem?.placeStart.name}
           </Text>
           <Text
             numberOfLines={1}
             style={[styles.textStyle, styles.secondColumnText]}
           >
-            Dokąd
+            {orderItem?.destinations.map((element) => `${element.name}, `)}
           </Text>
           <Text
             numberOfLines={1}
             style={[styles.textStyle, styles.thirdColumnText]}
-          />
+          >
+            {orderItem?.orderStatus}
+          </Text>
         </View>
         <View style={styles.rowContainer}>
           <MaterialCommunityIcons
@@ -45,26 +53,26 @@ export const HistoryItem: React.FC<HistoryItemProps> = ({}) => {
             numberOfLines={1}
             style={[styles.textStyle, styles.firstColumnText]}
           >
-            12.04.2021
+            {format(new Date(orderItem?.dateStart), "dd/MM/yyyy")}
           </Text>
           <Text
             numberOfLines={1}
             style={[styles.textStyle, styles.secondColumnText]}
           >
-            12.04.2021
+            {format(new Date(orderItem?.dateEnd), "dd/MM/yyyy")}
           </Text>
           <View style={{ flexDirection: "column" }}>
             <Text
               numberOfLines={1}
               style={[styles.textStyle, styles.thirdColumnText]}
             >
-              Mirosław
+              {orderItem?.provider?.name}
             </Text>
             <Text
               numberOfLines={1}
               style={[styles.textStyle, styles.thirdColumnText]}
             >
-              Adamowicz
+              {orderItem?.provider?.lastName}
             </Text>
           </View>
         </View>
@@ -101,7 +109,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: "center",
-    width: 90,
+    width: 110,
   },
   firstColumnText: {
     left: 4,

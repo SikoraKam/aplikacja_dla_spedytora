@@ -1,13 +1,9 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect } from "react";
+import { StyleSheet } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { AppScreen } from "./src/screens/AppScreen";
 import { theme } from "./src/theme";
-import AppLoading from "expo-app-loading";
-import { useProfile } from "./src/hooks/user/useProfile";
-import useSWR from "swr";
-import { fetcher } from "./src/utils/fetcher";
 import { useAuthStore } from "./src/store/useAuthStore";
 import { getToken } from "./src/utils/tokenUtils";
 
