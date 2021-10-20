@@ -3,7 +3,7 @@ import { HomeScreenStackParamList } from "./HomeScreenStack";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { theme } from "../../theme";
-import { OrdersListItem } from "../../components/home/OrdersListItem";
+import { OrdersListItem } from "../../components/orders/OrdersListItem";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
 import { logoutRequest } from "../../services/AuthService";
 import { useOrders } from "../../hooks/orders/useOrders";

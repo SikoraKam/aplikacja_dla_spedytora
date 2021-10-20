@@ -6,9 +6,9 @@ import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/typ
 import { HomeScreenStackParamList } from "./HomeScreenStack";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
 import { theme } from "../../theme";
-import { NewOrderDestinationsSection } from "../../components/home/NewOrderDestinationsSection";
-import { StartPlaceSection } from "../../components/home/StartPlaceSection";
-import { ProviderSection } from "../../components/home/ProviderSection";
+import { NewOrderDestinationsSection } from "../../components/orders/NewOrderDestinationsSection";
+import { StartPlaceSection } from "../../components/orders/StartPlaceSection";
+import { ProviderSection } from "../../components/orders/ProviderSection";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
 import { usePlaces } from "../../hooks/places/usePlaces";
 import { useProviders } from "../../hooks/user/useProviders";

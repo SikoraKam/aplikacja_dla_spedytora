@@ -20,6 +20,8 @@ declare global {
       darkBlackGreen: string;
       background: string;
       greenyWhite: string;
+      disabled: string;
+      disabledGreen: string;
     }
 
     interface Theme {
@@ -68,6 +70,8 @@ const colors = {
   black: "#000000",
   error: "#ea4747",
   background: "#ffffff",
+  disabled: "#f5f5f5",
+  disabledGreen: "#eef6d8",
 };
 
 const sizes = {
