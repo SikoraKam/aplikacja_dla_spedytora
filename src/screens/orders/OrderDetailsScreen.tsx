@@ -80,6 +80,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
     try {
       await mutate(updateOrder(order._id, newOrderBody));
+      navigation.pop();
     } catch (error) {
       displayOneButtonAlert();
       console.log("ERROR", error);
