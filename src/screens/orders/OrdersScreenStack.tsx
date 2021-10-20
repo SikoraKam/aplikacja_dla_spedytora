@@ -33,11 +33,7 @@ export const OrdersScreenStack: React.FC<OrdersScreenStackProps> = ({
         component={OrdersScreen}
         options={{ headerLeft: DrawerIcon }}
       />
-      <Stack.Screen
-        name="OrderDetailsScreen"
-        component={OrderDetailsScreen}
-        options={{ headerLeft: DrawerIcon }}
-      />
+      <Stack.Screen name="OrderDetailsScreen" component={OrderDetailsScreen} />
     </Stack.Navigator>
   );
 };

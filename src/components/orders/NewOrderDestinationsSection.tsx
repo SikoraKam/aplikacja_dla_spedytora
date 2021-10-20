@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginHorizontal: 24,
     backgroundColor: theme.colors.greenyWhite,
+    marginTop: 8,
   },
 
   tilesContainerStyle: {

@@ -55,7 +55,6 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
           text={placeStartValue}
           setText={setPlaceStartValue}
           editable={false}
-          label="Miejsce startu"
           style={[styles.inputStyle, disabled && styles.disabledInputStyle]}
         />
       </TouchableOpacity>
@@ -76,6 +75,7 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
 const styles = StyleSheet.create({
   inputStyle: {
     marginHorizontal: 24,
+    textAlign: "center",
   },
   disabledInputStyle: {
     backgroundColor: theme.colors.disabled,

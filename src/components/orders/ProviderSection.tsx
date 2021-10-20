@@ -53,7 +53,6 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({
           text={providerValue}
           setText={setProviderValue}
           editable={false}
-          label="Dostawca"
           style={[styles.inputStyle, disabled && styles.disabledInputStyle]}
         />
       </TouchableOpacity>
@@ -74,6 +73,7 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({
 const styles = StyleSheet.create({
   inputStyle: {
     marginHorizontal: 24,
+    textAlign: "center",
   },
   disabledInputStyle: {
     backgroundColor: theme.colors.disabled,
