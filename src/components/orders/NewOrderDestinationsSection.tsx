@@ -19,8 +19,6 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   disabled = false,
   initialDestinationsArray = [],
 }) => {
-  console.log(initialDestinationsArray);
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItemsArray, setSelectedItemsArray] = useState<PlaceObject[]>(
     []
