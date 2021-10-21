@@ -13,7 +13,7 @@ import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { useOrders } from "../../hooks/orders/useOrders";
-import { updateOrder } from "../../services/PatchService";
+import { updateOrder, updateProviderRating } from "../../services/PatchService";
 import { displayOneButtonAlert } from "../../utils/displayAlert";
 import { RatingSection } from "../../types/orders/RatingSection";
 
@@ -30,7 +30,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   const { mutate } = useOrders(profileType);
 
   const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
-  const [mark, setMark] = useState<number>(0);
+  const [mark, setMark] = useState<number>(5);
 
   const { order } = route.params;
   const displayStatusButton =
@@ -88,6 +88,19 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
     try {
       await mutate(updateOrder(order._id, newOrderBody));
+      navigation.pop();
+    } catch (error) {
+      displayOneButtonAlert();
+      console.log("ERROR", error);
+    }
+  };
+
+  const requestUpdateProviderRating = async () => {
+    const ratingBody = {
+      mark,
+    };
+    try {
+      await updateProviderRating(order.provider._id, ratingBody);
       navigation.pop();
     } catch (error) {
       displayOneButtonAlert();
@@ -161,6 +174,8 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
         visible={isRatingModalVisible}
         hideModal={() => setIsRatingModalVisible(false)}
         setMark={setMark}
+        mark={mark}
+        requestUpdateProviderRating={requestUpdateProviderRating}
       />
     </>
   );

@@ -9,6 +9,8 @@ type RatingSectionProps = {
   visible: boolean;
   hideModal(): void;
   setMark(value: number): void;
+  mark: number;
+  requestUpdateProviderRating(): void;
 };
 
 const DEFAULT_RATING = 5;
@@ -17,9 +19,8 @@ export const RatingSection: React.FC<RatingSectionProps> = ({
   visible,
   hideModal,
   setMark,
+  requestUpdateProviderRating,
 }) => {
-  const [selectedMark, setSelectedMark] = useState(DEFAULT_RATING);
-
   return (
     <>
       <Portal>
@@ -35,12 +36,12 @@ export const RatingSection: React.FC<RatingSectionProps> = ({
             size={40}
             selectedColor={theme.colors.primaryGreen}
             reviewColor={theme.colors.primaryGreen}
-            onFinishRating={(value) => setSelectedMark(value)}
+            onFinishRating={(value) => setMark(value)}
           />
           <View style={styles.buttonContainer}>
             <MainButtonComponent
               text={"Oceń"}
-              onPress={() => setMark(selectedMark)}
+              onPress={requestUpdateProviderRating}
             />
           </View>
         </Modal>
