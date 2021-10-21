@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, Modal, Portal } from "react-native-paper";
-import { StyleSheet, Text } from "react-native";
+import { Modal, Portal } from "react-native-paper";
+import { StyleSheet, Text, View } from "react-native";
 import { theme } from "../../theme";
-import { AirbnbRating, Rating } from "react-native-ratings";
+import { AirbnbRating } from "react-native-ratings";
+import { MainButtonComponent } from "../../components/MainButtonComponent";
 
 type RatingSectionProps = {
   visible: boolean;
@@ -10,11 +11,15 @@ type RatingSectionProps = {
   setMark(value: number): void;
 };
 
+const DEFAULT_RATING = 5;
+
 export const RatingSection: React.FC<RatingSectionProps> = ({
   visible,
   hideModal,
   setMark,
 }) => {
+  const [selectedMark, setSelectedMark] = useState(DEFAULT_RATING);
+
   return (
     <>
       <Portal>
@@ -26,14 +31,18 @@ export const RatingSection: React.FC<RatingSectionProps> = ({
           <AirbnbRating
             count={5}
             reviews={["Terrible", "So-so", "OK", "Good", "Very Good"]}
-            defaultRating={5}
-            size={20}
+            defaultRating={DEFAULT_RATING}
+            size={40}
+            selectedColor={theme.colors.primaryGreen}
+            reviewColor={theme.colors.primaryGreen}
+            onFinishRating={(value) => setSelectedMark(value)}
           />
-          <Rating
-            showRating
-            onFinishRating={() => {}}
-            style={{ paddingVertical: 10 }}
-          />
+          <View style={styles.buttonContainer}>
+            <MainButtonComponent
+              text={"Oceń"}
+              onPress={() => setMark(selectedMark)}
+            />
+          </View>
         </Modal>
       </Portal>
     </>
@@ -42,10 +51,14 @@ export const RatingSection: React.FC<RatingSectionProps> = ({
 
 const styles = StyleSheet.create({
   containerStyle: {
-    flex: 1,
+    flex: 0.7,
     backgroundColor: theme.colors.white,
     marginHorizontal: 28,
     marginVertical: 52,
-    height: 900,
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 10,
+    width: "100%",
   },
 });
