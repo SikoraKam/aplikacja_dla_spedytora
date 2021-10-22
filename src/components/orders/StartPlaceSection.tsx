@@ -39,7 +39,7 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
       <ModalContentItem
         key={element._id}
         title={element.name}
-        description={element.name}
+        description={element.address}
         onPress={() => setPressedItem(element)}
         isSelected={pressedItem?._id === element._id}
       />
