@@ -6,4 +6,5 @@ export interface UserObject {
   email: string;
   lastName: string;
   name: string;
+  rating?: number;
 }

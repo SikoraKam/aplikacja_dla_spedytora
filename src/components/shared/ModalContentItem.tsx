@@ -9,6 +9,7 @@ type ModalContentItemProps = {
   description: string;
   onPress?(): void;
   isSelected?: boolean;
+  leftComponent?: any;
 };
 
 export const ModalContentItem: React.FC<ModalContentItemProps> = ({
@@ -16,6 +17,7 @@ export const ModalContentItem: React.FC<ModalContentItemProps> = ({
   description,
   onPress = () => {},
   isSelected = false,
+  leftComponent,
 }) => {
   const backgroundColorStyle = isSelected
     ? styles.listItemBackgroundColorSelected
@@ -25,13 +27,16 @@ export const ModalContentItem: React.FC<ModalContentItemProps> = ({
     onPress();
   };
 
+  const renderLeftComponent = (defaultProps: any) =>
+    leftComponent ?? <List.Icon {...defaultProps} icon="folder" />;
+
   return (
     <TouchableOpacity onPress={handleOnPressItem}>
       <List.Item
         style={[styles.listItemStyle, backgroundColorStyle]}
         title={title}
         description={description}
-        left={(props) => <List.Icon {...props} icon="folder" />}
+        left={(props) => renderLeftComponent(props)}
       />
     </TouchableOpacity>
   );

@@ -109,7 +109,8 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         orderStatus: createOrderInitialStatus,
       };
 
-      await mutate(createOrder(orderBody));
+      // await mutate(createOrder(orderBody));
+      await createOrder(orderBody);
 
       navigation.popToTop();
     } catch (error) {

@@ -40,7 +40,6 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
         <Dialog.ScrollArea style={{ flex: 1 }}>
           <ScrollView
             contentContainerStyle={{
-              paddingHorizontal: 24,
               maxHeight: 900,
             }}
           >

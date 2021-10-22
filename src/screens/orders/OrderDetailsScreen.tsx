@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { OrdersScreenStackParamList } from "./OrdersScreenStack";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
@@ -13,8 +13,9 @@ import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { useOrders } from "../../hooks/orders/useOrders";
-import { updateOrder } from "../../services/PatchService";
+import { updateOrder, updateProviderRating } from "../../services/PatchService";
 import { displayOneButtonAlert } from "../../utils/displayAlert";
+import { RatingSection } from "../../types/orders/RatingSection";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -28,10 +29,17 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   const profileType = useProfileStore((state) => state.profileType);
   const { mutate } = useOrders(profileType);
 
+  const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
+  const [mark, setMark] = useState<number>(5);
+
   const { order } = route.params;
-  const displayButton =
+  const displayStatusButton =
     profileType === ProfileTypeEnum.Provider &&
     order.orderStatus !== OrderStatusEnum.COMPLETED;
+
+  const displayRatingButton =
+    profileType === ProfileTypeEnum.Forwarder &&
+    order.orderStatus === OrderStatusEnum.COMPLETED;
 
   const renderDateStartInput = () => (
     <DateInputComponent
@@ -60,7 +68,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     }
   };
 
-  const handlePress = () => {
+  const handleStatusButtonPress = () => {
     switch (order.orderStatus) {
       case OrderStatusEnum.ACCEPTED:
         return requestUpdateOrder(OrderStatusEnum.IN_PROGRESS);
@@ -80,6 +88,19 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
     try {
       await mutate(updateOrder(order._id, newOrderBody));
+      navigation.pop();
+    } catch (error) {
+      displayOneButtonAlert();
+      console.log("ERROR", error);
+    }
+  };
+
+  const requestUpdateProviderRating = async () => {
+    const ratingBody = {
+      mark,
+    };
+    try {
+      await updateProviderRating(order.provider._id, ratingBody);
       navigation.pop();
     } catch (error) {
       displayOneButtonAlert();
@@ -119,7 +140,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
         </View>
       </ScrollView>
 
-      {displayButton && (
+      {displayStatusButton && (
         <MainButtonComponent
           buttonStyle={{
             position: "absolute",
@@ -130,9 +151,32 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
             borderTopLeftRadius: 24,
           }}
           text={selectButtonText()}
-          onPress={handlePress}
+          onPress={handleStatusButtonPress}
         />
       )}
+
+      {displayRatingButton && (
+        <MainButtonComponent
+          buttonStyle={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            marginHorizontal: 0,
+            borderTopRightRadius: 24,
+            borderTopLeftRadius: 24,
+          }}
+          text={"Oceń dostawce"}
+          onPress={() => setIsRatingModalVisible(true)}
+        />
+      )}
+
+      <RatingSection
+        visible={isRatingModalVisible}
+        hideModal={() => setIsRatingModalVisible(false)}
+        setMark={setMark}
+        mark={mark}
+        requestUpdateProviderRating={requestUpdateProviderRating}
+      />
     </>
   );
 };
