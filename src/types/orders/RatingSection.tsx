@@ -31,7 +31,7 @@ export const RatingSection: React.FC<RatingSectionProps> = ({
         >
           <AirbnbRating
             count={5}
-            reviews={["Terrible", "So-so", "OK", "Good", "Very Good"]}
+            reviews={["Terrible", "Could be better", "OK", "Good", "Very Good"]}
             defaultRating={DEFAULT_RATING}
             size={40}
             selectedColor={theme.colors.primaryGreen}

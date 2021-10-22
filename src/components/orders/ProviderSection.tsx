@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { MainInputComponent } from "../MainInputComponent";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { ModalComponent } from "../shared/ModalComponent";
 import { ModalContentItem } from "../shared/ModalContentItem";
 import { UserObject } from "../../types/user/UserObject";
 import { theme } from "../../theme";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type ProviderSectionProps = {
   providers?: UserObject[];
@@ -40,8 +41,27 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({
         description={element.lastName}
         onPress={() => setPressedItem(element)}
         isSelected={pressedItem?._id === element._id}
+        leftComponent={renderModalContentLeftItemComponent(element)}
       />
     ));
+
+  const renderModalContentLeftItemComponent = (provider: UserObject) => {
+    const isSelected = pressedItem?._id === provider._id;
+    return (
+      <View style={styles.modalItemLeftComponentContainerStyle}>
+        <MaterialCommunityIcons
+          name="star-outline"
+          color={
+            isSelected ? theme.colors.darkGreen : theme.colors.primaryGreen
+          }
+          size={20}
+        />
+        <Text style={styles.modalItemLeftComponentTextStyle}>
+          {provider.rating?.toFixed(2)}
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <>
@@ -77,5 +97,15 @@ const styles = StyleSheet.create({
   },
   disabledInputStyle: {
     backgroundColor: theme.colors.disabled,
+  },
+  modalItemLeftComponentContainerStyle: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: 80,
+  },
+  modalItemLeftComponentTextStyle: {
+    textAlign: "center",
+    marginRight: 20,
   },
 });
