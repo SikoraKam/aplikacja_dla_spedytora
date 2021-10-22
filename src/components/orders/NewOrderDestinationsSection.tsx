@@ -61,7 +61,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
       <ModalContentItem
         key={element._id}
         title={element.name}
-        description={element.name}
+        description={element.address}
         onPress={() => handleSelectItem(element)}
         isSelected={checkIfElementIsSelected(element)}
       />

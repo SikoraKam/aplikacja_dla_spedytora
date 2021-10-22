@@ -3,4 +3,5 @@ export interface PlaceObject {
   longitude: number;
   latitude: number;
   name: string;
+  address: string;
 }
