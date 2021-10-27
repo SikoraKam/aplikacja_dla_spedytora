@@ -1,6 +1,6 @@
 import compareAsc from "date-fns/compareAsc";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
@@ -17,6 +17,8 @@ import { createOrder } from "../../services/PostService";
 import { useProfileStore } from "../../store/useProfileStore";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { useOrders } from "../../hooks/orders/useOrders";
+import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
+import { OrderMenu } from "../../components/orders/OrderMenu";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -50,6 +52,23 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [providerId, setProviderId] = useState<string>("");
   const [placeStartId, setPlaceStartId] = useState("");
   const [destinationsIdArray, setDestinationsIdArray] = useState<string[]>([]);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <ThreeHorizontalDots onPress={() => setIsMenuVisible(true)} />
+      ),
+    });
+  }, [navigation]);
+
+  const renderMenu = () => (
+    <OrderMenu
+      isMenuVisible={isMenuVisible}
+      setIsMenuVisible={setIsMenuVisible}
+      solveTSP={() => {}}
+    />
+  );
 
   const dateStartInputTextChange = (value: Date) =>
     !!value && setDateStartInputValue(value);
@@ -161,6 +180,8 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         text={"Dalej"}
         onPress={handleCreateOrder}
       />
+
+      {renderMenu()}
     </>
   );
 };
