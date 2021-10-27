@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { OrdersScreenStackParamList } from "./OrdersScreenStack";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
@@ -15,7 +15,9 @@ import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { useOrders } from "../../hooks/orders/useOrders";
 import { updateOrder, updateProviderRating } from "../../services/PatchService";
 import { displayOneButtonAlert } from "../../utils/displayAlert";
-import { RatingSection } from "../../types/orders/RatingSection";
+import { RatingSection } from "../../components/orders/RatingSection";
+import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
+import { OrderMenu } from "../../components/orders/OrderMenu";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -31,6 +33,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
   const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
   const [mark, setMark] = useState<number>(5);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const { order } = route.params;
   const displayStatusButton =
@@ -40,6 +43,22 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   const displayRatingButton =
     profileType === ProfileTypeEnum.Forwarder &&
     order.orderStatus === OrderStatusEnum.COMPLETED;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <ThreeHorizontalDots onPress={() => setIsMenuVisible(true)} />
+      ),
+    });
+  }, [navigation]);
+
+  const renderMenu = () => (
+    <OrderMenu
+      isMenuVisible={isMenuVisible}
+      setIsMenuVisible={setIsMenuVisible}
+      solveTSP={() => {}}
+    />
+  );
 
   const renderDateStartInput = () => (
     <DateInputComponent
@@ -177,6 +196,8 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
         mark={mark}
         requestUpdateProviderRating={requestUpdateProviderRating}
       />
+
+      {renderMenu()}
     </>
   );
 };

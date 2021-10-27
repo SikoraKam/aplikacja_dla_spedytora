@@ -7,11 +7,11 @@ import { theme } from "../../theme";
 type OrderMenu = {
   isMenuVisible: boolean;
   setIsMenuVisible(val: boolean): void;
-  solveTSP(): void;
+  onPressTspItem(): void;
 };
 
 export const OrderMenu: React.FC<OrderMenu> = ({
-  solveTSP,
+  onPressTspItem,
   isMenuVisible,
   setIsMenuVisible,
 }) => {
@@ -20,7 +20,11 @@ export const OrderMenu: React.FC<OrderMenu> = ({
       <Button
         labelStyle={styles.buttonTextStyle}
         style={styles.buttonStyle}
-        onPress={onPress}
+        onPress={() => {
+          onPress();
+          setIsMenuVisible(false);
+        }}
+        color={theme.colors.darkBlackGreen}
       >
         {text}
       </Button>
@@ -33,7 +37,7 @@ export const OrderMenu: React.FC<OrderMenu> = ({
       visible={isMenuVisible}
     >
       <View style={styles.menuStyle}>
-        {renderButton("Wylicz optymalną trasę podróży", solveTSP)}
+        {renderButton("Wylicz optymalną trasę podróży", onPressTspItem)}
       </View>
     </Overlay>
   );

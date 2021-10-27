@@ -8,7 +8,7 @@ import { PlaceObject } from "../../types/places/PlaceObject";
 
 type NewOrderDestinationsSectionProps = {
   places?: PlaceObject[];
-  setSelectedPlacesId?(ids: string[]): void;
+  setSelectedPlacesId?(ids: PlaceObject[]): void;
   disabled?: boolean;
   initialDestinationsArray?: PlaceObject[];
 };
@@ -46,7 +46,8 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
     setApprovedArray(selectedItemsArray);
     setIsModalVisible(false);
     if (selectedItemsArray && !!setSelectedPlacesId) {
-      setSelectedPlacesId(selectedItemsArray.map((element) => element._id));
+      // setSelectedPlacesId(selectedItemsArray.map((element) => element._id));
+      setSelectedPlacesId(selectedItemsArray);
     }
   };
 

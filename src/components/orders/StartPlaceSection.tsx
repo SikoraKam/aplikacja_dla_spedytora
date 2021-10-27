@@ -9,7 +9,7 @@ import { theme } from "../../theme";
 type StartPlaceSectionProps = {
   places?: PlaceObject[];
   isLoading?: boolean;
-  setSelectedPlaceId?(id: string): void;
+  setSelectedPlaceId?(id: PlaceObject): void;
   disabled?: boolean;
   initialPlaceStartValue?: string;
 };
@@ -30,8 +30,7 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
   const handleApproveResults = () => {
     setPlaceStartValue(pressedItem?.name);
     setIsModalVisible(false);
-    if (pressedItem && !!setSelectedPlaceId)
-      setSelectedPlaceId(pressedItem?._id);
+    if (pressedItem && !!setSelectedPlaceId) setSelectedPlaceId(pressedItem);
   };
 
   const renderModalContent = () =>

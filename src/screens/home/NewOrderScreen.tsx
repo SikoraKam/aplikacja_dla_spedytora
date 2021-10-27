@@ -19,6 +19,8 @@ import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { useOrders } from "../../hooks/orders/useOrders";
 import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
 import { OrderMenu } from "../../components/orders/OrderMenu";
+import { TspSection } from "../../components/orders/TspSection";
+import { PlaceObject } from "../../types/places/PlaceObject";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -50,9 +52,10 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
   const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
   const [providerId, setProviderId] = useState<string>("");
-  const [placeStartId, setPlaceStartId] = useState("");
-  const [destinationsIdArray, setDestinationsIdArray] = useState<string[]>([]);
+  const [placeStart, setPlaceStart] = useState<PlaceObject>();
+  const [destinationsArray, setDestinationsArray] = useState<PlaceObject[]>([]);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -66,7 +69,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     <OrderMenu
       isMenuVisible={isMenuVisible}
       setIsMenuVisible={setIsMenuVisible}
-      solveTSP={() => {}}
+      onPressTspItem={() => setIsTspSectionVisible(true)}
     />
   );
 
@@ -118,13 +121,17 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     }
 
     try {
+      const destinationsArrayId = destinationsArray.map(
+        (element) => element?._id
+      );
+
       const orderBody = {
         dateStart: dateStartInputValue,
         dateEnd: dateEndInputValue,
         forwarder: userId,
         provider: providerId,
-        destinations: destinationsIdArray,
-        placeStart: placeStartId,
+        destinations: destinationsArrayId,
+        placeStart: placeStart!._id,
         orderStatus: createOrderInitialStatus,
       };
 
@@ -154,12 +161,12 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
           <StartPlaceSection
             places={placesData}
             isLoading={placesDataIsLoading}
-            setSelectedPlaceId={setPlaceStartId}
+            setSelectedPlaceId={setPlaceStart}
           />
           <Text style={styles.subTitleStyle}>Cele podróży</Text>
           <NewOrderDestinationsSection
             places={placesData}
-            setSelectedPlacesId={setDestinationsIdArray}
+            setSelectedPlacesId={setDestinationsArray}
           />
           <Text style={styles.subTitleStyle}>Dostawca</Text>
           <ProviderSection
@@ -181,6 +188,13 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         onPress={handleCreateOrder}
       />
 
+      {placeStart && isTspSectionVisible && (
+        <TspSection
+          visible={isTspSectionVisible}
+          hideModal={() => setIsTspSectionVisible(false)}
+          places={[placeStart, ...destinationsArray]}
+        />
+      )}
       {renderMenu()}
     </>
   );
