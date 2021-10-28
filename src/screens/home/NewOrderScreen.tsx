@@ -56,6 +56,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [destinationsArray, setDestinationsArray] = useState<PlaceObject[]>([]);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
+  const tspArray = [placeStart, ...destinationsArray];
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -65,11 +66,35 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     });
   }, [navigation]);
 
+  const handleOnPressTspMenuItem = () => {
+    if (!placeStart) {
+      return displayOneButtonAlert(
+        "NIe wybrano miejsca startowego",
+        "Wybierz punkt z którego powinieneś wyruszyć"
+      );
+    }
+
+    if (tspArray.length < 3) {
+      return displayOneButtonAlert(
+        "Za mało obranych celów podróży",
+        "Aby wyliczyć trasę potrzebujesz przynajmniej dwóch celów"
+      );
+    }
+    if (tspArray.length > 11) {
+      return displayOneButtonAlert(
+        "Za dużo obranych celów",
+        "Zbyt duża złożoność obliczeniowa"
+      );
+    }
+
+    setIsTspSectionVisible(true);
+  };
+
   const renderMenu = () => (
     <OrderMenu
       isMenuVisible={isMenuVisible}
       setIsMenuVisible={setIsMenuVisible}
-      onPressTspItem={() => setIsTspSectionVisible(true)}
+      onPressTspItem={handleOnPressTspMenuItem}
     />
   );
 

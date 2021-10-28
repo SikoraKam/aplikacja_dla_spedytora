@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Portal } from "react-native-paper";
-import { AirbnbRating } from "react-native-ratings";
 import { theme } from "../../theme";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { MainButtonComponent } from "../MainButtonComponent";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { PlaceObject } from "../../types/places/PlaceObject";
 import { TileComponent } from "../shared/TileComponent";
 import { displayOneButtonAlert } from "../../utils/displayAlert";
@@ -32,24 +36,26 @@ export const TspSection: React.FC<TspSectionProps> = ({
   }, []);
 
   const renderLoadingIndicator = () => (
-    <View style={{ flex: 1, justifyContent: "center" }}>
+    <View>
       <ActivityIndicator color={theme.colors.darkBlackGreen} size={"large"} />
     </View>
   );
 
   const renderModalContent = () => {
     if (!tspResult.length) return renderLoadingIndicator();
-    else
-      return (
-        <View style={styles.tilesContainerStyle}>
-          {tspResult?.map((element: PlaceObject) => (
-            <TileComponent name={element.name} />
-          ))}
-        </View>
-      );
+
+    return (
+      <View style={styles.tilesContainerStyle}>
+        <Text style={styles.modalTextTitleStyle}>
+          Przewidywana optymalna kolejność dojazdu
+        </Text>
+        {tspResult?.map((element: PlaceObject) => (
+          <TileComponent name={element.name} description={element?.address} />
+        ))}
+      </View>
+    );
   };
 
-  //todo ScrollView
   return (
     <>
       <Portal>
@@ -58,7 +64,12 @@ export const TspSection: React.FC<TspSectionProps> = ({
           onDismiss={hideModal}
           contentContainerStyle={styles.containerStyle}
         >
-          {renderModalContent()}
+          <ScrollView
+            style={styles.scrollContainerStyle}
+            contentContainerStyle={{ flex: 1, justifyContent: "center" }}
+          >
+            {renderModalContent()}
+          </ScrollView>
         </Modal>
       </Portal>
     </>
@@ -73,11 +84,23 @@ const styles = StyleSheet.create({
     marginVertical: 52,
   },
   tilesContainerStyle: {
+    flex: 1,
     marginVertical: 5,
     marginHorizontal: 12,
   },
   emptyDestinationsTextStyle: {
     textAlign: "center",
     paddingVertical: 12,
+  },
+  scrollContainerStyle: {
+    marginHorizontal: 16,
+    marginVertical: 16,
+  },
+  modalTextTitleStyle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: theme.colors.darkBlackGreen,
+    marginBottom: 8,
   },
 });
