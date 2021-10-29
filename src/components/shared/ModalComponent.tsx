@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Portal, Provider, Dialog } from "react-native-paper";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { Button, Portal, Dialog } from "react-native-paper";
+import { ScrollView, StyleSheet } from "react-native";
 import { theme } from "../../theme";
 
 type ModalComponentProps = {

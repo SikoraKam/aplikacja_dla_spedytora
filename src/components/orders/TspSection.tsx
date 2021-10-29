@@ -66,7 +66,9 @@ export const TspSection: React.FC<TspSectionProps> = ({
         >
           <ScrollView
             style={styles.scrollContainerStyle}
-            contentContainerStyle={{ flex: 1, justifyContent: "center" }}
+            contentContainerStyle={{
+              justifyContent: "center",
+            }}
           >
             {renderModalContent()}
           </ScrollView>
@@ -93,6 +95,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   scrollContainerStyle: {
+    flex: 1,
     marginHorizontal: 16,
     marginVertical: 16,
   },
