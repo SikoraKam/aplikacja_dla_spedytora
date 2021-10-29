@@ -52,7 +52,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
   const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
   const [providerId, setProviderId] = useState<string>("");
-  const [placeStart, setPlaceStart] = useState<PlaceObject>();
+  const [placeStart, setPlaceStart] = useState<PlaceObject | null>(null);
   const [destinationsArray, setDestinationsArray] = useState<PlaceObject[]>([]);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
@@ -160,8 +160,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         orderStatus: createOrderInitialStatus,
       };
 
-      // await mutate(createOrder(orderBody));
-      await createOrder(orderBody);
+      await mutate(createOrder(orderBody));
 
       navigation.popToTop();
     } catch (error) {
@@ -184,14 +183,16 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 
           <Text style={styles.subTitleStyle}>Miejsce startu</Text>
           <StartPlaceSection
+            pressedItem={placeStart}
+            setPressedItem={setPlaceStart}
             places={placesData}
             isLoading={placesDataIsLoading}
-            setSelectedPlaceId={setPlaceStart}
           />
           <Text style={styles.subTitleStyle}>Cele podróży</Text>
           <NewOrderDestinationsSection
+            approvedArray={destinationsArray}
+            setApprovedArray={setDestinationsArray}
             places={placesData}
-            setSelectedPlacesId={setDestinationsArray}
           />
           <Text style={styles.subTitleStyle}>Dostawca</Text>
           <ProviderSection

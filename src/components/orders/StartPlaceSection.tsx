@@ -9,28 +9,35 @@ import { theme } from "../../theme";
 type StartPlaceSectionProps = {
   places?: PlaceObject[];
   isLoading?: boolean;
-  setSelectedPlaceId?(id: PlaceObject): void;
   disabled?: boolean;
   initialPlaceStartValue?: string;
+  pressedItem: PlaceObject | null;
+  setPressedItem(value: PlaceObject | null): void;
 };
 
 export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
   places,
   isLoading,
-  setSelectedPlaceId,
   disabled = false,
   initialPlaceStartValue = "",
+  pressedItem,
+  setPressedItem,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [placeStartValue, setPlaceStartValue] = useState<string | undefined>(
     initialPlaceStartValue
   );
-  const [pressedItem, setPressedItem] = useState<PlaceObject | null>(null);
 
   const handleApproveResults = () => {
     setPlaceStartValue(pressedItem?.name);
     setIsModalVisible(false);
-    if (pressedItem && !!setSelectedPlaceId) setSelectedPlaceId(pressedItem);
+    if (!pressedItem) return setPressedItem(null);
+    if (pressedItem && !!setPressedItem) setPressedItem(pressedItem);
+  };
+
+  const handleCancel = () => {
+    setPressedItem(null);
+    setPlaceStartValue("");
   };
 
   const renderModalContent = () =>
@@ -58,13 +65,14 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
         />
       </TouchableOpacity>
 
-      {!!places && !!setSelectedPlaceId && (
+      {!!places && !!setPressedItem && (
         <ModalComponent
           title={"Miejsce rozpoczęcia"}
           renderContent={renderModalContent}
           visible={isModalVisible}
           hideModal={() => setIsModalVisible(false)}
           approveResults={handleApproveResults}
+          cancelSelection={handleCancel}
         />
       )}
     </>
