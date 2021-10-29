@@ -8,11 +8,10 @@ import { PlaceObject } from "../../types/places/PlaceObject";
 
 type NewOrderDestinationsSectionProps = {
   places?: PlaceObject[];
-  // setSelectedPlacesId?(ids: PlaceObject[]): void;
   disabled?: boolean;
   initialDestinationsArray?: PlaceObject[];
   approvedArray: PlaceObject[];
-  setApprovedArray(value: PlaceObject[]): void;
+  setApprovedArray?(value: PlaceObject[]): void;
 };
 
 export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionProps> = ({
@@ -20,7 +19,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   disabled = false,
   initialDestinationsArray = [],
   approvedArray,
-  setApprovedArray,
+  setApprovedArray = () => {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItemsArray, setSelectedItemsArray] = useState<PlaceObject[]>(
@@ -28,7 +27,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   );
 
   useEffect(() => {
-    setApprovedArray(initialDestinationsArray);
+    if (setApprovedArray) setApprovedArray(initialDestinationsArray);
   }, []);
 
   const handleSelectItem = (placeElement: PlaceObject) => {

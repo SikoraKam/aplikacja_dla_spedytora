@@ -18,6 +18,7 @@ import { displayOneButtonAlert } from "../../utils/displayAlert";
 import { RatingSection } from "../../components/orders/RatingSection";
 import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
 import { OrderMenu } from "../../components/orders/OrderMenu";
+import { TspSection } from "../../components/orders/TspSection";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -34,8 +35,11 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
   const [mark, setMark] = useState<number>(5);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
 
   const { order } = route.params;
+  const tspArray = [order.placeStart, ...order.destinations];
+
   const displayStatusButton =
     profileType === ProfileTypeEnum.Provider &&
     order.orderStatus !== OrderStatusEnum.COMPLETED;
@@ -52,11 +56,28 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     });
   }, [navigation]);
 
+  const handleOnPressTspMenuItem = () => {
+    if (tspArray.length < 3) {
+      return displayOneButtonAlert(
+        "Za mało obranych celów podróży",
+        "Aby wyliczyć trasę potrzebujesz przynajmniej dwóch celów"
+      );
+    }
+    if (tspArray.length > 11) {
+      return displayOneButtonAlert(
+        "Za dużo obranych celów",
+        "Zbyt duża złożoność obliczeniowa"
+      );
+    }
+
+    setIsTspSectionVisible(true);
+  };
+
   const renderMenu = () => (
     <OrderMenu
       isMenuVisible={isMenuVisible}
       setIsMenuVisible={setIsMenuVisible}
-      solveTSP={() => {}}
+      onPressTspItem={handleOnPressTspMenuItem}
     />
   );
 
@@ -106,6 +127,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     };
 
     try {
+      // @ts-ignore
       await mutate(updateOrder(order._id, newOrderBody));
       navigation.pop();
     } catch (error) {
@@ -141,11 +163,13 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
           <Text style={styles.subTitleStyle}>Miejsce startu</Text>
           <StartPlaceSection
+            pressedItem={order.placeStart}
             disabled
             initialPlaceStartValue={order.placeStart.name}
           />
           <Text style={styles.subTitleStyle}>Cele podróży</Text>
           <NewOrderDestinationsSection
+            approvedArray={order.destinations}
             disabled
             initialDestinationsArray={order.destinations}
           />
@@ -196,6 +220,14 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
         mark={mark}
         requestUpdateProviderRating={requestUpdateProviderRating}
       />
+
+      {isTspSectionVisible && (
+        <TspSection
+          visible={isTspSectionVisible}
+          hideModal={() => setIsTspSectionVisible(false)}
+          places={tspArray}
+        />
+      )}
 
       {renderMenu()}
     </>

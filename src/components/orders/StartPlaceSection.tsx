@@ -12,7 +12,7 @@ type StartPlaceSectionProps = {
   disabled?: boolean;
   initialPlaceStartValue?: string;
   pressedItem: PlaceObject | null;
-  setPressedItem(value: PlaceObject | null): void;
+  setPressedItem?(value: PlaceObject | null): void;
 };
 
 export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
@@ -21,7 +21,7 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
   disabled = false,
   initialPlaceStartValue = "",
   pressedItem,
-  setPressedItem,
+  setPressedItem = () => {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [placeStartValue, setPlaceStartValue] = useState<string | undefined>(
