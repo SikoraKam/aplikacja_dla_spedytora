@@ -21,7 +21,7 @@ type OrdersScreenProps = StackScreenProps<
 
 export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
-  const [ordersArray, setOrdersArray] = useState([]); // copy to reverse array without reflecting array from backend
+  const [ordersArray, setOrdersArray] = useState<OrderObject[]>([]); // copy to reverse array without reflecting array from backend
 
   const {
     orders: ordersData,
@@ -30,7 +30,8 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
   } = useOrders(profileType);
 
   useEffect(() => {
-    setOrdersArray(ordersData);
+    if (!ordersData) return;
+    setOrdersArray([...ordersData]);
   }, [ordersData]);
 
   const onPressItem = (item: OrderObject) => {

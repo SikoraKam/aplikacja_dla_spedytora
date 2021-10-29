@@ -1,6 +1,6 @@
 import compareAsc from "date-fns/compareAsc";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
@@ -17,6 +17,10 @@ import { createOrder } from "../../services/PostService";
 import { useProfileStore } from "../../store/useProfileStore";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { useOrders } from "../../hooks/orders/useOrders";
+import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
+import { OrderMenu } from "../../components/orders/OrderMenu";
+import { TspSection } from "../../components/orders/TspSection";
+import { PlaceObject } from "../../types/places/PlaceObject";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -48,8 +52,51 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
   const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
   const [providerId, setProviderId] = useState<string>("");
-  const [placeStartId, setPlaceStartId] = useState("");
-  const [destinationsIdArray, setDestinationsIdArray] = useState<string[]>([]);
+  const [placeStart, setPlaceStart] = useState<PlaceObject | null>(null);
+  const [destinationsArray, setDestinationsArray] = useState<PlaceObject[]>([]);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
+  const tspArray = [placeStart, ...destinationsArray];
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <ThreeHorizontalDots onPress={() => setIsMenuVisible(true)} />
+      ),
+    });
+  }, [navigation]);
+
+  const handleOnPressTspMenuItem = () => {
+    if (!placeStart) {
+      return displayOneButtonAlert(
+        "NIe wybrano miejsca startowego",
+        "Wybierz punkt z którego powinieneś wyruszyć"
+      );
+    }
+
+    if (tspArray.length < 3) {
+      return displayOneButtonAlert(
+        "Za mało obranych celów podróży",
+        "Aby wyliczyć trasę potrzebujesz przynajmniej dwóch celów"
+      );
+    }
+    if (tspArray.length > 11) {
+      return displayOneButtonAlert(
+        "Za dużo obranych celów",
+        "Zbyt duża złożoność obliczeniowa"
+      );
+    }
+
+    setIsTspSectionVisible(true);
+  };
+
+  const renderMenu = () => (
+    <OrderMenu
+      isMenuVisible={isMenuVisible}
+      setIsMenuVisible={setIsMenuVisible}
+      onPressTspItem={handleOnPressTspMenuItem}
+    />
+  );
 
   const dateStartInputTextChange = (value: Date) =>
     !!value && setDateStartInputValue(value);
@@ -99,18 +146,22 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     }
 
     try {
+      const destinationsArrayId = destinationsArray.map(
+        (element) => element?._id
+      );
+
       const orderBody = {
         dateStart: dateStartInputValue,
         dateEnd: dateEndInputValue,
         forwarder: userId,
         provider: providerId,
-        destinations: destinationsIdArray,
-        placeStart: placeStartId,
+        destinations: destinationsArrayId,
+        placeStart: placeStart!._id,
         orderStatus: createOrderInitialStatus,
       };
 
-      // await mutate(createOrder(orderBody));
-      await createOrder(orderBody);
+      // @ts-ignore
+      await mutate(createOrder(orderBody));
 
       navigation.popToTop();
     } catch (error) {
@@ -133,14 +184,16 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 
           <Text style={styles.subTitleStyle}>Miejsce startu</Text>
           <StartPlaceSection
+            pressedItem={placeStart}
+            setPressedItem={setPlaceStart}
             places={placesData}
             isLoading={placesDataIsLoading}
-            setSelectedPlaceId={setPlaceStartId}
           />
           <Text style={styles.subTitleStyle}>Cele podróży</Text>
           <NewOrderDestinationsSection
+            approvedArray={destinationsArray}
+            setApprovedArray={setDestinationsArray}
             places={placesData}
-            setSelectedPlacesId={setDestinationsIdArray}
           />
           <Text style={styles.subTitleStyle}>Dostawca</Text>
           <ProviderSection
@@ -161,6 +214,15 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         text={"Dalej"}
         onPress={handleCreateOrder}
       />
+
+      {placeStart && isTspSectionVisible && (
+        <TspSection
+          visible={isTspSectionVisible}
+          hideModal={() => setIsTspSectionVisible(false)}
+          places={[placeStart, ...destinationsArray]}
+        />
+      )}
+      {renderMenu()}
     </>
   );
 };

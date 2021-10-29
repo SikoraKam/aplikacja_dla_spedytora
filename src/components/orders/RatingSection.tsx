@@ -3,7 +3,7 @@ import { Modal, Portal } from "react-native-paper";
 import { StyleSheet, Text, View } from "react-native";
 import { theme } from "../../theme";
 import { AirbnbRating } from "react-native-ratings";
-import { MainButtonComponent } from "../../components/MainButtonComponent";
+import { MainButtonComponent } from "../MainButtonComponent";
 
 type RatingSectionProps = {
   visible: boolean;

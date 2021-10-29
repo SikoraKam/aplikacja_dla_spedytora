@@ -12,6 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import { theme } from "../../theme";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NewOrderScreen } from "./NewOrderScreen";
+import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
 
 type HomeScreenStackProps = DrawerScreenProps<DrawerScreensParamList, "Home">;
 

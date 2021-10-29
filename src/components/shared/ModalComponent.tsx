@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Portal, Provider, Dialog } from "react-native-paper";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { Button, Portal, Dialog } from "react-native-paper";
+import { ScrollView, StyleSheet } from "react-native";
 import { theme } from "../../theme";
 
 type ModalComponentProps = {
@@ -40,7 +40,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
         <Dialog.ScrollArea style={{ flex: 1 }}>
           <ScrollView
             contentContainerStyle={{
-              maxHeight: 900,
+              maxHeight: 9000,
             }}
           >
             {renderContent()}
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     marginHorizontal: 28,
     marginVertical: 52,
-    height: 900,
+    height: 9000,
   },
   dialogActionsContainer: {
     right: 0,

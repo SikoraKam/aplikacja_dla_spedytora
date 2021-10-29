@@ -1,5 +1,5 @@
 import { ModalComponent } from "../shared/ModalComponent";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TileComponent } from "../shared/TileComponent";
 import { theme } from "../../theme";
@@ -8,25 +8,27 @@ import { PlaceObject } from "../../types/places/PlaceObject";
 
 type NewOrderDestinationsSectionProps = {
   places?: PlaceObject[];
-  setSelectedPlacesId?(ids: string[]): void;
   disabled?: boolean;
   initialDestinationsArray?: PlaceObject[];
+  approvedArray: PlaceObject[];
+  setApprovedArray?(value: PlaceObject[]): void;
 };
 
 export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionProps> = ({
   places,
-  setSelectedPlacesId,
   disabled = false,
   initialDestinationsArray = [],
+  approvedArray,
+  setApprovedArray = () => {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItemsArray, setSelectedItemsArray] = useState<PlaceObject[]>(
     []
   );
 
-  const [approvedArray, setApprovedArray] = useState<PlaceObject[]>(
-    initialDestinationsArray
-  );
+  useEffect(() => {
+    if (setApprovedArray) setApprovedArray(initialDestinationsArray);
+  }, []);
 
   const handleSelectItem = (placeElement: PlaceObject) => {
     const prevArray = [...selectedItemsArray];
@@ -45,15 +47,15 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   const handleApproveResults = () => {
     setApprovedArray(selectedItemsArray);
     setIsModalVisible(false);
-    if (selectedItemsArray && !!setSelectedPlacesId) {
-      setSelectedPlacesId(selectedItemsArray.map((element) => element._id));
+    if (selectedItemsArray && !!setApprovedArray) {
+      setApprovedArray(selectedItemsArray);
     }
   };
 
   const handleCancelResults = () => {
     setApprovedArray([]);
     setSelectedItemsArray([]);
-    if (!!setSelectedPlacesId) setSelectedPlacesId([]);
+    if (!!setApprovedArray) setApprovedArray([]);
   };
 
   const renderModalContent = () =>
