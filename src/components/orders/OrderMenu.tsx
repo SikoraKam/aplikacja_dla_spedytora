@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Overlay } from "../shared/Overlay";
 import { Button } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
@@ -8,18 +8,27 @@ type OrderMenu = {
   isMenuVisible: boolean;
   setIsMenuVisible(val: boolean): void;
   onPressTspItem(): void;
+  onPressMapItem?(): void;
+  isMapItemDisabled?: boolean;
 };
 
 export const OrderMenu: React.FC<OrderMenu> = ({
   onPressTspItem,
   isMenuVisible,
   setIsMenuVisible,
+  onPressMapItem,
+  isMapItemDisabled = false,
 }) => {
-  const renderButton = (text: string, onPress: () => void) => (
+  const renderButton = (
+    text: string,
+    onPress: () => void,
+    isDisabled = false
+  ) => (
     <View style={styles.dividerStyle}>
       <Button
         labelStyle={styles.buttonTextStyle}
         style={styles.buttonStyle}
+        disabled={isDisabled}
         onPress={() => {
           onPress();
           setIsMenuVisible(false);
@@ -38,6 +47,8 @@ export const OrderMenu: React.FC<OrderMenu> = ({
     >
       <View style={styles.menuStyle}>
         {renderButton("Wylicz optymalną trasę podróży", onPressTspItem)}
+        {!!onPressMapItem &&
+          renderButton("Podgląd mapy", onPressMapItem, isMapItemDisabled)}
       </View>
     </Overlay>
   );

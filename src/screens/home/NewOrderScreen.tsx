@@ -57,6 +57,9 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
   const tspArray = [placeStart, ...destinationsArray];
+  const availableDestinations = placesData.filter(
+    (element: PlaceObject) => element !== placeStart
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -122,10 +125,10 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 
   const validateDates = () => {
     const formattedDateStart = dateStartInputValue.setHours(0, 0, 0, 0);
-    const formattedEndStart = dateEndInputValue.setHours(0, 0, 0, 0);
-    const comparison = compareAsc(formattedDateStart, formattedEndStart);
+    const formattedDateEnd = dateEndInputValue.setHours(0, 0, 0, 0);
+    const comparison = compareAsc(formattedDateStart, formattedDateEnd);
 
-    if (!comparison) {
+    if (comparison >= 0) {
       displayOneButtonAlert(
         "Nieprawidłowa data",
         "Początek zlecenia nie może być po dacie zakończenia",
@@ -193,7 +196,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
           <NewOrderDestinationsSection
             approvedArray={destinationsArray}
             setApprovedArray={setDestinationsArray}
-            places={placesData}
+            places={availableDestinations}
           />
           <Text style={styles.subTitleStyle}>Dostawca</Text>
           <ProviderSection

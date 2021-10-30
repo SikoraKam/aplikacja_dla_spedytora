@@ -73,11 +73,19 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     setIsTspSectionVisible(true);
   };
 
+  const handleOnPressMapMenuItem = () => {
+    if (order.orderStatus === OrderStatusEnum.IN_PROGRESS) return;
+
+    navigation.push("PositionOnMapScreen", { order });
+  };
+
   const renderMenu = () => (
     <OrderMenu
       isMenuVisible={isMenuVisible}
       setIsMenuVisible={setIsMenuVisible}
       onPressTspItem={handleOnPressTspMenuItem}
+      onPressMapItem={handleOnPressMapMenuItem}
+      isMapItemDisabled={order.orderStatus === OrderStatusEnum.IN_PROGRESS}
     />
   );
 
