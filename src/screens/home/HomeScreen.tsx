@@ -2,18 +2,31 @@ import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/typ
 import { HomeScreenStackParamList } from "./HomeScreenStack";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
 import { theme } from "../../theme";
 import { OrdersListItem } from "../../components/orders/OrdersListItem";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
 import { logoutRequest } from "../../services/AuthService";
 import { useOrders } from "../../hooks/orders/useOrders";
 import { useProfileStore } from "../../store/useProfileStore";
+import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
+import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
+import { displayOneButtonAlert } from "../../utils/displayAlert";
+import { OrderObject } from "../../types/orders/OrderObject";
+import {
+  checkIfTaskUpdateLocationIsRegistered,
+  defineUpdateLocationTask,
+} from "../../services/TasksService";
+import { registerLocationListener } from "../../services/LocationService";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
+defineUpdateLocationTask();
+
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
-  const [lastThreeElements, setLastThreeElements] = useState([]);
+  const providerId = useProfileStore((state) => state._id);
+  const [lastThreeElements, setLastThreeElements] = useState<OrderObject[]>([]);
 
   const {
     orders: ordersData,
@@ -22,8 +35,37 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   } = useOrders(profileType);
 
   useEffect(() => {
+    if (!ordersData) return;
     setLastThreeElements(ordersData?.slice(-3).reverse());
+
+    checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
+      if (isRegistered) return;
+      startPositionUpdater();
+    });
   }, [ordersData]);
+
+  useEffect(() => {
+    checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
+      if (isRegistered) return;
+      startPositionUpdater();
+    });
+  }, []);
+
+  const startPositionUpdater = async () => {
+    if (profileType === ProfileTypeEnum.Forwarder) return;
+
+    const hasOrderInProgress = ordersData?.find(
+      (order) => order.orderStatus === OrderStatusEnum.IN_PROGRESS
+    );
+    if (!hasOrderInProgress || !providerId) return;
+
+    try {
+      await registerLocationListener();
+    } catch (error) {
+      console.log(error);
+      displayOneButtonAlert("Nie mogliśmy zaktualizować twojej lokalizacji");
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>

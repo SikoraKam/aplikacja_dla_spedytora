@@ -2,6 +2,7 @@ import axios from "../utils/axios";
 import { UpdateOrderPayload } from "../types/orders/UpdateOrderPayload";
 import { UpdateProviderRatingPayload } from "../types/user/UpdateProviderRatingPayload";
 import { UserObject } from "../types/user/UserObject";
+import { UpdateProviderPosition } from "../types/positions/UpdateProviderPosition";
 
 export const updateOrder = async (
   orderId: string,
@@ -17,4 +18,10 @@ export const updateProviderRating = async (
 ) => {
   const response = await axios.patch(`users/rating/${userId}`, body);
   // return response.data;
+};
+
+export const requestUpdateProviderPosition = async (
+  body: UpdateProviderPosition
+) => {
+  const response = await axios.patch(`positions/provider`, body);
 };
