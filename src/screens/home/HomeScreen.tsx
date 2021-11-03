@@ -78,9 +78,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <TouchableOpacity style={styles.historyButtonStyle}>
-        <Text style={styles.historyButtonHeadlineTextStyle}>
-          Historia Zleceń
-        </Text>
+        <Text style={styles.historyButtonHeadlineTextStyle}>{profileType}</Text>
         <Text style={styles.historyButtonSeeMoreTextStyle}>Zobacz więcej</Text>
       </TouchableOpacity>
 

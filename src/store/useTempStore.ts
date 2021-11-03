@@ -1,4 +1,4 @@
-import create from "zustand";
+import create, { SetState } from "zustand";
 
 interface TempStore {
   locationTaskFirstUpdateRequested: boolean;
@@ -8,16 +8,22 @@ interface TempStore {
   setLocationTaskFirstUpdateRequested(): void;
   setLocationTaskOnStartApplicationDefined(): void;
   setCreatePositionRequestWasSent(): void;
+  reset(): void;
 }
 
-export const useTempStore = create<TempStore>((set) => ({
+const getInitialState = (set: SetState<TempStore>) => ({
   locationTaskFirstUpdateRequested: false,
   locationTaskOnStartApplicationDefined: false,
+  createPositionRequestWasSent: false,
   setLocationTaskFirstUpdateRequested: () =>
     set(() => ({ locationTaskFirstUpdateRequested: true })),
   setLocationTaskOnStartApplicationDefined: () =>
     set(() => ({ locationTaskOnStartApplicationDefined: true })),
-  createPositionRequestWasSent: false,
   setCreatePositionRequestWasSent: () =>
     set(() => ({ createPositionRequestWasSent: true })),
+});
+
+export const useTempStore = create<TempStore>((set) => ({
+  ...getInitialState(set),
+  reset: () => set(() => getInitialState(set)),
 }));

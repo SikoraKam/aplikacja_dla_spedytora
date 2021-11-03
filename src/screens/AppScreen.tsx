@@ -3,13 +3,9 @@ import { AppScreenStack } from "./AppScreenStack";
 import { AuthScreenStack } from "./auth/AuthScreenStack";
 import { useAuthStore } from "../store/useAuthStore";
 import AppLoading from "expo-app-loading";
-import { useProfile } from "../hooks/user/useProfile";
-import useSWR from "swr";
-import { fetcher } from "../utils/fetcher";
 import { Text } from "react-native";
 import { useUser } from "../hooks/user/useUser";
 import { useProfileStore } from "../store/useProfileStore";
-import { logoutRequest } from "../services/AuthService";
 
 export const AppScreen: React.FC = () => {
   const token = useAuthStore((state) => state.token);
@@ -21,12 +17,20 @@ export const AppScreen: React.FC = () => {
   console.log(token);
 
   const [isReady, setIsReady] = useState(false);
+  console.log("IS READY ---> ", isReady);
 
   const {
     user: userData,
     isLoading: userDataIsLoading,
     isError: userDataError,
+    mutate,
   } = useUser();
+
+  useEffect(() => {
+    if (token) {
+      mutate();
+    }
+  }, [token]);
 
   useEffect(() => {
     if (userData && !userDataError) {
@@ -34,7 +38,7 @@ export const AppScreen: React.FC = () => {
       setUserId(userData?._id);
       setIsReady(true);
     }
-  }, [userData, userDataError]);
+  }, [userData, userDataError, isAuthenticated]);
 
   if (isAuthenticated) {
     if (userDataError) {
