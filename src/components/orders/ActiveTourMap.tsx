@@ -5,6 +5,7 @@ import { RegionObject } from "../../types/places/RegionObject";
 import { PlaceObject } from "../../types/places/PlaceObject";
 import { handlePress } from "react-native-paper/lib/typescript/components/RadioButton/utils";
 import { PositionResponse } from "../../types/positions/PositionResponse";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type ActiveTourMapProps = {
   initialRegion: Region;
@@ -46,10 +47,11 @@ export const ActiveTourMap: React.FC<ActiveTourMapProps> = ({
             latitude: providerPosition.latitude,
             longitude: providerPosition.longitude,
           }}
-          pinColor={"blue"}
           title={providerLastName}
           description={"HEHEH"}
-        />
+        >
+          <MaterialCommunityIcons name="van-utility" size={30} />
+        </Marker>
         {destinations?.map((element) => (
           <Marker
             coordinate={{

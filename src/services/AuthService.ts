@@ -30,7 +30,7 @@ export const loginRequest = async (email: string, password: string) => {
 
 export const logoutRequest = async () => {
   // await axios.post("auth/logout");
-  stopLocationUpdate();
+  await stopLocationUpdate();
   await deleteToken();
   useAuthStore.setState({ token: null });
 };

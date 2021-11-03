@@ -79,7 +79,10 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
         <View style={styles.tilesContainerStyle}>
           {approvedArray.length ? (
             approvedArray.map((element: PlaceObject) => (
-              <TileComponent name={element.name} />
+              <TileComponent
+                name={element.name}
+                description={element?.address}
+              />
             ))
           ) : (
             <Text style={styles.emptyDestinationsTextStyle}>
