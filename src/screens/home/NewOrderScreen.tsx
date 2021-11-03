@@ -57,7 +57,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
   const tspArray = [placeStart, ...destinationsArray];
-  const availableDestinations = placesData.filter(
+  const availableDestinations = placesData?.filter(
     (element: PlaceObject) => element !== placeStart
   );
 

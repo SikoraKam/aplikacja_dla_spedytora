@@ -9,13 +9,11 @@ import * as Location from "expo-location";
 import { TASK_UPDATE_LOCATION } from "./TasksService";
 
 export const registerLocationListener = async () => {
-  const foregroundPermissionStatus = await checkForegroundLocationPermission();
-  const backgroundPermissionStatus = await checkBackgroundLocationPermission();
+  console.log("REGISTER LOCATION LISTENER");
+  const foregroundPermission = await checkForegroundLocationPermission();
+  const backgroundPermission = await checkBackgroundLocationPermission();
 
-  if (
-    foregroundPermissionStatus !== "granted" ||
-    backgroundPermissionStatus !== "granted"
-  ) {
+  if (!foregroundPermission || !backgroundPermission) {
     const foregroundRequestedPermission = await requestForegroundLocationPermission();
     const backgroundRequestedPermission = await requestBackgroundLocationPermission();
 
@@ -27,11 +25,12 @@ export const registerLocationListener = async () => {
       return;
     }
   }
+  console.log("After permission ---> ");
 
   await Location.startLocationUpdatesAsync(TASK_UPDATE_LOCATION, {
     accuracy: Location.Accuracy.Highest,
-    distanceInterval: 1000, // minimum change (in meters) betweens updates
-    deferredUpdatesInterval: 30000, // minimum interval (in milliseconds) between updates
+    distanceInterval: 1, // minimum change (in meters) between updates
+    deferredUpdatesInterval: 1000, // minimum interval (in milliseconds) between updates
     // foregroundService is how you get the task to be updated as often as would be if the app was open
     foregroundService: {
       notificationTitle: "Using your location",
@@ -39,4 +38,8 @@ export const registerLocationListener = async () => {
         "To turn off, go back to the app and switch something off.",
     },
   });
+};
+
+export const stopLocationUpdate = async () => {
+  await Location.stopLocationUpdatesAsync(TASK_UPDATE_LOCATION);
 };

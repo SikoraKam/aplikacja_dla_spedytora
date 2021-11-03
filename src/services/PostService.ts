@@ -16,7 +16,7 @@ export const solveTsp = async (body: PlaceObject[]) => {
 };
 
 //positions
-export const createPosition = async (body: {
+export const createPositionRequest = async (body: {
   latitude: number;
   longitude: number;
 }) => {

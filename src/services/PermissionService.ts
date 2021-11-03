@@ -12,10 +12,18 @@ export const requestBackgroundLocationPermission = async () => {
 
 export const checkForegroundLocationPermission = async () => {
   const { status } = await Location.getForegroundPermissionsAsync();
-  return status;
+  return status === "granted";
 };
 
 export const checkBackgroundLocationPermission = async () => {
   const { status } = await Location.getBackgroundPermissionsAsync();
-  return status;
+  return status === "granted";
+};
+
+export const requestLocationPermissionIfNotSet = async () => {
+  const foreground = await checkForegroundLocationPermission();
+  const background = await checkBackgroundLocationPermission();
+
+  if (!foreground) await requestForegroundLocationPermission();
+  if (!background) await requestBackgroundLocationPermission();
 };

@@ -19,6 +19,9 @@ import { RatingSection } from "../../components/orders/RatingSection";
 import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
 import { OrderMenu } from "../../components/orders/OrderMenu";
 import { TspSection } from "../../components/orders/TspSection";
+import { registerLocationListener } from "../../services/LocationService";
+import { useTempStore } from "../../store/useTempStore";
+import shallow from "zustand/shallow";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -30,6 +33,18 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   navigation,
 }) => {
   const profileType = useProfileStore((state) => state.profileType);
+  const [
+    locationTaskFirstUpdateRequested,
+    locationTaskOnStartApplicationDefined,
+    setLocationTaskFirstUpdateRequested,
+  ] = useTempStore(
+    (state) => [
+      state.locationTaskFirstUpdateRequested,
+      state.locationTaskOnStartApplicationDefined,
+      state.setLocationTaskFirstUpdateRequested,
+    ],
+    shallow
+  );
   const { mutate } = useOrders(profileType);
 
   const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
@@ -130,6 +145,21 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   };
 
   const requestUpdateOrder = async (newOrderStatus: OrderStatusEnum) => {
+    const locationListenerIsRegistered =
+      locationTaskOnStartApplicationDefined || locationTaskFirstUpdateRequested;
+    if (
+      newOrderStatus === OrderStatusEnum.IN_PROGRESS &&
+      !locationListenerIsRegistered
+    ) {
+      try {
+        console.log("IN PROGRESS");
+        await registerLocationListener();
+        setLocationTaskFirstUpdateRequested();
+      } catch (e) {
+        displayOneButtonAlert("Nie można pobrac lokalizacji");
+      }
+    }
+
     const newOrderBody = {
       orderStatus: newOrderStatus,
     };

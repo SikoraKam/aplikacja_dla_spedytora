@@ -13,11 +13,11 @@ import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { displayOneButtonAlert } from "../../utils/displayAlert";
 import { OrderObject } from "../../types/orders/OrderObject";
-import {
-  checkIfTaskUpdateLocationIsRegistered,
-  defineUpdateLocationTask,
-} from "../../services/TasksService";
+import { defineUpdateLocationTask } from "../../services/TasksService";
 import { registerLocationListener } from "../../services/LocationService";
+import { requestLocationPermissionIfNotSet } from "../../services/PermissionService";
+import { useTempStore } from "../../store/useTempStore";
+import shallow from "zustand/shallow";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -25,7 +25,18 @@ defineUpdateLocationTask();
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
-  const providerId = useProfileStore((state) => state._id);
+  const [
+    locationTaskFirstUpdateRequested,
+    locationTaskOnStartApplicationDefined,
+    setLocationTaskOnStartApplicationDefined,
+  ] = useTempStore(
+    (state) => [
+      state.locationTaskFirstUpdateRequested,
+      state.locationTaskOnStartApplicationDefined,
+      state.setLocationTaskOnStartApplicationDefined,
+    ],
+    shallow
+  );
   const [lastThreeElements, setLastThreeElements] = useState<OrderObject[]>([]);
 
   const {
@@ -38,29 +49,47 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     if (!ordersData) return;
     setLastThreeElements(ordersData?.slice(-3).reverse());
 
-    checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
-      if (isRegistered) return;
-      startPositionUpdater();
-    });
+    // checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
+    //   if (isRegistered) return;
+    //   startPositionUpdater();
+    // });
+    if (profileType === ProfileTypeEnum.Forwarder) return;
+    requestLocationPermissionIfNotSet();
+    startPositionUpdater().catch((error) => console.log(error));
+    console.log("DID UPDATE");
   }, [ordersData]);
 
   useEffect(() => {
-    checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
-      if (isRegistered) return;
-      startPositionUpdater();
-    });
+    // checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
+    //   if (isRegistered) return;
+    //   startPositionUpdater();
+    // });
+    // if (profileType === ProfileTypeEnum.Forwarder) return;
+    // requestLocationPermissionIfNotSet();
+    // console.log("DID MOUNT FOR PROVIDER");
+    // startPositionUpdater().catch((error) => console.log(error));
   }, []);
 
   const startPositionUpdater = async () => {
-    if (profileType === ProfileTypeEnum.Forwarder) return;
+    const locationListenerIsRegistered =
+      locationTaskFirstUpdateRequested || locationTaskOnStartApplicationDefined;
+    if (locationListenerIsRegistered) {
+      console.log("locationListenerIsRegistered");
+      return;
+    }
 
     const hasOrderInProgress = ordersData?.find(
       (order) => order.orderStatus === OrderStatusEnum.IN_PROGRESS
     );
-    if (!hasOrderInProgress || !providerId) return;
+    if (!hasOrderInProgress) {
+      console.log("dooesnt have order in Progress");
+      return;
+    }
 
     try {
+      console.log("Start position updater in Home screen");
       await registerLocationListener();
+      setLocationTaskOnStartApplicationDefined();
     } catch (error) {
       console.log(error);
       displayOneButtonAlert("Nie mogliśmy zaktualizować twojej lokalizacji");
