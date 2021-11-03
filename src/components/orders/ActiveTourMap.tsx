@@ -4,17 +4,22 @@ import { StyleSheet, View } from "react-native";
 import { RegionObject } from "../../types/places/RegionObject";
 import { PlaceObject } from "../../types/places/PlaceObject";
 import { handlePress } from "react-native-paper/lib/typescript/components/RadioButton/utils";
+import { PositionResponse } from "../../types/positions/PositionResponse";
 
 type ActiveTourMapProps = {
   initialRegion: Region;
   placeStart: PlaceObject;
   destinations: PlaceObject[];
+  providerPosition: PositionResponse;
+  providerLastName: string;
 };
 
 export const ActiveTourMap: React.FC<ActiveTourMapProps> = ({
   initialRegion,
   placeStart,
   destinations,
+  providerPosition,
+  providerLastName,
 }) => {
   const mapRef = useRef<MapView | null>(null);
 
@@ -35,6 +40,15 @@ export const ActiveTourMap: React.FC<ActiveTourMapProps> = ({
           pinColor={"tan"}
           title={placeStart.name}
           description={placeStart.address}
+        />
+        <Marker
+          coordinate={{
+            latitude: providerPosition.latitude,
+            longitude: providerPosition.longitude,
+          }}
+          pinColor={"blue"}
+          title={providerLastName}
+          description={"HEHEH"}
         />
         {destinations?.map((element) => (
           <Marker
