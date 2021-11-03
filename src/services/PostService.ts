@@ -22,3 +22,7 @@ export const createPositionRequest = async (body: {
 }) => {
   const response = await axios.post("positions");
 };
+
+export const deletePositionRequest = async (providerId: string) => {
+  await axios.delete(`positions/provider/${providerId}`);
+};

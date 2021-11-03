@@ -9,7 +9,6 @@ import * as Location from "expo-location";
 import { TASK_UPDATE_LOCATION } from "./TasksService";
 
 export const registerLocationListener = async () => {
-  console.log("REGISTER LOCATION LISTENER");
   const foregroundPermission = await checkForegroundLocationPermission();
   const backgroundPermission = await checkBackgroundLocationPermission();
 
@@ -25,12 +24,10 @@ export const registerLocationListener = async () => {
       return;
     }
   }
-  console.log("After permission ---> ");
-
   await Location.startLocationUpdatesAsync(TASK_UPDATE_LOCATION, {
     accuracy: Location.Accuracy.Highest,
-    distanceInterval: 1, // minimum change (in meters) between updates
-    deferredUpdatesInterval: 1000, // minimum interval (in milliseconds) between updates
+    distanceInterval: 2, // minimum change (in meters) between updates
+    deferredUpdatesInterval: 3000, // minimum interval (in milliseconds) between updates
     // foregroundService is how you get the task to be updated as often as would be if the app was open
     foregroundService: {
       notificationTitle: "Using your location",

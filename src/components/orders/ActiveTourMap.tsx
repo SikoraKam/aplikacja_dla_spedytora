@@ -1,9 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import MapView, { Marker, Region } from "react-native-maps";
 import { StyleSheet, View } from "react-native";
-import { RegionObject } from "../../types/places/RegionObject";
 import { PlaceObject } from "../../types/places/PlaceObject";
-import { handlePress } from "react-native-paper/lib/typescript/components/RadioButton/utils";
 import { PositionResponse } from "../../types/positions/PositionResponse";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -11,7 +9,7 @@ type ActiveTourMapProps = {
   initialRegion: Region;
   placeStart: PlaceObject;
   destinations: PlaceObject[];
-  providerPosition: PositionResponse;
+  providerPosition?: PositionResponse;
   providerLastName: string;
 };
 
@@ -38,20 +36,22 @@ export const ActiveTourMap: React.FC<ActiveTourMapProps> = ({
             latitude: placeStart.latitude,
             longitude: placeStart.longitude,
           }}
-          pinColor={"tan"}
           title={placeStart.name}
           description={placeStart.address}
-        />
-        <Marker
-          coordinate={{
-            latitude: providerPosition.latitude,
-            longitude: providerPosition.longitude,
-          }}
-          title={providerLastName}
-          description={"HEHEH"}
         >
-          <MaterialCommunityIcons name="van-utility" size={30} />
+          <MaterialCommunityIcons name="home" size={30} />
         </Marker>
+        {providerPosition && (
+          <Marker
+            coordinate={{
+              latitude: providerPosition?.latitude,
+              longitude: providerPosition?.longitude,
+            }}
+            title={providerLastName}
+          >
+            <MaterialCommunityIcons name="van-utility" size={30} />
+          </Marker>
+        )}
         {destinations?.map((element) => (
           <Marker
             coordinate={{
@@ -61,7 +61,9 @@ export const ActiveTourMap: React.FC<ActiveTourMapProps> = ({
             key={element._id}
             title={element.name}
             description={element.address}
-          />
+          >
+            <MaterialCommunityIcons name="map-marker-down" size={30} />
+          </Marker>
         ))}
       </MapView>
     </View>

@@ -29,6 +29,7 @@ export const PositionOnMapScreen: React.FC<PositionOnMapScreenProps> = ({
   };
 
   if (isLoading) return <ActivityIndicator color={"blue"} />;
+
   return (
     <View style={styles.screenContainer}>
       <ActiveTourMap

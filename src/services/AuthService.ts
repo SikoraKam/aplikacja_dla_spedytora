@@ -3,6 +3,7 @@ import { deleteToken, setToken } from "../utils/tokenUtils";
 import { ProfileTypeEnum } from "../types/user/ProfileTypeEnum";
 import { useAuthStore } from "../store/useAuthStore";
 import { stopLocationUpdate } from "./LocationService";
+import { checkIfTaskUpdateLocationIsRegistered } from "./TasksService";
 
 export const registerRequest = async (
   name: string,
@@ -30,7 +31,10 @@ export const loginRequest = async (email: string, password: string) => {
 
 export const logoutRequest = async () => {
   // await axios.post("auth/logout");
-  await stopLocationUpdate();
+  const locationTaskIsActive = await checkIfTaskUpdateLocationIsRegistered();
+  if (locationTaskIsActive) {
+    await stopLocationUpdate();
+  }
   await deleteToken();
   useAuthStore.setState({ token: null });
 };

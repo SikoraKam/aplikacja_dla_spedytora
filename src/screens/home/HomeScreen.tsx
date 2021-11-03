@@ -49,45 +49,22 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     if (!ordersData) return;
     setLastThreeElements(ordersData?.slice(-3).reverse());
 
-    // checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
-    //   if (isRegistered) return;
-    //   startPositionUpdater();
-    // });
     if (profileType === ProfileTypeEnum.Forwarder) return;
     requestLocationPermissionIfNotSet();
     startPositionUpdater().catch((error) => console.log(error));
-    console.log("DID UPDATE");
   }, [ordersData]);
-
-  useEffect(() => {
-    // checkIfTaskUpdateLocationIsRegistered().then((isRegistered) => {
-    //   if (isRegistered) return;
-    //   startPositionUpdater();
-    // });
-    // if (profileType === ProfileTypeEnum.Forwarder) return;
-    // requestLocationPermissionIfNotSet();
-    // console.log("DID MOUNT FOR PROVIDER");
-    // startPositionUpdater().catch((error) => console.log(error));
-  }, []);
 
   const startPositionUpdater = async () => {
     const locationListenerIsRegistered =
       locationTaskFirstUpdateRequested || locationTaskOnStartApplicationDefined;
-    if (locationListenerIsRegistered) {
-      console.log("locationListenerIsRegistered");
-      return;
-    }
+    if (locationListenerIsRegistered) return;
 
     const hasOrderInProgress = ordersData?.find(
       (order) => order.orderStatus === OrderStatusEnum.IN_PROGRESS
     );
-    if (!hasOrderInProgress) {
-      console.log("dooesnt have order in Progress");
-      return;
-    }
+    if (!hasOrderInProgress) return;
 
     try {
-      console.log("Start position updater in Home screen");
       await registerLocationListener();
       setLocationTaskOnStartApplicationDefined();
     } catch (error) {

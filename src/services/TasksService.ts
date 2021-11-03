@@ -7,7 +7,6 @@ import { createPositionRequest } from "./PostService";
 export const TASK_UPDATE_LOCATION = "TASK_UPDATE_LOCATION";
 
 export const defineUpdateLocationTask = () => {
-  console.log("DEFINE LOCATION TASK ++++++");
   TaskManager.defineTask(
     TASK_UPDATE_LOCATION,
     // @ts-ignore
@@ -18,11 +17,16 @@ export const defineUpdateLocationTask = () => {
       }
       const createPositionRequestWasSent = useTempStore.getState()
         .createPositionRequestWasSent;
-      console.log("LOCATIONS Latitude-> ", locations[0].coords.latitude);
+      const locationTaskOnStartApplicationDefined = useTempStore.getState()
+        .locationTaskOnStartApplicationDefined;
       const latitude = locations[0].coords.latitude;
       const longitude = locations[0].coords.longitude;
+      console.log("LOCATIONS Latitude-> ", locations[0].coords.latitude);
       try {
         if (createPositionRequestWasSent) {
+          await requestUpdateProviderPosition({ latitude, longitude });
+        } // if locationTaskOnStartApplicationDefined is true that means user had other order inProgress
+        else if (locationTaskOnStartApplicationDefined) {
           await requestUpdateProviderPosition({ latitude, longitude });
         } else {
           await createPositionRequest({ latitude, longitude });
