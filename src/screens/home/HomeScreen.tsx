@@ -47,7 +47,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     if (!ordersData) return;
-    setLastThreeElements(ordersData?.slice(-3).reverse());
+    const newOrdersArray = [...ordersData?.slice(-3)];
+    newOrdersArray.reverse();
+    setLastThreeElements(newOrdersArray);
 
     if (profileType === ProfileTypeEnum.Forwarder) return;
     requestLocationPermissionIfNotSet();
@@ -84,7 +86,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <View>
         {lastThreeElements?.map((element) => (
-          <OrdersListItem orderItem={element} />
+          <OrdersListItem key={element._id} orderItem={element} />
         ))}
       </View>
 
