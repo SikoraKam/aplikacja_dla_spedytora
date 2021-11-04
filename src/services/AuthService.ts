@@ -42,7 +42,7 @@ export const logoutRequest = async () => {
   resetStores();
 };
 
-const resetStores = () => {
+export const resetStores = () => {
   const resetProfileStore = useProfileStore.getState().reset;
   const resetTempStore = useTempStore.getState().reset;
   const resetAuthStore = useAuthStore.getState().reset;
