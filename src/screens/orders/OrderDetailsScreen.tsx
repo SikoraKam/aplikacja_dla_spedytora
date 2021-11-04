@@ -94,7 +94,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   };
 
   const handleOnPressMapMenuItem = () => {
-    if (order.orderStatus !== OrderStatusEnum.IN_PROGRESS) return;
+    // if (order.orderStatus === OrderStatusEnum.IN_PROGRESS) return;
 
     navigation.push("PositionOnMapScreen", { order });
   };
@@ -105,7 +105,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
       setIsMenuVisible={setIsMenuVisible}
       onPressTspItem={handleOnPressTspMenuItem}
       onPressMapItem={handleOnPressMapMenuItem}
-      isMapItemDisabled={order.orderStatus !== OrderStatusEnum.IN_PROGRESS}
+      // isMapItemDisabled={order.orderStatus !== OrderStatusEnum.IN_PROGRESS}
     />
   );
 
