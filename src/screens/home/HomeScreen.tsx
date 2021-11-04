@@ -84,7 +84,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <View>
         {lastThreeElements?.map((element) => (
-          <OrdersListItem key={element._id} orderItem={element} />
+          <OrdersListItem
+            key={element._id}
+            orderItem={element}
+            onPress={() =>
+              // @ts-ignore
+              navigation.navigate("OrderDetailsScreen", { order: element })
+            }
+          />
         ))}
       </View>
 
