@@ -31,7 +31,9 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     if (!ordersData) return;
-    setOrdersArray([...ordersData]);
+    const newOrdersArray = [...ordersData];
+    newOrdersArray.reverse();
+    setOrdersArray(newOrdersArray);
   }, [ordersData]);
 
   const onPressItem = (item: OrderObject) => {
@@ -50,7 +52,11 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
     <View style={styles.screenContainer}>
       <View style={styles.ordersList}>
         {!isOrdersDataLoading ? (
-          <FlatList data={ordersArray.reverse()} renderItem={renderListItem} />
+          <FlatList
+            keyExtractor={(item) => item._id}
+            data={ordersArray}
+            renderItem={renderListItem}
+          />
         ) : (
           <Text>Loading</Text>
         )}

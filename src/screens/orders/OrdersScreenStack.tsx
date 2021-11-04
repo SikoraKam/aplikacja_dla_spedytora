@@ -7,6 +7,8 @@ import { DrawerIcon } from "../home/HomeScreenStack";
 import { OrdersScreen } from "./OrdersScreen";
 import { OrderDetailsRouteParams } from "../../types/routeParameters/OrderDetailsRouteParams";
 import { OrderDetailsScreen } from "./OrderDetailsScreen";
+import { PositionOnMapRouteParams } from "../../types/routeParameters/PositionOnMapRouteParams";
+import { PositionOnMapScreen } from "./PositionOnMapScreen";
 
 type OrdersScreenStackProps = DrawerScreenProps<
   DrawerScreensParamList,
@@ -16,6 +18,7 @@ type OrdersScreenStackProps = DrawerScreenProps<
 export type OrdersScreenStackParamList = {
   OrdersScreen: undefined;
   OrderDetailsScreen: OrderDetailsRouteParams;
+  PositionOnMapScreen: PositionOnMapRouteParams;
 };
 
 const Stack = createStackNavigator<OrdersScreenStackParamList>();
@@ -34,6 +37,10 @@ export const OrdersScreenStack: React.FC<OrdersScreenStackProps> = ({
         options={{ headerLeft: DrawerIcon }}
       />
       <Stack.Screen name="OrderDetailsScreen" component={OrderDetailsScreen} />
+      <Stack.Screen
+        name="PositionOnMapScreen"
+        component={PositionOnMapScreen}
+      />
     </Stack.Navigator>
   );
 };

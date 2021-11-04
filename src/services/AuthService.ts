@@ -2,6 +2,10 @@ import axios from "../utils/axios";
 import { deleteToken, setToken } from "../utils/tokenUtils";
 import { ProfileTypeEnum } from "../types/user/ProfileTypeEnum";
 import { useAuthStore } from "../store/useAuthStore";
+import { stopLocationUpdate } from "./LocationService";
+import { checkIfTaskUpdateLocationIsRegistered } from "./TasksService";
+import { useProfileStore } from "../store/useProfileStore";
+import { useTempStore } from "../store/useTempStore";
 
 export const registerRequest = async (
   name: string,
@@ -29,6 +33,21 @@ export const loginRequest = async (email: string, password: string) => {
 
 export const logoutRequest = async () => {
   // await axios.post("auth/logout");
+  const locationTaskIsActive = await checkIfTaskUpdateLocationIsRegistered();
+  if (locationTaskIsActive) {
+    await stopLocationUpdate();
+  }
   await deleteToken();
-  useAuthStore.setState({ token: null });
+  // useAuthStore.setState({ token: null });
+  resetStores();
+};
+
+const resetStores = () => {
+  const resetProfileStore = useProfileStore.getState().reset;
+  const resetTempStore = useTempStore.getState().reset;
+  const resetAuthStore = useAuthStore.getState().reset;
+
+  resetAuthStore();
+  resetProfileStore();
+  resetTempStore();
 };

@@ -19,6 +19,14 @@ import { RatingSection } from "../../components/orders/RatingSection";
 import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
 import { OrderMenu } from "../../components/orders/OrderMenu";
 import { TspSection } from "../../components/orders/TspSection";
+import {
+  registerLocationListener,
+  stopLocationUpdate,
+} from "../../services/LocationService";
+import { useTempStore } from "../../store/useTempStore";
+import shallow from "zustand/shallow";
+import { deletePositionRequest } from "../../services/PostService";
+import { checkIfTaskUpdateLocationIsRegistered } from "../../services/TasksService";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -30,6 +38,18 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   navigation,
 }) => {
   const profileType = useProfileStore((state) => state.profileType);
+  const [
+    locationTaskFirstUpdateRequested,
+    locationTaskOnStartApplicationDefined,
+    setLocationTaskFirstUpdateRequested,
+  ] = useTempStore(
+    (state) => [
+      state.locationTaskFirstUpdateRequested,
+      state.locationTaskOnStartApplicationDefined,
+      state.setLocationTaskFirstUpdateRequested,
+    ],
+    shallow
+  );
   const { mutate } = useOrders(profileType);
 
   const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
@@ -73,11 +93,19 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     setIsTspSectionVisible(true);
   };
 
+  const handleOnPressMapMenuItem = () => {
+    if (order.orderStatus !== OrderStatusEnum.IN_PROGRESS) return;
+
+    navigation.push("PositionOnMapScreen", { order });
+  };
+
   const renderMenu = () => (
     <OrderMenu
       isMenuVisible={isMenuVisible}
       setIsMenuVisible={setIsMenuVisible}
       onPressTspItem={handleOnPressTspMenuItem}
+      onPressMapItem={handleOnPressMapMenuItem}
+      isMapItemDisabled={order.orderStatus !== OrderStatusEnum.IN_PROGRESS}
     />
   );
 
@@ -122,6 +150,28 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   };
 
   const requestUpdateOrder = async (newOrderStatus: OrderStatusEnum) => {
+    const locationListenerIsRegistered =
+      locationTaskOnStartApplicationDefined || locationTaskFirstUpdateRequested;
+    if (
+      newOrderStatus === OrderStatusEnum.IN_PROGRESS &&
+      !locationListenerIsRegistered
+    ) {
+      try {
+        await registerLocationListener();
+        setLocationTaskFirstUpdateRequested();
+      } catch (e) {
+        displayOneButtonAlert("Nie można pobrac lokalizacji");
+      }
+    }
+
+    if (newOrderStatus === OrderStatusEnum.COMPLETED) {
+      await deletePositionRequest(order.provider._id);
+      const locationTaskIsActive = await checkIfTaskUpdateLocationIsRegistered();
+      if (locationTaskIsActive) {
+        await stopLocationUpdate();
+      }
+    }
+
     const newOrderBody = {
       orderStatus: newOrderStatus,
     };

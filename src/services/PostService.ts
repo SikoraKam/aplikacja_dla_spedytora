@@ -14,3 +14,15 @@ export const solveTsp = async (body: PlaceObject[]) => {
   const response = await axios.post("places/tsp", body);
   return response.data;
 };
+
+//positions
+export const createPositionRequest = async (body: {
+  latitude: number;
+  longitude: number;
+}) => {
+  const response = await axios.post("positions");
+};
+
+export const deletePositionRequest = async (providerId: string) => {
+  await axios.delete(`positions/provider/${providerId}`);
+};
