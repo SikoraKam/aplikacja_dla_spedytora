@@ -1,8 +1,9 @@
 import useSWR from "swr";
 import { fetcher } from "../../utils/fetcher";
+import { QUERY_PROFILE } from "../../constants/queryConstants";
 
 export const useProfile = () => {
-  const { data, error } = useSWR(`profile`, fetcher);
+  const { data, error } = useSWR(`${QUERY_PROFILE}`, fetcher);
 
   return {
     user: data,

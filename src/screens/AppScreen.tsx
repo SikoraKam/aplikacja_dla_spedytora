@@ -46,7 +46,8 @@ export const AppScreen: React.FC = () => {
   if (isAuthenticated) {
     if (userDataError) {
       console.log("=====> ", userDataError);
-      // logoutRequest();
+      console.log(":: ", JSON.stringify(userDataError));
+      console.log("-->  ", userDataError.message);
     }
 
     if (!isReady) {
