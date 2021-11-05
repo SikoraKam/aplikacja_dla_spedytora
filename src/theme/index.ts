@@ -112,6 +112,7 @@ export const theme = {
   },
   defaultTextStyle: {
     textAlign: "center",
+    color: colors.darkBlackGreen,
   },
   defaultIconHeaderStyle: {
     color: colors.darkBlackGreen,

@@ -14,6 +14,9 @@ export const AppScreen: React.FC = () => {
     useCallback((state) => state.setProfileType, [])
   );
   const setUserId = useProfileStore(useCallback((state) => state.setId, []));
+  const setNameAndLastName = useProfileStore(
+    useCallback((state) => state.setNameAndLastName, [])
+  );
   const isAuthenticated = token !== null;
   console.log(token);
 
@@ -23,25 +26,29 @@ export const AppScreen: React.FC = () => {
     user: userData,
     isLoading: userDataIsLoading,
     isError: userDataError,
-    mutate,
+    mutate: mutateUser,
   } = useUser();
 
   useEffect(() => {
     if (token) {
-      mutate();
-    }
-    if (!token) {
-      resetStores();
+      mutateUser();
+    } else {
+      // resetStores();
     }
   }, [token]);
 
   useEffect(() => {
     if (userData && !userDataError) {
-      setProfileType(userData?.profileType);
-      setUserId(userData?._id);
+      setUserProfileData();
       setIsReady(true);
     }
   }, [userData, userDataError, isAuthenticated]);
+
+  const setUserProfileData = () => {
+    setProfileType(userData?.profileType);
+    setUserId(userData?._id);
+    setNameAndLastName(`${userData.name} ${userData.lastName}`);
+  };
 
   if (isAuthenticated) {
     if (userDataError) {

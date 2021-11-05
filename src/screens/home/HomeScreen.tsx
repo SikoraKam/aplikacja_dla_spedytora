@@ -1,10 +1,9 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { theme } from "../../theme";
-import { OrdersListItem } from "../../components/orders/OrdersListItem";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
 import { logoutRequest } from "../../services/AuthService";
 import { useOrders } from "../../hooks/orders/useOrders";
@@ -18,6 +17,9 @@ import { registerLocationListener } from "../../services/LocationService";
 import { requestLocationPermissionIfNotSet } from "../../services/PermissionService";
 import { useTempStore } from "../../store/useTempStore";
 import shallow from "zustand/shallow";
+import { ActualOrders } from "../../components/home/ActualOrders";
+import { HistoryOrders } from "../../components/home/HistoryOrders";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -25,6 +27,8 @@ defineUpdateLocationTask();
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
+  const userNameAndLastName = useProfileStore((state) => state.nameAndLastName);
+
   const [
     locationTaskFirstUpdateRequested,
     locationTaskOnStartApplicationDefined,
@@ -37,7 +41,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     ],
     shallow
   );
-  const [lastThreeElements, setLastThreeElements] = useState<OrderObject[]>([]);
+  const [lastThreeActualOrders, setLastThreeActualOrders] = useState<
+    OrderObject[]
+  >([]);
+  const [completedOrdersToDisplay, setCompletedOrdersToDisplay] = useState<
+    OrderObject[]
+  >([]);
 
   const {
     orders: ordersData,
@@ -45,16 +54,35 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     isError: isOrdersDataError,
   } = useOrders(profileType);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: profileType?.toUpperCase(),
+    });
+  }, [navigation]);
+
   useEffect(() => {
     if (!ordersData) return;
-    const newOrdersArray = [...ordersData?.slice(-3)];
-    newOrdersArray.reverse();
-    setLastThreeElements(newOrdersArray);
+    divideOrdersIntoArrays(ordersData);
 
     if (profileType === ProfileTypeEnum.Forwarder) return;
     requestLocationPermissionIfNotSet();
     startPositionUpdater().catch((error) => console.log(error));
   }, [ordersData]);
+
+  const divideOrdersIntoArrays = (ordersArray: OrderObject[]) => {
+    const newOrdersArray = [...ordersArray];
+    newOrdersArray.reverse();
+    const lastThreeActualOrders = newOrdersArray
+      .filter((order) => order.orderStatus !== OrderStatusEnum.COMPLETED)
+      .slice(0, 3);
+
+    const completedArray = newOrdersArray
+      .filter((order) => order.orderStatus === OrderStatusEnum.COMPLETED)
+      .slice(0, 4 - lastThreeActualOrders.length);
+
+    setLastThreeActualOrders(lastThreeActualOrders);
+    setCompletedOrdersToDisplay(completedArray);
+  };
 
   const startPositionUpdater = async () => {
     const locationListenerIsRegistered =
@@ -74,26 +102,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       displayOneButtonAlert("Nie mogliśmy zaktualizować twojej lokalizacji");
     }
   };
-
   return (
-    <View style={{ flex: 1 }}>
-      <TouchableOpacity style={styles.historyButtonStyle}>
-        <Text style={styles.historyButtonHeadlineTextStyle}>{profileType}</Text>
-        <Text style={styles.historyButtonSeeMoreTextStyle}>Zobacz więcej</Text>
-      </TouchableOpacity>
+    <ScrollView style={{ flex: 1 }}>
+      <ActualOrders lastThreeNotCompletedOrders={lastThreeActualOrders} />
+      <HistoryOrders slicedCompletedOrders={completedOrdersToDisplay} />
 
-      <View>
-        {lastThreeElements?.map((element) => (
-          <OrdersListItem
-            key={element._id}
-            orderItem={element}
-            onPress={() =>
-              // @ts-ignore
-              navigation.navigate("OrderDetailsScreen", { order: element })
-            }
-          />
-        ))}
-      </View>
+      <TouchableOpacity
+        style={styles.loadMoreIconContainer}
+        onPress={() => navigation.navigate("OrdersScreen")}
+      >
+        <MaterialCommunityIcons
+          name="arrow-down-circle-outline"
+          size={30}
+          style={{ color: theme.colors.lightGreen }}
+        />
+      </TouchableOpacity>
 
       <View style={styles.addButtonContainer}>
         <MainButtonComponent
@@ -107,7 +130,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onPress={() => logoutRequest()}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -136,7 +159,10 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    marginBottom: 20,
+    marginBottom: 12,
   },
   addButtonStyle: {},
+  loadMoreIconContainer: {
+    alignSelf: "center",
+  },
 });
