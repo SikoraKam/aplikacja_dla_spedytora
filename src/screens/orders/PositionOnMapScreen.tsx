@@ -4,6 +4,8 @@ import { OrdersScreenStackParamList } from "./OrdersScreenStack";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { ActiveTourMap } from "../../components/orders/ActiveTourMap";
 import { useProviderPosition } from "../../hooks/position/useProviderPosition";
+import { theme } from "../../theme";
+import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 
 type PositionOnMapScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -28,17 +30,30 @@ export const PositionOnMapScreen: React.FC<PositionOnMapScreenProps> = ({
     longitudeDelta: 10,
   };
 
-  if (isLoading) return <ActivityIndicator color={"blue"} />;
+  const renderMapForOrderInProgress = () => (
+    <ActiveTourMap
+      initialRegion={initialRegion}
+      destinations={order.destinations}
+      placeStart={order.placeStart}
+      providerPosition={positionData}
+      providerLastName={order.provider.lastName}
+    />
+  );
 
+  const renderMapForOrderNotInProgress = () => (
+    <ActiveTourMap
+      initialRegion={initialRegion}
+      destinations={order.destinations}
+      placeStart={order.placeStart}
+    />
+  );
+
+  if (isLoading) return <ActivityIndicator color={theme.colors.primaryGreen} />;
   return (
     <View style={styles.screenContainer}>
-      <ActiveTourMap
-        initialRegion={initialRegion}
-        destinations={order.destinations}
-        placeStart={order.placeStart}
-        providerPosition={positionData}
-        providerLastName={order.provider.lastName}
-      />
+      {order.orderStatus === OrderStatusEnum.IN_PROGRESS
+        ? renderMapForOrderInProgress()
+        : renderMapForOrderNotInProgress()}
     </View>
   );
 };

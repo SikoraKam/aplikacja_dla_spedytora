@@ -10,7 +10,7 @@ type ActiveTourMapProps = {
   placeStart: PlaceObject;
   destinations: PlaceObject[];
   providerPosition?: PositionResponse;
-  providerLastName: string;
+  providerLastName?: string;
 };
 
 export const ActiveTourMap: React.FC<ActiveTourMapProps> = ({

@@ -80,6 +80,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
           {approvedArray.length ? (
             approvedArray.map((element: PlaceObject) => (
               <TileComponent
+                key={element._id}
                 name={element.name}
                 description={element?.address}
               />

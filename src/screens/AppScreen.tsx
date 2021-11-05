@@ -6,6 +6,7 @@ import AppLoading from "expo-app-loading";
 import { Text } from "react-native";
 import { useUser } from "../hooks/user/useUser";
 import { useProfileStore } from "../store/useProfileStore";
+import { logoutRequest, resetStores } from "../services/AuthService";
 
 export const AppScreen: React.FC = () => {
   const token = useAuthStore((state) => state.token);
@@ -17,7 +18,6 @@ export const AppScreen: React.FC = () => {
   console.log(token);
 
   const [isReady, setIsReady] = useState(false);
-  console.log("IS READY ---> ", isReady);
 
   const {
     user: userData,
@@ -29,6 +29,9 @@ export const AppScreen: React.FC = () => {
   useEffect(() => {
     if (token) {
       mutate();
+    }
+    if (!token) {
+      resetStores();
     }
   }, [token]);
 
@@ -42,8 +45,7 @@ export const AppScreen: React.FC = () => {
 
   if (isAuthenticated) {
     if (userDataError) {
-      console.log(userDataError);
-      // logoutRequest();
+      console.log("=====> ", userDataError);
     }
 
     if (!isReady) {

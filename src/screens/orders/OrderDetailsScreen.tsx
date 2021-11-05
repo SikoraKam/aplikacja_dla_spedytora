@@ -27,6 +27,8 @@ import { useTempStore } from "../../store/useTempStore";
 import shallow from "zustand/shallow";
 import { deletePositionRequest } from "../../services/PostService";
 import { checkIfTaskUpdateLocationIsRegistered } from "../../services/TasksService";
+import { useSWRConfig } from "swr";
+import { QUERY_POSITIONS_PROVIDER } from "../../constants/queryConstants";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -50,7 +52,8 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     ],
     shallow
   );
-  const { mutate } = useOrders(profileType);
+  const { orders: ordersData, mutate: mutateOrders } = useOrders(profileType);
+  const { mutate } = useSWRConfig();
 
   const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
   const [mark, setMark] = useState<number>(5);
@@ -94,8 +97,6 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   };
 
   const handleOnPressMapMenuItem = () => {
-    if (order.orderStatus !== OrderStatusEnum.IN_PROGRESS) return;
-
     navigation.push("PositionOnMapScreen", { order });
   };
 
@@ -105,7 +106,6 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
       setIsMenuVisible={setIsMenuVisible}
       onPressTspItem={handleOnPressTspMenuItem}
       onPressMapItem={handleOnPressMapMenuItem}
-      isMapItemDisabled={order.orderStatus !== OrderStatusEnum.IN_PROGRESS}
     />
   );
 
@@ -166,6 +166,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
     if (newOrderStatus === OrderStatusEnum.COMPLETED) {
       await deletePositionRequest(order.provider._id);
+      await mutate(QUERY_POSITIONS_PROVIDER);
       const locationTaskIsActive = await checkIfTaskUpdateLocationIsRegistered();
       if (locationTaskIsActive) {
         await stopLocationUpdate();
@@ -177,8 +178,15 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     };
 
     try {
-      // @ts-ignore
-      await mutate(updateOrder(order._id, newOrderBody));
+      if (!ordersData) return;
+
+      await mutateOrders(async (ordersData) => {
+        const updatedOrder = await updateOrder(order._id, newOrderBody);
+        const filteredOrders = ordersData!.filter(
+          (item) => item._id !== order._id
+        );
+        return [...filteredOrders, updatedOrder];
+      });
       navigation.pop();
     } catch (error) {
       displayOneButtonAlert();
