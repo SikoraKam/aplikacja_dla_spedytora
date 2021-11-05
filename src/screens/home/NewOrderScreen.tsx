@@ -35,7 +35,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 }) => {
   const userId = useProfileStore((state) => state._id);
   const profileType = useProfileStore((state) => state.profileType);
-  const { mutate } = useOrders(profileType);
+  const { mutate: mutateOrders } = useOrders(profileType);
 
   const {
     places: placesData,
@@ -163,8 +163,9 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         orderStatus: createOrderInitialStatus,
       };
 
-      // @ts-ignore
-      await mutate(createOrder(orderBody));
+      // here we simply revalidate as we dont have ordersData fetched on that screen
+      await createOrder(orderBody);
+      await mutateOrders();
 
       navigation.popToTop();
     } catch (error) {

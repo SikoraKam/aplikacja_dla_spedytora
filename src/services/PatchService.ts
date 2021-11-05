@@ -13,7 +13,7 @@ export const updateOrder = async (
   body: UpdateOrderPayload
 ) => {
   const response = await axios.patch(`${QUERY_ORDERS}/${orderId}`, body);
-  // return response.data.data;
+  return response.data;
 };
 
 export const updateProviderRating = async (
@@ -21,7 +21,7 @@ export const updateProviderRating = async (
   body: UpdateProviderRatingPayload
 ) => {
   const response = await axios.patch(`${QUERY_USER_RATING}/${userId}`, body);
-  // return response.data;
+  return response.data;
 };
 
 export const requestUpdateProviderPosition = async (

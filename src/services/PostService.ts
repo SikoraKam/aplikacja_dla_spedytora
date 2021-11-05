@@ -12,7 +12,7 @@ import {
 export const createOrder = async (body: CreateOrderPayload) => {
   const response = await axios.post(`${QUERY_ORDERS}`, body);
 
-  // return response.data;
+  return response.data;
 };
 
 // places
