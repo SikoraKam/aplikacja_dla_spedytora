@@ -34,9 +34,7 @@ defineUpdateLocationTask();
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
-  console.log("PROFILE TYPE: ", profileType);
   const userNameAndLastName = useProfileStore((state) => state.nameAndLastName);
-  console.log("name -> : ", userNameAndLastName);
   const { cache } = useSWRConfig();
 
   const [isLoading, setIsLoading] = useState(true);

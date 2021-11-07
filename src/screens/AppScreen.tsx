@@ -33,7 +33,7 @@ export const AppScreen: React.FC = () => {
     if (token) {
       mutateUser();
     } else {
-      // resetStores();
+      resetStores();
     }
   }, [token]);
 

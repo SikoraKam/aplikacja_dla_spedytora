@@ -34,9 +34,13 @@ export const HomeScreenStack: React.FC<HomeScreenStackProps> = ({
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerLeft: DrawerIcon }}
+        options={{ headerLeft: DrawerIcon, title: "" }}
       />
-      <Stack.Screen name="NewOrderScreen" component={NewOrderScreen} />
+      <Stack.Screen
+        name="NewOrderScreen"
+        component={NewOrderScreen}
+        options={{ title: "Nowe zlecenie" }}
+      />
     </Stack.Navigator>
   );
 };
