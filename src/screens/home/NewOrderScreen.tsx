@@ -1,5 +1,6 @@
 import compareAsc from "date-fns/compareAsc";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React, { useLayoutEffect, useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
@@ -65,7 +66,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   );
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [weight, setWeight] = useState<string>("0");
+  const [weight, setWeight] = useState<string>("");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -167,6 +168,9 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         destinations: destinationsArrayId,
         placeStart: placeStart!._id,
         orderStatus: createOrderInitialStatus,
+        category: category,
+        description: description,
+        weightInKg: parseInt(weight, 10),
       };
 
       // here we simply revalidate as we dont have ordersData fetched on that screen

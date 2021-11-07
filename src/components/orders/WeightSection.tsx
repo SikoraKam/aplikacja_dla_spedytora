@@ -4,14 +4,14 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
 
 type WeightSectionProps = {
-  value: string;
-  setValue(val: string): void;
+  value: string | undefined;
+  setValue?(val: string): void;
   isEditable?: boolean;
 };
 
 export const WeightSection: React.FC<WeightSectionProps> = ({
-  value,
-  setValue,
+  value = "",
+  setValue = () => {},
   isEditable = true,
 }) => {
   return (

@@ -11,4 +11,7 @@ export interface OrderObject {
   placeStart: PlaceObject;
   destinations: PlaceObject[];
   orderStatus: OrderStatusEnum;
+  category?: string;
+  description?: string;
+  weightInKg?: string;
 }

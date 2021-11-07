@@ -4,14 +4,14 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
 
 type CategorySectionProps = {
-  categoryValue: string;
-  setCategoryValue(val: string): void;
+  categoryValue: string | undefined;
+  setCategoryValue?(val: string): void;
   isEditable: boolean;
 };
 
 export const CategorySection: React.FC<CategorySectionProps> = ({
-  categoryValue,
-  setCategoryValue,
+  categoryValue = "",
+  setCategoryValue = () => {},
   isEditable,
 }) => {
   return (
