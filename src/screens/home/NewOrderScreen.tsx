@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   dateInputsContainer: {
+    marginTop: 8,
     flexDirection: "row",
     justifyContent: "space-around",
   },
@@ -269,6 +270,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     marginTop: 12,
+    color: theme.colors.darkGreen,
   },
   orderParamsSection: {
     marginTop: 8,

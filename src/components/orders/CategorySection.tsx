@@ -20,7 +20,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
       text={categoryValue}
       setText={setCategoryValue}
       editable={isEditable}
-      maxLength={12}
+      maxLength={14}
       style={[styles.inputStyle, !isEditable && styles.disabledInputStyle]}
     />
   );

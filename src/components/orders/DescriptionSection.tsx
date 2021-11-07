@@ -28,9 +28,10 @@ export const DescriptionSection: React.FC<DescriptionSectionProps> = ({
 
 const styles = StyleSheet.create({
   inputStyle: {
+    flex: 1,
+    textAlignVertical: "top",
     marginHorizontal: 24,
-    height: 70,
-    textAlign: "center",
+    justifyContent: "flex-start",
   },
   disabledInputStyle: {
     backgroundColor: theme.colors.disabled,

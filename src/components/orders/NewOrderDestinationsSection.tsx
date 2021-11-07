@@ -110,7 +110,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
 const styles = StyleSheet.create({
   sectionContainer: {
     justifyContent: "center",
-    marginBottom: 16,
+    marginBottom: 8,
     marginHorizontal: 24,
     backgroundColor: theme.colors.greenyWhite,
     marginTop: 8,
