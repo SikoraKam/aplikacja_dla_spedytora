@@ -3,6 +3,7 @@ import { HomeScreenStackParamList } from "./HomeScreenStack";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -116,7 +117,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   };
 
   if (isLoading || isOrdersDataLoading)
-    return <ActivityIndicator color={theme.colors.primaryGreen} />;
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator
+          color={theme.colors.primaryGreen}
+          size={Platform.OS === "ios" ? "large" : 90}
+        />
+      </View>
+    );
   return (
     <ScrollView style={{ flex: 1 }}>
       <ActualOrders lastThreeNotCompletedOrders={lastThreeActualOrders} />
