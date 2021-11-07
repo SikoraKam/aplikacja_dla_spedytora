@@ -8,16 +8,6 @@ import { useAuthStore } from "./src/store/useAuthStore";
 import { getToken } from "./src/utils/tokenUtils";
 
 export default function App() {
-  // if (!isReady) {
-  //   return (
-  //     <AppLoading
-  //       startAsync={fetchData}
-  //       onFinish={() => setIsReady(true)}
-  //       onError={console.warn}
-  //     />
-  //   );
-  // }
-
   const setAuthToken = useAuthStore(useCallback((state) => state.setToken, []));
 
   useEffect(() => {
@@ -32,7 +22,9 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer theme={MyTheme}>
+        {/*<SWRConfig value={{ provider: () => new Map() }}>*/}
         <AppScreen />
+        {/*</SWRConfig>*/}
       </NavigationContainer>
     </PaperProvider>
   );

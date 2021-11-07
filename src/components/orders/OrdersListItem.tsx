@@ -14,6 +14,11 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
   orderItem,
   onPress,
 }) => {
+  const addComa = (index: number) => {
+    if (index === orderItem?.destinations.length - 1) return "";
+    else return ", ";
+  };
+
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
@@ -28,7 +33,9 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
             numberOfLines={1}
             style={[styles.textStyle, styles.secondColumnText]}
           >
-            {orderItem?.destinations.map((element) => `${element.name}, `)}
+            {orderItem?.destinations.map(
+              (element, index) => `${element.name}${addComa(index)}`
+            )}
           </Text>
           <Text
             numberOfLines={1}
@@ -63,7 +70,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
           >
             {format(new Date(orderItem?.dateEnd), "dd/MM/yyyy")}
           </Text>
-          <View style={{ flexDirection: "column" }}>
+          <View style={{ flexDirection: "column", marginBottom: 4 }}>
             <Text
               numberOfLines={1}
               style={[styles.textStyle, styles.thirdColumnText]}
