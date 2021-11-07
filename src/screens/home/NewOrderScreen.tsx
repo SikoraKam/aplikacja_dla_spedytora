@@ -1,5 +1,6 @@
 import compareAsc from "date-fns/compareAsc";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React, { useLayoutEffect, useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
@@ -21,6 +22,9 @@ import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots"
 import { OrderMenu } from "../../components/orders/OrderMenu";
 import { TspSection } from "../../components/orders/TspSection";
 import { PlaceObject } from "../../types/places/PlaceObject";
+import { CategorySection } from "../../components/orders/CategorySection";
+import { DescriptionSection } from "../../components/orders/DescriptionSection";
+import { WeightSection } from "../../components/orders/WeightSection";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -60,6 +64,9 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const availableDestinations = placesData?.filter(
     (element: PlaceObject) => element !== placeStart
   );
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [weight, setWeight] = useState<string>("");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -161,6 +168,9 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         destinations: destinationsArrayId,
         placeStart: placeStart!._id,
         orderStatus: createOrderInitialStatus,
+        category: category,
+        description: description,
+        weightInKg: parseInt(weight, 10),
       };
 
       // here we simply revalidate as we dont have ordersData fetched on that screen
@@ -204,6 +214,23 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
             providers={providersData}
             setSelectedProviderId={setProviderId}
           />
+
+          <View style={styles.orderParamsSection}>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <CategorySection
+                categoryValue={category}
+                setCategoryValue={setCategory}
+                isEditable={true}
+              />
+              <WeightSection value={weight} setValue={setWeight} />
+            </View>
+
+            <DescriptionSection
+              value={description}
+              setValue={setDescription}
+              isEditable={true}
+            />
+          </View>
         </View>
       </ScrollView>
       <MainButtonComponent
@@ -238,6 +265,7 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   dateInputsContainer: {
+    marginTop: 8,
     flexDirection: "row",
     justifyContent: "space-around",
   },
@@ -245,7 +273,11 @@ const styles = StyleSheet.create({
     ...theme.defaultTextStyle,
     textAlign: "center",
     fontSize: 18,
-    paddingBottom: 12,
     marginTop: 12,
+    color: theme.colors.darkGreen,
+  },
+  orderParamsSection: {
+    marginTop: 8,
+    backgroundColor: theme.colors.greenyWhite,
   },
 });

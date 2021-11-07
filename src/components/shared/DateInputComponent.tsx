@@ -50,7 +50,7 @@ const {
     marginHorizontal: 12,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: theme.colors.primaryGreen,
+    borderColor: theme.colors.darkGreen,
   },
   inputDateTextStyle: {
     paddingVertical: 14,

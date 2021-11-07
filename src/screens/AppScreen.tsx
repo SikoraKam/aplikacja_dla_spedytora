@@ -7,6 +7,7 @@ import { Text } from "react-native";
 import { useUser } from "../hooks/user/useUser";
 import { useProfileStore } from "../store/useProfileStore";
 import { logoutRequest, resetStores } from "../services/AuthService";
+import { useSWRConfig } from "swr";
 
 export const AppScreen: React.FC = () => {
   const token = useAuthStore((state) => state.token);
@@ -19,6 +20,8 @@ export const AppScreen: React.FC = () => {
   );
   const isAuthenticated = token !== null;
   console.log(token);
+
+  const { cache } = useSWRConfig();
 
   const [isReady, setIsReady] = useState(false);
 
@@ -34,6 +37,8 @@ export const AppScreen: React.FC = () => {
       mutateUser();
     } else {
       resetStores();
+      // @ts-ignore
+      cache.clear();
     }
   }, [token]);
 

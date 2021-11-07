@@ -29,6 +29,9 @@ import { deletePositionRequest } from "../../services/PostService";
 import { checkIfTaskUpdateLocationIsRegistered } from "../../services/TasksService";
 import { useSWRConfig } from "swr";
 import { QUERY_POSITIONS_PROVIDER } from "../../constants/queryConstants";
+import { CategorySection } from "../../components/orders/CategorySection";
+import { WeightSection } from "../../components/orders/WeightSection";
+import { DescriptionSection } from "../../components/orders/DescriptionSection";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -238,6 +241,21 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
           />
           <Text style={styles.subTitleStyle}>Status zlecenia</Text>
           <OrderStatusSection orderStatusValue={order.orderStatus} />
+
+          <View style={styles.orderParamsSection}>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <CategorySection
+                categoryValue={order?.category}
+                isEditable={false}
+              />
+              <WeightSection
+                value={order?.weightInKg?.toString()}
+                isEditable={false}
+              />
+            </View>
+
+            <DescriptionSection value={order?.description} isEditable={false} />
+          </View>
         </View>
       </ScrollView>
 
@@ -308,5 +326,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     marginTop: 12,
+  },
+  orderParamsSection: {
+    marginTop: 8,
+    backgroundColor: theme.colors.greenyWhite,
   },
 });
