@@ -21,6 +21,9 @@ import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots"
 import { OrderMenu } from "../../components/orders/OrderMenu";
 import { TspSection } from "../../components/orders/TspSection";
 import { PlaceObject } from "../../types/places/PlaceObject";
+import { CategorySection } from "../../components/orders/CategorySection";
+import { DescriptionSection } from "../../components/orders/DescriptionSection";
+import { WeightSection } from "../../components/orders/WeightSection";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -60,6 +63,9 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const availableDestinations = placesData?.filter(
     (element: PlaceObject) => element !== placeStart
   );
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [weight, setWeight] = useState<string>("0");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -204,6 +210,23 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
             providers={providersData}
             setSelectedProviderId={setProviderId}
           />
+
+          <View style={styles.orderParamsSection}>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <CategorySection
+                categoryValue={category}
+                setCategoryValue={setCategory}
+                isEditable={true}
+              />
+              <WeightSection value={weight} setValue={setWeight} />
+            </View>
+
+            <DescriptionSection
+              value={description}
+              setValue={setDescription}
+              isEditable={true}
+            />
+          </View>
         </View>
       </ScrollView>
       <MainButtonComponent
@@ -245,7 +268,10 @@ const styles = StyleSheet.create({
     ...theme.defaultTextStyle,
     textAlign: "center",
     fontSize: 18,
-    paddingBottom: 12,
     marginTop: 12,
+  },
+  orderParamsSection: {
+    marginTop: 8,
+    backgroundColor: theme.colors.greenyWhite,
   },
 });
