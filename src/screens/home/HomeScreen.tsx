@@ -1,7 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { theme } from "../../theme";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
@@ -20,6 +26,7 @@ import shallow from "zustand/shallow";
 import { ActualOrders } from "../../components/home/ActualOrders";
 import { HistoryOrders } from "../../components/home/HistoryOrders";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSWRConfig } from "swr";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -27,7 +34,12 @@ defineUpdateLocationTask();
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
+  console.log("PROFILE TYPE: ", profileType);
   const userNameAndLastName = useProfileStore((state) => state.nameAndLastName);
+  console.log("name -> : ", userNameAndLastName);
+  const { cache } = useSWRConfig();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [
     locationTaskFirstUpdateRequested,
@@ -55,14 +67,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   } = useOrders(profileType);
 
   useLayoutEffect(() => {
+    if (!navigation || !profileType) return;
     navigation.setOptions({
-      headerTitle: profileType?.toUpperCase(),
+      headerTitle: profileType,
     });
-  }, [navigation]);
+  }, [navigation, profileType]);
 
   useEffect(() => {
     if (!ordersData) return;
     divideOrdersIntoArrays(ordersData);
+    setIsLoading(false);
 
     if (profileType === ProfileTypeEnum.Forwarder) return;
     requestLocationPermissionIfNotSet();
@@ -102,6 +116,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       displayOneButtonAlert("Nie mogliśmy zaktualizować twojej lokalizacji");
     }
   };
+
+  if (isLoading || isOrdersDataLoading)
+    return <ActivityIndicator color={theme.colors.primaryGreen} />;
   return (
     <ScrollView style={{ flex: 1 }}>
       <ActualOrders lastThreeNotCompletedOrders={lastThreeActualOrders} />
@@ -127,7 +144,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <MainButtonComponent
           buttonStyle={styles.addButtonStyle}
           text="wyloguj"
-          onPress={() => logoutRequest()}
+          onPress={() => {
+            logoutRequest();
+            // @ts-ignore
+            cache.clear();
+          }}
         />
       </View>
     </ScrollView>
