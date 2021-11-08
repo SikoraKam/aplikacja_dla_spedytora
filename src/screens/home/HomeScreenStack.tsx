@@ -13,6 +13,7 @@ import { theme } from "../../theme";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NewOrderScreen } from "./NewOrderScreen";
 import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
+import { useNotificationHandler } from "../../hooks/notifications/useNotificationHandler";
 
 type HomeScreenStackProps = DrawerScreenProps<DrawerScreensParamList, "Home">;
 
@@ -26,6 +27,8 @@ const Stack = createStackNavigator<HomeScreenStackParamList>();
 export const HomeScreenStack: React.FC<HomeScreenStackProps> = ({
   navigation,
 }) => {
+  useNotificationHandler(navigation);
+
   return (
     <Stack.Navigator
       initialRouteName="HomeScreen"

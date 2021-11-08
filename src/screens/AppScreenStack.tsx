@@ -3,7 +3,7 @@ import {
   DrawerNavigationProp,
 } from "@react-navigation/drawer";
 import { NavigatorScreenParams } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HomeScreenStack,
   HomeScreenStackParamList,
@@ -12,6 +12,9 @@ import {
   OrdersScreenStack,
   OrdersScreenStackParamList,
 } from "./orders/OrdersScreenStack";
+import { useNotification } from "../hooks/notifications/useNotification";
+import { updateExpoPushTokenRequest } from "../services/PatchService";
+import { useNotificationHandler } from "../hooks/notifications/useNotificationHandler";
 
 export type DrawerScreensParamList = {
   Home: NavigatorScreenParams<HomeScreenStackParamList>;
@@ -20,6 +23,20 @@ export type DrawerScreensParamList = {
 const Drawer = createDrawerNavigator<DrawerScreensParamList>();
 
 export const AppScreenStack: React.FC = () => {
+  const { expoPushToken } = useNotification();
+
+  const [
+    hasPushedNotificationsToken,
+    setHasPushedNotificationsToken,
+  ] = useState(false);
+
+  useEffect(() => {
+    if (expoPushToken && !hasPushedNotificationsToken) {
+      setHasPushedNotificationsToken(true);
+      updateExpoPushTokenRequest({ expoPushToken });
+    }
+  }, [expoPushToken, hasPushedNotificationsToken]);
+
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen

@@ -9,6 +9,7 @@ import { OrderDetailsRouteParams } from "../../types/routeParameters/OrderDetail
 import { OrderDetailsScreen } from "./OrderDetailsScreen";
 import { PositionOnMapRouteParams } from "../../types/routeParameters/PositionOnMapRouteParams";
 import { PositionOnMapScreen } from "./PositionOnMapScreen";
+import { useNotificationHandler } from "../../hooks/notifications/useNotificationHandler";
 
 type OrdersScreenStackProps = DrawerScreenProps<
   DrawerScreensParamList,
@@ -26,6 +27,8 @@ const Stack = createStackNavigator<OrdersScreenStackParamList>();
 export const OrdersScreenStack: React.FC<OrdersScreenStackProps> = ({
   navigation,
 }) => {
+  useNotificationHandler(navigation);
+
   return (
     <Stack.Navigator
       initialRouteName="OrdersScreen"
