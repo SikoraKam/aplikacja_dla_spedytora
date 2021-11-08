@@ -1,6 +1,5 @@
 import compareAsc from "date-fns/compareAsc";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
@@ -67,6 +66,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [weight, setWeight] = useState<string>("");
+  const [requestIsLoading, setRequestIsLoading] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -135,7 +135,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     const formattedDateEnd = dateEndInputValue.setHours(0, 0, 0, 0);
     const comparison = compareAsc(formattedDateStart, formattedDateEnd);
 
-    if (comparison >= 0) {
+    if (comparison > 0) {
       displayOneButtonAlert(
         "Nieprawidłowa data",
         "Początek zlecenia nie może być po dacie zakończenia",
@@ -148,12 +148,17 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
 
   const handleCreateOrder = async () => {
     const datesAreValid = validateDates();
-    if (!datesAreValid) return;
+    if (!datesAreValid || requestIsLoading) {
+      console.log("INVALID CLICK");
+      return;
+    }
 
     if (!userId) {
       console.log("invalid userID", userId);
       return;
     }
+    setRequestIsLoading(true);
+    Keyboard.dismiss();
 
     try {
       const destinationsArrayId = destinationsArray.map(
@@ -176,12 +181,12 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
       // here we simply revalidate as we dont have ordersData fetched on that screen
       await createOrder(orderBody);
       await mutateOrders();
-
       navigation.popToTop();
     } catch (error) {
       displayOneButtonAlert();
       console.log("ERROR", error);
     }
+    setRequestIsLoading(false);
   };
 
   return (
@@ -234,6 +239,8 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         </View>
       </ScrollView>
       <MainButtonComponent
+        loading={requestIsLoading}
+        disabled={requestIsLoading}
         buttonStyle={{
           position: "absolute",
           bottom: 0,

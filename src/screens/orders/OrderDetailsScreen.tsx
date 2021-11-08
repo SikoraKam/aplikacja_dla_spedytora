@@ -210,6 +210,14 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     }
   };
 
+  const initialProviderValue =
+    profileType === ProfileTypeEnum.Forwarder
+      ? `${order.provider?.name} ${order.provider?.lastName}`
+      : `${order.forwarder?.name} ${order.forwarder?.lastName}`;
+
+  const personType =
+    profileType === ProfileTypeEnum.Provider ? "Zleceniodawca" : "Dostawca";
+
   return (
     <>
       <ScrollView>
@@ -234,10 +242,10 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
             disabled
             initialDestinationsArray={order.destinations}
           />
-          <Text style={styles.subTitleStyle}>Dostawca</Text>
+          <Text style={styles.subTitleStyle}>{personType}</Text>
           <ProviderSection
             disabled
-            initialProviderValue={`${order.provider?.name} ${order.provider?.lastName}`}
+            initialProviderValue={initialProviderValue}
           />
           <Text style={styles.subTitleStyle}>Status zlecenia</Text>
           <OrderStatusSection orderStatusValue={order.orderStatus} />
