@@ -19,6 +19,7 @@ export const useNotificationHandler = (navigation: any) => {
         announcement: string;
       };
 
+      await navigation.navigate("Deliverers", { screen: "OrdersScreen" });
       await navigation.navigate("Deliverers", {
         screen: "OrderDetailsScreen",
         params: {

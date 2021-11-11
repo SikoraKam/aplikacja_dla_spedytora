@@ -20,6 +20,7 @@ export default function App() {
 
     getTokenFromStorage();
   }, []);
+
   return (
     <NotificationProvider>
       <PaperProvider>

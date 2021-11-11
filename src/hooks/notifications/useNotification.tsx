@@ -41,7 +41,7 @@ const useProvideNotification = () => {
     null
   );
   const [isLoading, setLoading] = useState(false);
-  // const mutation = useDeleteExpoPushTokenMutation();
+  const lastNotificationResponse = Notifications.useLastNotificationResponse();
 
   const [
     notification,
@@ -89,27 +89,35 @@ const useProvideNotification = () => {
     registerForPushNotificationsAsync();
   }, [userData?.id]);
 
+  // useEffect(() => {
+  //   // This listener is fired whenever a notification is received while the app is foregrounded
+  //   const notificationSubscription = Notifications.addNotificationReceivedListener(
+  //     (notification) => {
+  //       setNotification(notification);
+  //     }
+  //   );
+  //
+  //   // This listener is fired whenever a user taps on or
+  //   // interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+  //   const responseSubscription = Notifications.addNotificationResponseReceivedListener(
+  //     (response) => {
+  //       console.log("EEEKKEKEKEKEKKEKEKEKEKKE ====================");
+  //       EventBus.emit(NOTIFICATION_EVENT, response);
+  //     }
+  //   );
+  //
+  //   return () => {
+  //     notificationSubscription.remove();
+  //     responseSubscription.remove();
+  //   };
+  // }, [expoPushToken]);
+
   useEffect(() => {
-    // This listener is fired whenever a notification is received while the app is foregrounded
-    const notificationSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        setNotification(notification);
-      }
-    );
-
-    // This listener is fired whenever a user taps on or
-    // interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    const responseSubscription = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        EventBus.emit(NOTIFICATION_EVENT, response);
-      }
-    );
-
-    return () => {
-      notificationSubscription.remove();
-      responseSubscription.remove();
-    };
-  }, [expoPushToken]);
+    if (lastNotificationResponse) {
+      setNotification(notification);
+      EventBus.emit(NOTIFICATION_EVENT, lastNotificationResponse);
+    }
+  }, [lastNotificationResponse]);
 
   const unsubscribeFromExpoNotifications = async () => {
     try {

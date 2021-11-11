@@ -28,8 +28,6 @@ import { ActualOrders } from "../../components/home/ActualOrders";
 import { HistoryOrders } from "../../components/home/HistoryOrders";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSWRConfig } from "swr";
-import { useNotificationHandler } from "../../hooks/notifications/useNotificationHandler";
-import { NotificationAlert } from "../../components/shared/NotificationAlert";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
