@@ -28,7 +28,6 @@ export const HomeScreenStack: React.FC<HomeScreenStackProps> = ({
   navigation,
 }) => {
   useNotificationHandler(navigation);
-
   return (
     <Stack.Navigator
       initialRouteName="HomeScreen"

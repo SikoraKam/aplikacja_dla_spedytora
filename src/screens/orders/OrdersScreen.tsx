@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
-  StyleSheet,
-  View,
-  Text,
   ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";

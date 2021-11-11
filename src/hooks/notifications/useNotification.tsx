@@ -49,7 +49,6 @@ const useProvideNotification = () => {
   ] = useState<Notifications.Notification>();
 
   const { user: userData, isError: isUserDataError } = useUser();
-  console.log("user DATA: ", userData);
 
   useEffect(() => {
     console.log("USE EFFECT THAT I WANT");
@@ -82,7 +81,6 @@ const useProvideNotification = () => {
       }
 
       const token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log("TOKEN ()(): ", token);
       setExpoPushToken(token);
       setLoading(false);
 

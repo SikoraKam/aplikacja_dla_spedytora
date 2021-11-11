@@ -28,7 +28,6 @@ export const OrdersScreenStack: React.FC<OrdersScreenStackProps> = ({
   navigation,
 }) => {
   useNotificationHandler(navigation);
-
   return (
     <Stack.Navigator
       initialRouteName="OrdersScreen"

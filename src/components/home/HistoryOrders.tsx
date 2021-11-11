@@ -28,7 +28,10 @@ export const HistoryOrders: React.FC<HistoryOrdersProps> = ({
             orderItem={element}
             onPress={() =>
               // @ts-ignore
-              navigation.navigate("OrderDetailsScreen", { order: element })
+              navigation.navigate("Deliverers", {
+                screen: "OrderDetailsScreen",
+                params: { order: element },
+              })
             }
           />
         ))}

@@ -28,7 +28,8 @@ import { ActualOrders } from "../../components/home/ActualOrders";
 import { HistoryOrders } from "../../components/home/HistoryOrders";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSWRConfig } from "swr";
-import { sendNotification } from "../../services/PostService";
+import { useNotificationHandler } from "../../hooks/notifications/useNotificationHandler";
+import { NotificationAlert } from "../../components/shared/NotificationAlert";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -133,7 +134,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.loadMoreIconContainer}
-        onPress={() => navigation.navigate("OrdersScreen")}
+        onPress={() =>
+          // @ts-ignore
+          navigation.navigate("Deliverers", { screen: "OrdersScreen" })
+        }
       >
         <MaterialCommunityIcons
           name="arrow-down-circle-outline"
@@ -155,16 +159,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             logoutRequest();
             // @ts-ignore
             cache.clear();
-          }}
-        />
-        <MainButtonComponent
-          buttonStyle={styles.addButtonStyle}
-          text="send notification"
-          onPress={() => {
-            sendNotification("6182bf57651f23c46c29f7aa", {
-              title: "Hejka",
-              announcement: "naklejka",
-            });
           }}
         />
       </View>

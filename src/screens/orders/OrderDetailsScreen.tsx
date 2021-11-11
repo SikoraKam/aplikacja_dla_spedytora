@@ -25,13 +25,17 @@ import {
 } from "../../services/LocationService";
 import { useTempStore } from "../../store/useTempStore";
 import shallow from "zustand/shallow";
-import { deletePositionRequest } from "../../services/PostService";
+import {
+  deletePositionRequest,
+  sendNotification,
+} from "../../services/PostService";
 import { checkIfTaskUpdateLocationIsRegistered } from "../../services/TasksService";
 import { useSWRConfig } from "swr";
 import { QUERY_POSITIONS_PROVIDER } from "../../constants/queryConstants";
 import { CategorySection } from "../../components/orders/CategorySection";
 import { WeightSection } from "../../components/orders/WeightSection";
 import { DescriptionSection } from "../../components/orders/DescriptionSection";
+import { NotificationAlert } from "../../components/shared/NotificationAlert";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -63,7 +67,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
 
-  const { order } = route.params;
+  const { order, notificationAlertData, showNotificationAlert } = route.params;
   const tspArray = [order.placeStart, ...order.destinations];
 
   const displayStatusButton =
@@ -264,6 +268,16 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
             <DescriptionSection value={order?.description} isEditable={false} />
           </View>
+          <MainButtonComponent
+            text="send notification"
+            onPress={() => {
+              sendNotification("6182bf57651f23c46c29f7aa", {
+                title: "Hejka",
+                announcement: "naklejka",
+                orderObject: order,
+              });
+            }}
+          />
         </View>
       </ScrollView>
 
@@ -314,6 +328,14 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
       )}
 
       {renderMenu()}
+
+      {showNotificationAlert && (
+        <NotificationAlert
+          showAlert={showNotificationAlert}
+          title={notificationAlertData?.title}
+          message={notificationAlertData?.announcement}
+        />
+      )}
     </>
   );
 };

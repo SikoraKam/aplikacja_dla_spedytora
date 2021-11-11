@@ -8,6 +8,7 @@ import {
   QUERY_POSITIONS_PROVIDER,
   QUERY_USER_NOTIFICATIONS,
 } from "../constants/queryConstants";
+import { OrderObject } from "../types/orders/OrderObject";
 
 //orders
 export const createOrder = async (body: CreateOrderPayload) => {
@@ -36,7 +37,7 @@ export const deletePositionRequest = async (providerId: string) => {
 
 export const sendNotification = async (
   receiverId: string,
-  payload: { title: string; announcement: string }
+  payload: { title: string; announcement: string; orderObject: OrderObject }
 ) => {
-  await axios.post(`${QUERY_USER_NOTIFICATIONS}/${receiverId}`);
+  await axios.post(`${QUERY_USER_NOTIFICATIONS}/${receiverId}`, payload);
 };

@@ -1,4 +1,6 @@
 import { Alert } from "react-native";
+import AwesomeAlert from "react-native-awesome-alerts";
+import React from "react";
 
 export const displayOneButtonAlert = (
   title: string = "Wystąpił błąd",
