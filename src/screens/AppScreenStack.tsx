@@ -32,8 +32,9 @@ export const AppScreenStack: React.FC = () => {
 
   useEffect(() => {
     if (expoPushToken && !hasPushedNotificationsToken) {
+      console.log("XDDDD: ", expoPushToken);
       setHasPushedNotificationsToken(true);
-      updateExpoPushTokenRequest({ expoPushToken });
+      updateExpoPushTokenRequest({ expo_token: expoPushToken });
     }
   }, [expoPushToken, hasPushedNotificationsToken]);
 

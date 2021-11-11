@@ -32,7 +32,7 @@ export const requestUpdateProviderPosition = async (
 };
 
 export const updateExpoPushTokenRequest = async (body: {
-  expoPushToken: string;
+  expo_token: string;
 }) => {
   const response = await axios.patch(`${QUERY_USER_NOTIFICATIONS}`, body);
   return response.data;

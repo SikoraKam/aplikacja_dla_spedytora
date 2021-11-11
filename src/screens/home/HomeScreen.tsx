@@ -28,6 +28,7 @@ import { ActualOrders } from "../../components/home/ActualOrders";
 import { HistoryOrders } from "../../components/home/HistoryOrders";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSWRConfig } from "swr";
+import { sendNotification } from "../../services/PostService";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -68,7 +69,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   useLayoutEffect(() => {
     if (!navigation || !profileType) return;
     navigation.setOptions({
-      headerTitle: profileType,
+      headerTitle: profileType.toUpperCase(),
     });
   }, [navigation, profileType]);
 
@@ -154,6 +155,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             logoutRequest();
             // @ts-ignore
             cache.clear();
+          }}
+        />
+        <MainButtonComponent
+          buttonStyle={styles.addButtonStyle}
+          text="send notification"
+          onPress={() => {
+            sendNotification("6182bf57651f23c46c29f7aa", {
+              title: "Hejka",
+              announcement: "naklejka",
+            });
           }}
         />
       </View>

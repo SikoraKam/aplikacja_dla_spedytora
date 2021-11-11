@@ -6,6 +6,7 @@ import { stopLocationUpdate } from "./LocationService";
 import { checkIfTaskUpdateLocationIsRegistered } from "./TasksService";
 import { useProfileStore } from "../store/useProfileStore";
 import { useTempStore } from "../store/useTempStore";
+import { deleteExpoPushTokenRequest } from "./PatchService";
 
 export const registerRequest = async (
   name: string,
@@ -37,6 +38,7 @@ export const logoutRequest = async () => {
   if (locationTaskIsActive) {
     await stopLocationUpdate();
   }
+  await deleteExpoPushTokenRequest();
   await deleteToken();
   // useAuthStore.setState({ token: null });
   resetStores();

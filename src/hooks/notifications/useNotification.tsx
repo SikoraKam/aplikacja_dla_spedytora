@@ -49,8 +49,10 @@ const useProvideNotification = () => {
   ] = useState<Notifications.Notification>();
 
   const { user: userData, isError: isUserDataError } = useUser();
+  console.log("user DATA: ", userData);
 
   useEffect(() => {
+    console.log("USE EFFECT THAT I WANT");
     const registerForPushNotificationsAsync = async () => {
       setLoading(true);
       if (!Constants.isDevice) {
@@ -80,6 +82,7 @@ const useProvideNotification = () => {
       }
 
       const token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log("TOKEN ()(): ", token);
       setExpoPushToken(token);
       setLoading(false);
 
@@ -113,7 +116,7 @@ const useProvideNotification = () => {
   const unsubscribeFromExpoNotifications = async () => {
     try {
       // await mutation.mutateAsync({ expoPushToken: expoPushToken ?? "" });
-      await updateExpoPushTokenRequest({ expoPushToken: expoPushToken ?? "" });
+      await updateExpoPushTokenRequest({ expo_token: expoPushToken ?? "" });
     } catch (e) {
       console.error(
         "Could not remove expoPushToken while unsubscribing from expo notifications"
