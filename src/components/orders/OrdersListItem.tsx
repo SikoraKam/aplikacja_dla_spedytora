@@ -36,10 +36,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
   };
 
   return (
-    <TouchableWithoutFeedback
-      style={styles.touchableContainer}
-      onPress={onPress}
-    >
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.rowContainer}>
           <Text
@@ -63,7 +60,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
             {translateOrderStatus(orderItem?.orderStatus)}
           </Text>
         </View>
-        <View style={styles.rowContainer}>
+        <View style={styles.iconsRowContainer}>
           <MaterialCommunityIcons
             style={[styles.firstColumnText, styles.textStyle]}
             name={"package-up"}
@@ -76,7 +73,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
           />
           <View style={[styles.textStyle, styles.thirdColumnText]} />
         </View>
-        <View style={styles.iconsRowContainer}>
+        <View style={styles.rowContainer}>
           <Text
             numberOfLines={1}
             style={[styles.textStyle, styles.firstColumnText]}
@@ -110,9 +107,6 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
 };
 
 const styles = StyleSheet.create({
-  touchableContainer: {
-    borderWidth: 1,
-  },
   container: {
     height: 105,
     backgroundColor: theme.colors.greenyWhite,
@@ -139,6 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginTop: 2,
   },
   textStyle: {
     textAlign: "center",

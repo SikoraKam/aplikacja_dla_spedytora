@@ -39,16 +39,22 @@ export const OrdersScreenStack: React.FC<OrdersScreenStackProps> = ({
       <Stack.Screen
         name="OrdersScreen"
         component={OrdersScreen}
-        options={{ headerLeft: DrawerIcon }}
+        options={{ headerLeft: DrawerIcon, title: "Twoje zlecenia" }}
       />
-      <Stack.Screen name="OrderDetailsScreen" component={OrderDetailsScreen} />
+      <Stack.Screen
+        name="OrderDetailsScreen"
+        component={OrderDetailsScreen}
+        options={{ title: "Twoje zlecenia" }}
+      />
       <Stack.Screen
         name="PositionOnMapScreen"
         component={PositionOnMapScreen}
+        options={{ title: "Widok mapy" }}
       />
       <Stack.Screen
         name={"SendNotificationScreen"}
         component={SendNotificationScreen}
+        options={{ title: "Twoje zlecenia" }}
       />
     </Stack.Navigator>
   );
