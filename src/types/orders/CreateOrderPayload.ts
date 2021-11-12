@@ -8,4 +8,9 @@ export interface CreateOrderPayload {
   placeStart: string;
   destinations: string[];
   orderStatus: OrderStatusEnum;
+  weightInKg: number;
+  category: string;
+  description: string;
+  incoterm: string;
+  truckType: string;
 }
