@@ -6952,6 +6952,11 @@ react-native-screens@~3.4.0:
   dependencies:
     warn-once "^0.1.0"
 
+react-native-select-dropdown@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-select-dropdown/-/react-native-select-dropdown-1.4.0.tgz#34cc2d305950e3dd26a5bc761db5f439ee0b6b17"
+  integrity sha512-CeiFQ8F3lI7SAB9l/uMbGUeJmslUkyz9Vv8DHutOjO1bJpP1/Kfu9lH6QYjJ41DXFGQzT1bw8EGHe8rz/eTC/A==
+
 react-native-svg@12.1.1:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"

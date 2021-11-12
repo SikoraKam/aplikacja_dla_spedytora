@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { theme } from "../../theme";
-import { useNavigation } from "@react-navigation/native";
 import { UserObject } from "../../types/user/UserObject";
 
 type NotificationAlertProps = {
   showAlert: boolean;
   title: string;
   message: string;
-  sender: UserObject;
+  sender?: UserObject;
+  sentDate: string;
 };
 
 export const NotificationAlert: React.FC<NotificationAlertProps> = ({
@@ -16,14 +16,17 @@ export const NotificationAlert: React.FC<NotificationAlertProps> = ({
   title,
   message,
   sender,
+  sentDate,
 }) => {
   const [show, setShow] = useState<boolean>(showAlert);
+
+  const titleWithDate = `${title} ${sentDate}`;
 
   return (
     <AwesomeAlert
       show={show}
       showProgress={false}
-      title={title}
+      title={titleWithDate}
       message={message}
       closeOnTouchOutside={false}
       closeOnHardwareBackPress={false}

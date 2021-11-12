@@ -10,6 +10,8 @@ import { OrderDetailsScreen } from "./OrderDetailsScreen";
 import { PositionOnMapRouteParams } from "../../types/routeParameters/PositionOnMapRouteParams";
 import { PositionOnMapScreen } from "./PositionOnMapScreen";
 import { useNotificationHandler } from "../../hooks/notifications/useNotificationHandler";
+import { SendNotificationRouteParams } from "../../types/routeParameters/SendNotificationRouteParams";
+import { SendNotificationScreen } from "./SendNotificationScreen";
 
 type OrdersScreenStackProps = DrawerScreenProps<
   DrawerScreensParamList,
@@ -20,6 +22,7 @@ export type OrdersScreenStackParamList = {
   OrdersScreen: undefined;
   OrderDetailsScreen: OrderDetailsRouteParams;
   PositionOnMapScreen: PositionOnMapRouteParams;
+  SendNotificationScreen: SendNotificationRouteParams;
 };
 
 const Stack = createStackNavigator<OrdersScreenStackParamList>();
@@ -42,6 +45,10 @@ export const OrdersScreenStack: React.FC<OrdersScreenStackProps> = ({
       <Stack.Screen
         name="PositionOnMapScreen"
         component={PositionOnMapScreen}
+      />
+      <Stack.Screen
+        name={"SendNotificationScreen"}
+        component={SendNotificationScreen}
       />
     </Stack.Navigator>
   );

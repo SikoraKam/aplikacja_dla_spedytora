@@ -107,12 +107,18 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     navigation.push("PositionOnMapScreen", { order });
   };
 
+  const handleOnPressNotificationMenuItem = () => {
+    navigation.push("SendNotificationScreen", { order });
+  };
+
   const renderMenu = () => (
     <OrderMenu
       isMenuVisible={isMenuVisible}
       setIsMenuVisible={setIsMenuVisible}
       onPressTspItem={handleOnPressTspMenuItem}
       onPressMapItem={handleOnPressMapMenuItem}
+      isSendNotificationVisible={true}
+      onSendNotificationPress={handleOnPressNotificationMenuItem}
     />
   );
 
@@ -268,16 +274,6 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
             <DescriptionSection value={order?.description} isEditable={false} />
           </View>
-          <MainButtonComponent
-            text="send notification"
-            onPress={() => {
-              sendNotification("6182bf57651f23c46c29f7aa", {
-                title: "Hejka",
-                announcement: "naklejka",
-                orderObject: order,
-              });
-            }}
-          />
         </View>
       </ScrollView>
 
@@ -335,6 +331,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
           title={notificationAlertData?.title}
           message={notificationAlertData?.announcement}
           sender={order.provider}
+          sentDate={notificationAlertData?.sentDate}
         />
       )}
     </>

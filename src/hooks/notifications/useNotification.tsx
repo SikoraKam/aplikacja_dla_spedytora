@@ -51,7 +51,6 @@ const useProvideNotification = () => {
   const { user: userData, isError: isUserDataError } = useUser();
 
   useEffect(() => {
-    console.log("USE EFFECT THAT I WANT");
     const registerForPushNotificationsAsync = async () => {
       setLoading(true);
       if (!Constants.isDevice) {
