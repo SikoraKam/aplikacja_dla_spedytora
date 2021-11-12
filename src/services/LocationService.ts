@@ -8,7 +8,7 @@ import { displayOneButtonAlert } from "../utils/displayAlert";
 import * as Location from "expo-location";
 import { TASK_UPDATE_LOCATION } from "./TasksService";
 
-export const registerLocationListener = async () => {
+export const hasLocationPermissionsGranted = async () => {
   const foregroundPermission = await checkForegroundLocationPermission();
   const backgroundPermission = await checkBackgroundLocationPermission();
 
@@ -21,9 +21,18 @@ export const registerLocationListener = async () => {
       backgroundRequestedPermission !== "granted"
     ) {
       displayOneButtonAlert("Brak uprawnień do lokalizacji");
-      return;
+      return false;
     }
+    return true;
   }
+  return true;
+};
+
+export const registerLocationListener = async () => {
+  const canStartLocationUpdates = hasLocationPermissionsGranted();
+
+  if (!canStartLocationUpdates) return;
+
   await Location.startLocationUpdatesAsync(TASK_UPDATE_LOCATION, {
     accuracy: Location.Accuracy.Highest,
     distanceInterval: 2, // minimum change (in meters) between updates

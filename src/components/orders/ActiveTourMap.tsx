@@ -33,8 +33,8 @@ export const ActiveTourMap: React.FC<ActiveTourMapProps> = ({
       >
         <Marker
           coordinate={{
-            latitude: placeStart.latitude,
-            longitude: placeStart.longitude,
+            latitude: placeStart?.latitude,
+            longitude: placeStart?.longitude,
           }}
           title={placeStart.name}
           description={placeStart.address}
