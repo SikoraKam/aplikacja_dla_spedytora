@@ -28,7 +28,8 @@ export const createPositionRequest = async (body: {
   latitude: number;
   longitude: number;
 }) => {
-  const response = await axios.post(`${QUERY_POSITIONS}`);
+  const response = await axios.post(`${QUERY_POSITIONS}`, body);
+  return response.data;
 };
 
 export const deletePositionRequest = async (providerId: string) => {

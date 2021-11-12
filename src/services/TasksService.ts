@@ -29,7 +29,7 @@ export const defineUpdateLocationTask = () => {
         else if (locationTaskOnStartApplicationDefined) {
           await requestUpdateProviderPosition({ latitude, longitude });
         } else {
-          await createPositionRequest({ latitude, longitude });
+          // create request is sent after changing order status to inProgress
           useTempStore.setState({ createPositionRequestWasSent: true });
         }
       } catch (err) {

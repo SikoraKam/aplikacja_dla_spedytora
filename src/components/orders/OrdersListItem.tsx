@@ -4,6 +4,7 @@ import { theme } from "../../theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { OrderObject } from "../../types/orders/OrderObject";
 import { format } from "date-fns";
+import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 
 type OrdersListItemProps = {
   orderItem: OrderObject;
@@ -17,6 +18,21 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
   const addComa = (index: number) => {
     if (index === orderItem?.destinations.length - 1) return "";
     else return ", ";
+  };
+
+  const translateOrderStatus = (orderStatus: OrderStatusEnum) => {
+    switch (orderStatus) {
+      case OrderStatusEnum.ACCEPTED:
+        return "Zaakceptowano";
+      case OrderStatusEnum.IN_PROGRESS:
+        return "W trakcie";
+      case OrderStatusEnum.WAITING:
+        return "Oczekujący";
+      case OrderStatusEnum.COMPLETED:
+        return "Zakończono";
+      default:
+        return "Status nieznany";
+    }
   };
 
   return (
@@ -41,7 +57,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
             numberOfLines={1}
             style={[styles.textStyle, styles.thirdColumnText]}
           >
-            {orderItem?.orderStatus}
+            {translateOrderStatus(orderItem?.orderStatus)}
           </Text>
         </View>
         <View style={styles.rowContainer}>

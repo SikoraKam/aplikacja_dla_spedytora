@@ -1,5 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
+import * as Location from "expo-location";
+
 import { OrdersScreenStackParamList } from "./OrdersScreenStack";
 import { DateInputComponent } from "../../components/shared/DateInputComponent";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -20,12 +22,16 @@ import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots"
 import { OrderMenu } from "../../components/orders/OrderMenu";
 import { TspSection } from "../../components/orders/TspSection";
 import {
+  hasLocationPermissionsGranted,
   registerLocationListener,
   stopLocationUpdate,
 } from "../../services/LocationService";
 import { useTempStore } from "../../store/useTempStore";
 import shallow from "zustand/shallow";
-import { deletePositionRequest } from "../../services/PostService";
+import {
+  createPositionRequest,
+  deletePositionRequest,
+} from "../../services/PostService";
 import { checkIfTaskUpdateLocationIsRegistered } from "../../services/TasksService";
 import { useSWRConfig } from "swr";
 import { QUERY_POSITIONS_PROVIDER } from "../../constants/queryConstants";
@@ -63,6 +69,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   const [mark, setMark] = useState<number>(5);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { order, notificationAlertData, showNotificationAlert } = route.params;
   const tspArray = [order.placeStart, ...order.destinations];
@@ -159,28 +166,69 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     }
   };
 
+  const setLocation = async () => {
+    try {
+      const canGetLocation = await hasLocationPermissionsGranted();
+      if (!canGetLocation) {
+        setIsLoading(false);
+        return;
+      }
+
+      const position: {
+        coords: { latitude: number; longitude: number };
+      } = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+      const latitude = position.coords?.latitude;
+      const longitude = position.coords?.longitude;
+
+      const positionResponse = await createPositionRequest({
+        latitude,
+        longitude,
+      });
+      await mutate(QUERY_POSITIONS_PROVIDER);
+      console.log("positionResponse Latitude: ", positionResponse?.latitude);
+      await registerLocationListener();
+      setLocationTaskFirstUpdateRequested();
+    } catch (e) {
+      displayOneButtonAlert("Nie można pobrać lokalizacji");
+    }
+  };
+
+  const stopUpdatingLocation = async () => {
+    await deletePositionRequest(order.provider._id);
+    await mutate(QUERY_POSITIONS_PROVIDER);
+    const locationTaskIsActive = await checkIfTaskUpdateLocationIsRegistered();
+    if (locationTaskIsActive) {
+      await stopLocationUpdate();
+    }
+  };
+
+  const sendUpdateRequestAndMutate = async (newOrderBody: {
+    orderStatus: OrderStatusEnum;
+  }) => {
+    await mutateOrders(async (ordersData) => {
+      const updatedOrder = await updateOrder(order._id, newOrderBody);
+      const filteredOrders = ordersData!.filter(
+        (item) => item._id !== order._id
+      );
+      return [...filteredOrders, updatedOrder];
+    });
+  };
+
   const requestUpdateOrder = async (newOrderStatus: OrderStatusEnum) => {
+    setIsLoading(true);
     const locationListenerIsRegistered =
       locationTaskOnStartApplicationDefined || locationTaskFirstUpdateRequested;
     if (
       newOrderStatus === OrderStatusEnum.IN_PROGRESS &&
       !locationListenerIsRegistered
     ) {
-      try {
-        await registerLocationListener();
-        setLocationTaskFirstUpdateRequested();
-      } catch (e) {
-        displayOneButtonAlert("Nie można pobrac lokalizacji");
-      }
+      await setLocation();
     }
 
     if (newOrderStatus === OrderStatusEnum.COMPLETED) {
-      await deletePositionRequest(order.provider._id);
-      await mutate(QUERY_POSITIONS_PROVIDER);
-      const locationTaskIsActive = await checkIfTaskUpdateLocationIsRegistered();
-      if (locationTaskIsActive) {
-        await stopLocationUpdate();
-      }
+      await stopUpdatingLocation();
     }
 
     const newOrderBody = {
@@ -188,19 +236,18 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     };
 
     try {
-      if (!ordersData) return;
+      if (!ordersData) {
+        setIsLoading(false);
+        return;
+      }
 
-      await mutateOrders(async (ordersData) => {
-        const updatedOrder = await updateOrder(order._id, newOrderBody);
-        const filteredOrders = ordersData!.filter(
-          (item) => item._id !== order._id
-        );
-        return [...filteredOrders, updatedOrder];
-      });
-      navigation.pop();
+      await sendUpdateRequestAndMutate(newOrderBody);
+      setIsLoading(false);
+      navigation.goBack();
     } catch (error) {
       displayOneButtonAlert();
       console.log("ERROR", error);
+      setIsLoading(false);
     }
   };
 
@@ -291,6 +338,8 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
       {displayRatingButton && (
         <MainButtonComponent
+          loading={isLoading}
+          disabled={isLoading}
           buttonStyle={{
             position: "absolute",
             bottom: 0,
