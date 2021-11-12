@@ -60,7 +60,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
             {translateOrderStatus(orderItem?.orderStatus)}
           </Text>
         </View>
-        <View style={styles.rowContainer}>
+        <View style={styles.iconsRowContainer}>
           <MaterialCommunityIcons
             style={[styles.firstColumnText, styles.textStyle]}
             name={"package-up"}
@@ -73,7 +73,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
           />
           <View style={[styles.textStyle, styles.thirdColumnText]} />
         </View>
-        <View style={styles.iconsRowContainer}>
+        <View style={styles.rowContainer}>
           <Text
             numberOfLines={1}
             style={[styles.textStyle, styles.firstColumnText]}
@@ -119,6 +119,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
+    marginHorizontal: 8,
+    borderRadius: 8,
   },
   rowContainer: {
     flex: 1,
@@ -131,10 +133,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginTop: 2,
   },
   textStyle: {
     textAlign: "center",
     width: 110,
+    color: theme.colors.greenyBlack,
   },
   firstColumnText: {
     left: 4,

@@ -22,6 +22,10 @@ declare global {
       greenyWhite: string;
       disabled: string;
       disabledGreen: string;
+      mediumGreenInactive: string;
+      inputTextColor: string;
+      greenyBlack: string;
+      lightGreenInactive: string;
     }
 
     interface Theme {
@@ -60,6 +64,8 @@ const fontConfig = {
 const colors = {
   primaryGreen: "#B2F272",
   darkGreen: "#739F13",
+  mediumGreenInactive: "#a3be6d",
+  lightGreenInactive: "#e2eed1",
   blackGreen: "#4B6A4E",
   darkBlackGreen: "#384f3b",
   lightGreen: "#BAE75B",
@@ -72,6 +78,8 @@ const colors = {
   background: "#ffffff",
   disabled: "#f5f5f5",
   disabledGreen: "#eef6d8",
+  inputTextColor: "#4f6b0d",
+  greenyBlack: "#223024",
 };
 
 const sizes = {

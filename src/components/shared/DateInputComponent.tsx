@@ -55,6 +55,7 @@ const {
   inputDateTextStyle: {
     paddingVertical: 14,
     textAlign: "center",
+    color: theme.colors.inputTextColor,
   },
   inputContainerStyle: {
     alignItems: "center",

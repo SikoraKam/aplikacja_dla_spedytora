@@ -29,13 +29,18 @@ export const ActualOrders: React.FC<ActualOrdersProps> = ({
           <OrdersListItem
             key={element._id}
             orderItem={element}
-            onPress={() =>
+            onPress={async () => {
               // @ts-ignore
-              navigation.navigate("Deliverers", {
+              await navigation.navigate("Deliverers", {
+                screen: "OrdersScreen",
+                params: { order: element },
+              });
+              // @ts-ignore
+              await navigation.navigate("Deliverers", {
                 screen: "OrderDetailsScreen",
                 params: { order: element },
-              })
-            }
+              });
+            }}
           />
         ))}
       </View>
@@ -52,5 +57,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 4,
     marginHorizontal: 8,
+    fontWeight: "bold",
   },
 });

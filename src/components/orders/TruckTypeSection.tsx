@@ -4,28 +4,27 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
 import { TextInput } from "react-native-paper";
 
-type CategorySectionProps = {
-  categoryValue: string | undefined;
-  setCategoryValue?(val: string): void;
-  isEditable: boolean;
+type TruckTypeSectionProps = {
+  value: string | undefined;
+  setValue?(val: string): void;
+  isEditable?: boolean;
 };
 
-export const CategorySection: React.FC<CategorySectionProps> = ({
-  categoryValue = "",
-  setCategoryValue = () => {},
-  isEditable,
+export const TruckTypeSection: React.FC<TruckTypeSectionProps> = ({
+  value = "",
+  setValue = () => {},
+  isEditable = true,
 }) => {
   return (
     <MainInputComponent
-      label={"Kategoria"}
-      text={categoryValue}
-      setText={setCategoryValue}
+      label={"Rodzaj auta"}
+      text={value}
+      setText={setValue}
       editable={isEditable}
-      maxLength={14}
       style={[styles.inputStyle, !isEditable && styles.disabledInputStyle]}
       right={
         <TextInput.Icon
-          name="truck-trailer"
+          name="truck"
           color={theme.colors.darkGreen}
           disabled={true}
         />
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: "40%",
     textAlign: "center",
+    left: 10,
   },
   disabledInputStyle: {
     backgroundColor: theme.colors.disabled,

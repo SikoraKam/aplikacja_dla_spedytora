@@ -39,6 +39,8 @@ import { CategorySection } from "../../components/orders/CategorySection";
 import { WeightSection } from "../../components/orders/WeightSection";
 import { DescriptionSection } from "../../components/orders/DescriptionSection";
 import { NotificationAlert } from "../../components/shared/NotificationAlert";
+import { IncotermsSection } from "../../components/orders/IncotermsSection";
+import { TruckTypeSection } from "../../components/orders/TruckTypeSection";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -315,8 +317,18 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
                 isEditable={false}
               />
             </View>
-
             <DescriptionSection value={order?.description} isEditable={false} />
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <IncotermsSection value={order?.incoterm} isEditable={false} />
+              <TruckTypeSection value={order?.truckType} isEditable={false} />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -397,7 +409,6 @@ const styles = StyleSheet.create({
   },
   subTitleStyle: {
     ...theme.defaultTextStyle,
-    textAlign: "center",
     fontSize: 18,
     marginTop: 12,
   },

@@ -1,6 +1,6 @@
 import compareAsc from "date-fns/compareAsc";
 import { Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
@@ -24,6 +24,8 @@ import { PlaceObject } from "../../types/places/PlaceObject";
 import { CategorySection } from "../../components/orders/CategorySection";
 import { DescriptionSection } from "../../components/orders/DescriptionSection";
 import { WeightSection } from "../../components/orders/WeightSection";
+import { IncotermsSection } from "../../components/orders/IncotermsSection";
+import { TruckTypeSection } from "../../components/orders/TruckTypeSection";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -52,21 +54,28 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     isError: providersDataError,
   } = useProviders();
 
+  // ---------------------form values------------------------------------------
   const [dateStartInputValue, setDateStartInputValue] = useState(new Date());
   const [dateEndInputValue, setDateEndInputValue] = useState(new Date());
   const [providerId, setProviderId] = useState<string>("");
   const [placeStart, setPlaceStart] = useState<PlaceObject | null>(null);
   const [destinationsArray, setDestinationsArray] = useState<PlaceObject[]>([]);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
-  const tspArray = [placeStart, ...destinationsArray];
-  const availableDestinations = placesData?.filter(
-    (element: PlaceObject) => element !== placeStart
-  );
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [weight, setWeight] = useState<string>("");
+  const [incoterm, setIncoterm] = useState("");
+  const [truckType, setTruckType] = useState("");
+  //---------------------------------------------------------------------------
+
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
   const [requestIsLoading, setRequestIsLoading] = useState(false);
+
+  const tspArray = [placeStart, ...destinationsArray];
+  const availableDestinations = useMemo(
+    () => placesData?.filter((element: PlaceObject) => element !== placeStart),
+    [placeStart]
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -173,9 +182,11 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
         destinations: destinationsArrayId,
         placeStart: placeStart!._id,
         orderStatus: createOrderInitialStatus,
-        category: category,
-        description: description,
+        category,
+        description,
         weightInKg: parseInt(weight, 10),
+        incoterm,
+        truckType,
       };
 
       // here we simply revalidate as we dont have ordersData fetched on that screen
@@ -235,6 +246,16 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
               setValue={setDescription}
               isEditable={true}
             />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <IncotermsSection setIncotermValue={setIncoterm} />
+              <TruckTypeSection value={truckType} setValue={setTruckType} />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -281,7 +302,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     marginTop: 12,
-    color: theme.colors.darkGreen,
   },
   orderParamsSection: {
     marginTop: 8,

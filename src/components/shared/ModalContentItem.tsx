@@ -43,6 +43,7 @@ export const ModalContentItem: React.FC<ModalContentItemProps> = ({
       <List.Item
         style={[styles.listItemStyle, backgroundColorStyle]}
         title={title}
+        titleStyle={styles.titleStyle}
         description={description}
         left={(props) => renderLeftComponent(props)}
       />
@@ -61,5 +62,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     borderWidth: 1,
     borderColor: theme.colors.white,
+  },
+  titleStyle: {
+    color: theme.colors.darkBlackGreen,
   },
 });

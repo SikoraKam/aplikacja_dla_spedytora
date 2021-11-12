@@ -27,12 +27,13 @@ export const MainInputComponent: React.FC<MainInputComponentProps> = ({
       outlineColor={theme.colors.darkGreen}
       onChangeText={setText}
       style={[styles.inputStyle, style, textStyle]}
-      placeholderTextColor={theme.colors.lightGreen}
+      placeholderTextColor={theme.colors.mediumGreenInactive}
       theme={{
         colors: {
           primary: theme.colors.darkGreen,
           placeholder: theme.colors.darkGreen,
           background: theme.colors.background,
+          text: theme.colors.inputTextColor,
         },
       }}
       {...props}
