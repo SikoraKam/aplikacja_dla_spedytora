@@ -25,10 +25,7 @@ import {
 } from "../../services/LocationService";
 import { useTempStore } from "../../store/useTempStore";
 import shallow from "zustand/shallow";
-import {
-  deletePositionRequest,
-  sendNotification,
-} from "../../services/PostService";
+import { deletePositionRequest } from "../../services/PostService";
 import { checkIfTaskUpdateLocationIsRegistered } from "../../services/TasksService";
 import { useSWRConfig } from "swr";
 import { QUERY_POSITIONS_PROVIDER } from "../../constants/queryConstants";
@@ -117,7 +114,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
       setIsMenuVisible={setIsMenuVisible}
       onPressTspItem={handleOnPressTspMenuItem}
       onPressMapItem={handleOnPressMapMenuItem}
-      isSendNotificationVisible={true}
+      isSendNotificationVisible={profileType === ProfileTypeEnum.Provider}
       onSendNotificationPress={handleOnPressNotificationMenuItem}
     />
   );
