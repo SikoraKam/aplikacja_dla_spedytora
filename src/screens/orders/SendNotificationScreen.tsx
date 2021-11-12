@@ -124,7 +124,6 @@ export const SendNotificationScreen: React.FC<SendNotificationScreenProps> = ({
 
 const styles = StyleSheet.create({
   screenContainer: {
-    // flex: 1,
     alignItems: "center",
     marginTop: 16,
   },

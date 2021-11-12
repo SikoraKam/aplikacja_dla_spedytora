@@ -88,29 +88,6 @@ const useProvideNotification = () => {
     registerForPushNotificationsAsync();
   }, [userData?.id]);
 
-  // useEffect(() => {
-  //   // This listener is fired whenever a notification is received while the app is foregrounded
-  //   const notificationSubscription = Notifications.addNotificationReceivedListener(
-  //     (notification) => {
-  //       setNotification(notification);
-  //     }
-  //   );
-  //
-  //   // This listener is fired whenever a user taps on or
-  //   // interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-  //   const responseSubscription = Notifications.addNotificationResponseReceivedListener(
-  //     (response) => {
-  //       console.log("EEEKKEKEKEKEKKEKEKEKEKKE ====================");
-  //       EventBus.emit(NOTIFICATION_EVENT, response);
-  //     }
-  //   );
-  //
-  //   return () => {
-  //     notificationSubscription.remove();
-  //     responseSubscription.remove();
-  //   };
-  // }, [expoPushToken]);
-
   useEffect(() => {
     if (lastNotificationResponse) {
       setNotification(notification);
@@ -120,7 +97,6 @@ const useProvideNotification = () => {
 
   const unsubscribeFromExpoNotifications = async () => {
     try {
-      // await mutation.mutateAsync({ expoPushToken: expoPushToken ?? "" });
       await updateExpoPushTokenRequest({ expo_token: expoPushToken ?? "" });
     } catch (e) {
       console.error(
