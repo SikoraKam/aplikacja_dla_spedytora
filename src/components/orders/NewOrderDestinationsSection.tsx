@@ -5,6 +5,7 @@ import { TileComponent } from "../shared/TileComponent";
 import { theme } from "../../theme";
 import { ModalContentItem } from "../shared/ModalContentItem";
 import { PlaceObject } from "../../types/places/PlaceObject";
+import { MainInputComponent } from "../MainInputComponent";
 
 type NewOrderDestinationsSectionProps = {
   places?: PlaceObject[];
@@ -22,6 +23,9 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   setApprovedArray = () => {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAdditionalModalVisible, setIsAdditionalModalVisible] = useState(
+    false
+  );
   const [selectedItemsArray, setSelectedItemsArray] = useState<PlaceObject[]>(
     []
   );
@@ -66,8 +70,15 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
         description={element.address}
         onPress={() => handleSelectItem(element)}
         isSelected={checkIfElementIsSelected(element)}
+        leftIconName="home-map-marker"
       />
     ));
+
+  const additionalModalButtonOnPress = () => {
+    setIsModalVisible(false);
+  };
+
+  const renderAdditionalModalContent = () => <>{/*<MainInputComponent />*/}</>;
 
   return (
     <>
@@ -101,6 +112,20 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
           approveResults={handleApproveResults}
           title={"Wybierz cele"}
           cancelSelection={handleCancelResults}
+          additionalButtonText={"Dodaj inne"}
+          additionalButtonOnPress={additionalModalButtonOnPress}
+          shouldRenderAdditionalButton={true}
+        />
+      )}
+
+      {isAdditionalModalVisible && (
+        <ModalComponent
+          renderContent={renderAdditionalModalContent}
+          visible={isAdditionalModalVisible}
+          hideModal={() => setIsAdditionalModalVisible(false)}
+          approveResults={handleApproveResults}
+          title={"Dodaj miejsce"}
+          cancelSelection={() => setIsAdditionalModalVisible(false)}
         />
       )}
     </>

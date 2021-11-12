@@ -16,7 +16,7 @@ export const WeightSection: React.FC<WeightSectionProps> = ({
 }) => {
   return (
     <MainInputComponent
-      label={"Waga"}
+      label={"Waga w kg"}
       text={value}
       setText={setValue}
       editable={isEditable}

@@ -6,7 +6,9 @@ import {
   QUERY_PLACES_TSP,
   QUERY_POSITIONS,
   QUERY_POSITIONS_PROVIDER,
+  QUERY_USER_NOTIFICATIONS,
 } from "../constants/queryConstants";
+import { OrderObject } from "../types/orders/OrderObject";
 
 //orders
 export const createOrder = async (body: CreateOrderPayload) => {
@@ -31,4 +33,11 @@ export const createPositionRequest = async (body: {
 
 export const deletePositionRequest = async (providerId: string) => {
   await axios.delete(`${QUERY_POSITIONS_PROVIDER}/${providerId}`);
+};
+
+export const sendNotification = async (
+  receiverId: string,
+  payload: { title: string; announcement: string; orderObject: OrderObject }
+) => {
+  await axios.post(`${QUERY_USER_NOTIFICATIONS}/${receiverId}`, payload);
 };

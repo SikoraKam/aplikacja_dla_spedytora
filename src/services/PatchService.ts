@@ -5,6 +5,7 @@ import { UpdateProviderPosition } from "../types/positions/UpdateProviderPositio
 import {
   QUERY_ORDERS,
   QUERY_POSITIONS_PROVIDER,
+  QUERY_USER_NOTIFICATIONS,
   QUERY_USER_RATING,
 } from "../constants/queryConstants";
 
@@ -28,4 +29,16 @@ export const requestUpdateProviderPosition = async (
   body: UpdateProviderPosition
 ) => {
   const response = await axios.patch(`${QUERY_POSITIONS_PROVIDER}`, body);
+};
+
+export const updateExpoPushTokenRequest = async (body: {
+  expo_token: string;
+}) => {
+  const response = await axios.patch(`${QUERY_USER_NOTIFICATIONS}`, body);
+  return response.data;
+};
+
+export const deleteExpoPushTokenRequest = async () => {
+  const response = await axios.delete(`${QUERY_USER_NOTIFICATIONS}`);
+  return response.data;
 };

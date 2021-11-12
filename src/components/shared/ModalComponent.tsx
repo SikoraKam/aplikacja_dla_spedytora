@@ -10,6 +10,9 @@ type ModalComponentProps = {
   title: string;
   approveResults(): void;
   cancelSelection?(): void;
+  shouldRenderAdditionalButton?: boolean;
+  additionalButtonText?: string;
+  additionalButtonOnPress?(): void;
 };
 
 export const ModalComponent: React.FC<ModalComponentProps> = ({
@@ -19,6 +22,9 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   approveResults,
   title,
   cancelSelection = () => {},
+  shouldRenderAdditionalButton = false,
+  additionalButtonOnPress = () => {},
+  additionalButtonText = "",
 }) => {
   const handleButtonConfirm = () => {
     approveResults();
@@ -47,10 +53,28 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
           </ScrollView>
         </Dialog.ScrollArea>
         <Dialog.Actions style={styles.dialogActionsContainer}>
-          <Button style={styles.buttonActionStyle} onPress={handleCancel}>
+          {shouldRenderAdditionalButton && (
+            <Button
+              labelStyle={styles.buttonActionLabelStyle}
+              onPress={additionalButtonOnPress}
+            >
+              {additionalButtonText}
+            </Button>
+          )}
+          <Button
+            labelStyle={styles.buttonActionLabelStyle}
+            style={styles.buttonActionStyle}
+            onPress={handleCancel}
+          >
             Cancel
           </Button>
-          <Button onPress={handleButtonConfirm}>Ok</Button>
+          <Button
+            labelStyle={styles.buttonActionLabelStyle}
+            style={styles.buttonActionStyle}
+            onPress={handleButtonConfirm}
+          >
+            Ok
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </Portal>
@@ -72,5 +96,8 @@ const styles = StyleSheet.create({
   },
   buttonActionStyle: {
     paddingHorizontal: 16,
+  },
+  buttonActionLabelStyle: {
+    color: theme.colors.darkGreen,
   },
 });

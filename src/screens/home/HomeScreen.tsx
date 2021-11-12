@@ -68,7 +68,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   useLayoutEffect(() => {
     if (!navigation || !profileType) return;
     navigation.setOptions({
-      headerTitle: profileType,
+      headerTitle: profileType.toUpperCase(),
     });
   }, [navigation, profileType]);
 
@@ -132,7 +132,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.loadMoreIconContainer}
-        onPress={() => navigation.navigate("OrdersScreen")}
+        onPress={() =>
+          // @ts-ignore
+          navigation.navigate("Deliverers", { screen: "OrdersScreen" })
+        }
       >
         <MaterialCommunityIcons
           name="arrow-down-circle-outline"

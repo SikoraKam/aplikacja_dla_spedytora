@@ -6,6 +6,7 @@ import { AppScreen } from "./src/screens/AppScreen";
 import { theme } from "./src/theme";
 import { useAuthStore } from "./src/store/useAuthStore";
 import { getToken } from "./src/utils/tokenUtils";
+import { NotificationProvider } from "./src/hooks/notifications/useNotification";
 
 export default function App() {
   const setAuthToken = useAuthStore(useCallback((state) => state.setToken, []));
@@ -19,14 +20,17 @@ export default function App() {
 
     getTokenFromStorage();
   }, []);
+
   return (
-    <PaperProvider>
-      <NavigationContainer theme={MyTheme}>
-        {/*<SWRConfig value={{ provider: () => new Map() }}>*/}
-        <AppScreen />
-        {/*</SWRConfig>*/}
-      </NavigationContainer>
-    </PaperProvider>
+    <NotificationProvider>
+      <PaperProvider>
+        <NavigationContainer theme={MyTheme}>
+          {/*<SWRConfig value={{ provider: () => new Map() }}>*/}
+          <AppScreen />
+          {/*</SWRConfig>*/}
+        </NavigationContainer>
+      </PaperProvider>
+    </NotificationProvider>
   );
 }
 

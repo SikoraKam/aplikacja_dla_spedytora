@@ -32,6 +32,7 @@ import { QUERY_POSITIONS_PROVIDER } from "../../constants/queryConstants";
 import { CategorySection } from "../../components/orders/CategorySection";
 import { WeightSection } from "../../components/orders/WeightSection";
 import { DescriptionSection } from "../../components/orders/DescriptionSection";
+import { NotificationAlert } from "../../components/shared/NotificationAlert";
 
 type OrderDetailsScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -63,7 +64,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isTspSectionVisible, setIsTspSectionVisible] = useState(false);
 
-  const { order } = route.params;
+  const { order, notificationAlertData, showNotificationAlert } = route.params;
   const tspArray = [order.placeStart, ...order.destinations];
 
   const displayStatusButton =
@@ -103,12 +104,18 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     navigation.push("PositionOnMapScreen", { order });
   };
 
+  const handleOnPressNotificationMenuItem = () => {
+    navigation.push("SendNotificationScreen", { order });
+  };
+
   const renderMenu = () => (
     <OrderMenu
       isMenuVisible={isMenuVisible}
       setIsMenuVisible={setIsMenuVisible}
       onPressTspItem={handleOnPressTspMenuItem}
       onPressMapItem={handleOnPressMapMenuItem}
+      isSendNotificationVisible={profileType === ProfileTypeEnum.Provider}
+      onSendNotificationPress={handleOnPressNotificationMenuItem}
     />
   );
 
@@ -210,6 +217,14 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     }
   };
 
+  const initialProviderValue =
+    profileType === ProfileTypeEnum.Forwarder
+      ? `${order.provider?.name} ${order.provider?.lastName}`
+      : `${order.forwarder?.name} ${order.forwarder?.lastName}`;
+
+  const personType =
+    profileType === ProfileTypeEnum.Provider ? "Zleceniodawca" : "Dostawca";
+
   return (
     <>
       <ScrollView>
@@ -234,10 +249,10 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
             disabled
             initialDestinationsArray={order.destinations}
           />
-          <Text style={styles.subTitleStyle}>Dostawca</Text>
+          <Text style={styles.subTitleStyle}>{personType}</Text>
           <ProviderSection
             disabled
-            initialProviderValue={`${order.provider?.name} ${order.provider?.lastName}`}
+            initialProviderValue={initialProviderValue}
           />
           <Text style={styles.subTitleStyle}>Status zlecenia</Text>
           <OrderStatusSection orderStatusValue={order.orderStatus} />
@@ -306,6 +321,16 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
       )}
 
       {renderMenu()}
+
+      {showNotificationAlert && (
+        <NotificationAlert
+          showAlert={showNotificationAlert}
+          title={notificationAlertData?.title}
+          message={notificationAlertData?.announcement}
+          sender={order.provider}
+          sentDate={notificationAlertData?.sentDate}
+        />
+      )}
     </>
   );
 };

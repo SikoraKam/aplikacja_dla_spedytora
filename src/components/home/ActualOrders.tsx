@@ -31,7 +31,10 @@ export const ActualOrders: React.FC<ActualOrdersProps> = ({
             orderItem={element}
             onPress={() =>
               // @ts-ignore
-              navigation.navigate("OrderDetailsScreen", { order: element })
+              navigation.navigate("Deliverers", {
+                screen: "OrderDetailsScreen",
+                params: { order: element },
+              })
             }
           />
         ))}

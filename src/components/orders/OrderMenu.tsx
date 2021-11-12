@@ -10,6 +10,8 @@ type OrderMenu = {
   onPressTspItem(): void;
   onPressMapItem?(): void;
   isMapItemDisabled?: boolean;
+  onSendNotificationPress?(): void;
+  isSendNotificationVisible?: boolean;
 };
 
 export const OrderMenu: React.FC<OrderMenu> = ({
@@ -18,6 +20,8 @@ export const OrderMenu: React.FC<OrderMenu> = ({
   setIsMenuVisible,
   onPressMapItem,
   isMapItemDisabled = false,
+  onSendNotificationPress = () => {},
+  isSendNotificationVisible = false,
 }) => {
   const renderButton = (
     text: string,
@@ -49,6 +53,8 @@ export const OrderMenu: React.FC<OrderMenu> = ({
         {renderButton("Wylicz optymalną trasę podróży", onPressTspItem)}
         {!!onPressMapItem &&
           renderButton("Podgląd mapy", onPressMapItem, isMapItemDisabled)}
+        {isSendNotificationVisible &&
+          renderButton("Wyślij komunikat", onSendNotificationPress)}
       </View>
     </Overlay>
   );
