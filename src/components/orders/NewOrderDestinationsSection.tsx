@@ -6,6 +6,8 @@ import { theme } from "../../theme";
 import { ModalContentItem } from "../shared/ModalContentItem";
 import { PlaceObject } from "../../types/places/PlaceObject";
 import { MainInputComponent } from "../MainInputComponent";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TextInput } from "react-native-paper";
 
 type NewOrderDestinationsSectionProps = {
   places?: PlaceObject[];
@@ -97,9 +99,24 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
               />
             ))
           ) : (
-            <Text style={styles.emptyDestinationsTextStyle}>
-              Kliknij aby dodać cele
-            </Text>
+            <View
+              style={{
+                justifyContent: "center",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.emptyDestinationsTextStyle}>
+                Kliknij aby dodać cele
+              </Text>
+              <MaterialCommunityIcons
+                style={{ position: "absolute", right: 0 }}
+                name="chevron-down"
+                color={theme.colors.mediumGreenInactive}
+                disabled={true}
+                size={24}
+              />
+            </View>
           )}
         </View>
       </TouchableOpacity>
@@ -146,6 +163,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   emptyDestinationsTextStyle: {
+    color: theme.colors.darkGreen,
     textAlign: "center",
     paddingVertical: 12,
   },

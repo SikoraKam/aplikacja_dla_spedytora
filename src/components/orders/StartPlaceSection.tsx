@@ -5,6 +5,8 @@ import { ModalComponent } from "../shared/ModalComponent";
 import { ModalContentItem } from "../shared/ModalContentItem";
 import { PlaceObject } from "../../types/places/PlaceObject";
 import { theme } from "../../theme";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TextInput } from "react-native-paper";
 
 type StartPlaceSectionProps = {
   places?: PlaceObject[];
@@ -58,10 +60,18 @@ export const StartPlaceSection: React.FC<StartPlaceSectionProps> = ({
         onPress={() => setIsModalVisible(true)}
       >
         <MainInputComponent
+          placeholder={"Kliknij aby rozwinąć listę"}
           text={placeStartValue}
           setText={setPlaceStartValue}
           editable={false}
           style={[styles.inputStyle, disabled && styles.disabledInputStyle]}
+          right={
+            <TextInput.Icon
+              name="chevron-down"
+              color={theme.colors.darkGreen}
+              disabled={true}
+            />
+          }
         />
       </TouchableOpacity>
 

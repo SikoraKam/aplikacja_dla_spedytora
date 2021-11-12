@@ -6,6 +6,7 @@ import { ModalContentItem } from "../shared/ModalContentItem";
 import { UserObject } from "../../types/user/UserObject";
 import { theme } from "../../theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TextInput } from "react-native-paper";
 
 type ProviderSectionProps = {
   providers?: UserObject[];
@@ -70,10 +71,18 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({
         onPress={() => setIsModalVisible(true)}
       >
         <MainInputComponent
+          placeholder={"Kliknij aby rozwinąć listę"}
           text={providerValue}
           setText={setProviderValue}
           editable={false}
           style={[styles.inputStyle, disabled && styles.disabledInputStyle]}
+          right={
+            <TextInput.Icon
+              name="chevron-down"
+              color={theme.colors.darkGreen}
+              disabled={true}
+            />
+          }
         />
       </TouchableOpacity>
 

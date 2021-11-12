@@ -22,6 +22,7 @@ declare global {
       greenyWhite: string;
       disabled: string;
       disabledGreen: string;
+      mediumGreenInactive: string;
     }
 
     interface Theme {
@@ -60,6 +61,7 @@ const fontConfig = {
 const colors = {
   primaryGreen: "#B2F272",
   darkGreen: "#739F13",
+  mediumGreenInactive: "#a3be6d",
   blackGreen: "#4B6A4E",
   darkBlackGreen: "#384f3b",
   lightGreen: "#BAE75B",
