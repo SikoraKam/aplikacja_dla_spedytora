@@ -2,6 +2,7 @@ import React from "react";
 import { MainInputComponent } from "../MainInputComponent";
 import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
+import { TextInput } from "react-native-paper";
 
 type WeightSectionProps = {
   value: string | undefined;
@@ -23,6 +24,13 @@ export const WeightSection: React.FC<WeightSectionProps> = ({
       keyboardType="numeric"
       maxLength={7}
       style={[styles.inputStyle, !isEditable && styles.disabledInputStyle]}
+      right={
+        <TextInput.Icon
+          name="weight"
+          color={theme.colors.darkGreen}
+          disabled={true}
+        />
+      }
     />
   );
 };

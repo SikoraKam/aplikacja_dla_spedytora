@@ -58,7 +58,7 @@ export const ProviderSection: React.FC<ProviderSectionProps> = ({
           size={20}
         />
         <Text style={styles.modalItemLeftComponentTextStyle}>
-          {provider.rating?.toFixed(2)}
+          {!!provider?.rating ? provider?.rating?.toFixed(2) : "NaN"}
         </Text>
       </View>
     );
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     marginHorizontal: 24,
     textAlign: "center",
+    color: theme.colors.darkGreen,
   },
   disabledInputStyle: {
     backgroundColor: theme.colors.disabled,

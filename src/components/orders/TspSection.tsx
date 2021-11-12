@@ -12,6 +12,7 @@ import { PlaceObject } from "../../types/places/PlaceObject";
 import { TileComponent } from "../shared/TileComponent";
 import { displayOneButtonAlert } from "../../utils/displayAlert";
 import { solveTsp } from "../../services/PostService";
+import { Fontisto } from "@expo/vector-icons";
 
 type TspSectionProps = {
   visible: boolean;
@@ -49,8 +50,13 @@ export const TspSection: React.FC<TspSectionProps> = ({
         <Text style={styles.modalTextTitleStyle}>
           Przewidywana optymalna kolejność dojazdu
         </Text>
-        {tspResult?.map((element: PlaceObject) => (
-          <TileComponent name={element.name} description={element?.address} />
+        {tspResult?.map((element: PlaceObject, index: number) => (
+          <View style={{ alignItems: "center" }}>
+            <TileComponent name={element.name} description={element?.address} />
+            {index !== tspResult.length - 1 && (
+              <Fontisto name="arrow-down-l" size={20} />
+            )}
+          </View>
         ))}
       </View>
     );

@@ -112,7 +112,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
               <MaterialCommunityIcons
                 style={{ position: "absolute", right: 0 }}
                 name="chevron-down"
-                color={theme.colors.mediumGreenInactive}
+                color={theme.colors.lightGreenInactive}
                 disabled={true}
                 size={24}
               />
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   emptyDestinationsTextStyle: {
-    color: theme.colors.darkGreen,
+    color: theme.colors.mediumGreenInactive,
     textAlign: "center",
     paddingVertical: 12,
   },

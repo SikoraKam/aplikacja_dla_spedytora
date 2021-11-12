@@ -2,6 +2,7 @@ import React from "react";
 import { MainInputComponent } from "../MainInputComponent";
 import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
+import { TextInput } from "react-native-paper";
 
 type DescriptionSectionProps = {
   value: string | undefined;
@@ -22,6 +23,13 @@ export const DescriptionSection: React.FC<DescriptionSectionProps> = ({
       editable={isEditable}
       multiline
       style={[styles.inputStyle, !isEditable && styles.disabledInputStyle]}
+      right={
+        <TextInput.Icon
+          name="card-text"
+          color={theme.colors.darkGreen}
+          disabled={true}
+        />
+      }
     />
   );
 };

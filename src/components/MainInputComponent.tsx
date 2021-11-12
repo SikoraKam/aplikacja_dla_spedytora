@@ -33,6 +33,7 @@ export const MainInputComponent: React.FC<MainInputComponentProps> = ({
           primary: theme.colors.darkGreen,
           placeholder: theme.colors.darkGreen,
           background: theme.colors.background,
+          text: theme.colors.inputTextColor,
         },
       }}
       {...props}

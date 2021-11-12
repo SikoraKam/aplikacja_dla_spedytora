@@ -42,7 +42,9 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
         onDismiss={hideModal}
         style={styles.containerStyle}
       >
-        <Dialog.Title>{title}</Dialog.Title>
+        <Dialog.Title style={{ color: theme.colors.darkBlackGreen }}>
+          {title}
+        </Dialog.Title>
         <Dialog.ScrollArea style={{ flex: 1 }}>
           <ScrollView
             contentContainerStyle={{

@@ -409,7 +409,6 @@ const styles = StyleSheet.create({
   },
   subTitleStyle: {
     ...theme.defaultTextStyle,
-    textAlign: "center",
     fontSize: 18,
     marginTop: 12,
   },

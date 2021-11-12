@@ -2,6 +2,7 @@ import React from "react";
 import { MainInputComponent } from "../MainInputComponent";
 import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
+import { TextInput } from "react-native-paper";
 
 type CategorySectionProps = {
   categoryValue: string | undefined;
@@ -22,6 +23,13 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
       editable={isEditable}
       maxLength={14}
       style={[styles.inputStyle, !isEditable && styles.disabledInputStyle]}
+      right={
+        <TextInput.Icon
+          name="truck-trailer"
+          color={theme.colors.darkGreen}
+          disabled={true}
+        />
+      }
     />
   );
 };

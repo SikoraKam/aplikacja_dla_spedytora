@@ -302,7 +302,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     marginTop: 12,
-    color: theme.colors.darkGreen,
   },
   orderParamsSection: {
     marginTop: 8,

@@ -68,6 +68,7 @@ export const IncotermsSection: React.FC<IncotermsSectionProps> = ({
       rowStyle={styles.dropdownRowStyle}
       dropdownStyle={{ borderWidth: 0, borderRadius: 8 }}
       rowTextStyle={styles.dropdownRowTextStyle}
+      disabled={!isEditable}
     />
   );
 };

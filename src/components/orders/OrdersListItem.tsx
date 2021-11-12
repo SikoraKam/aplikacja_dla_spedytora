@@ -36,7 +36,10 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
   };
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableWithoutFeedback
+      style={styles.touchableContainer}
+      onPress={onPress}
+    >
       <View style={styles.container}>
         <View style={styles.rowContainer}>
           <Text
@@ -107,6 +110,9 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
 };
 
 const styles = StyleSheet.create({
+  touchableContainer: {
+    borderWidth: 1,
+  },
   container: {
     height: 105,
     backgroundColor: theme.colors.greenyWhite,
@@ -119,6 +125,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
+    marginHorizontal: 8,
+    borderRadius: 8,
   },
   rowContainer: {
     flex: 1,
@@ -135,6 +143,7 @@ const styles = StyleSheet.create({
   textStyle: {
     textAlign: "center",
     width: 110,
+    color: theme.colors.greenyBlack,
   },
   firstColumnText: {
     left: 4,
