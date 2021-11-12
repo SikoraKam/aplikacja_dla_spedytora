@@ -334,6 +334,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
           showAlert={showNotificationAlert}
           title={notificationAlertData?.title}
           message={notificationAlertData?.announcement}
+          sender={order.provider}
         />
       )}
     </>
