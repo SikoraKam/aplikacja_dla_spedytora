@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
 
 type TruckTypeSectionProps = {
-  value: string;
+  value: string | undefined;
   setValue?(val: string): void;
   isEditable?: boolean;
 };

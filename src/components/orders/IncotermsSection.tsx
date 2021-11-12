@@ -5,7 +5,9 @@ import { theme } from "../../theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type IncotermsSectionProps = {
-  setIncotermValue(value: string): void;
+  value?: string;
+  setIncotermValue?(value: string): void;
+  isEditable?: boolean;
 };
 
 const incotermsOptions = [
@@ -22,15 +24,21 @@ const incotermsOptions = [
   "DDP",
 ];
 export const IncotermsSection: React.FC<IncotermsSectionProps> = ({
-  setIncotermValue,
+  setIncotermValue = () => {},
+  value = "",
+  isEditable = true,
 }) => {
-  const renderDropDownIcon = () => (
-    <MaterialCommunityIcons
-      name="chevron-down"
-      size={20}
-      color={theme.colors.darkGreen}
-    />
-  );
+  const renderDropDownIcon = () => {
+    return isEditable ? (
+      <MaterialCommunityIcons
+        name="chevron-down"
+        size={20}
+        color={theme.colors.darkGreen}
+      />
+    ) : (
+      <View />
+    );
+  };
 
   return (
     <SelectDropdown
@@ -44,8 +52,16 @@ export const IncotermsSection: React.FC<IncotermsSectionProps> = ({
       rowTextForSelection={(item: string) => {
         return item;
       }}
-      defaultButtonText="Incoterm"
-      buttonStyle={styles.titleDropdownButtonStyle}
+      defaultButtonText={value ? value : "Incoterm"}
+      defaultValue={value}
+      buttonStyle={[
+        styles.titleDropdownButtonStyle,
+        {
+          backgroundColor: isEditable
+            ? theme.colors.white
+            : theme.colors.disabled,
+        },
+      ]}
       buttonTextStyle={styles.titleButtonTextStyle}
       dropdownIconPosition={"right"}
       renderDropdownIcon={renderDropDownIcon}
@@ -58,7 +74,6 @@ export const IncotermsSection: React.FC<IncotermsSectionProps> = ({
 
 const styles = StyleSheet.create({
   titleDropdownButtonStyle: {
-    backgroundColor: theme.colors.white,
     borderRadius: 4,
     paddingVertical: 28,
     marginTop: 6,

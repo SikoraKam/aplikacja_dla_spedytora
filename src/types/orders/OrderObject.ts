@@ -14,4 +14,6 @@ export interface OrderObject {
   category?: string;
   description?: string;
   weightInKg?: string;
+  incoterm?: string;
+  truckType?: string;
 }
