@@ -21,6 +21,8 @@ export const OrderStatusSection: React.FC<OrderStatusSectionProps> = ({
         return "W trakcie";
       case OrderStatusEnum.WAITING:
         return "Oczekiwanie na akceptacje";
+      case OrderStatusEnum.REJECTED:
+        return "Odrzucono";
     }
   };
 

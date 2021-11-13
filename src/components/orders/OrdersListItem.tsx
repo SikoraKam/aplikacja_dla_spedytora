@@ -30,6 +30,8 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
         return "Oczekujący";
       case OrderStatusEnum.COMPLETED:
         return "Zakończono";
+      case OrderStatusEnum.REJECTED:
+        return "Odrzucono";
       default:
         return "Status nieznany";
     }

@@ -78,7 +78,8 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
 
   const displayStatusButton =
     profileType === ProfileTypeEnum.Provider &&
-    order.orderStatus !== OrderStatusEnum.COMPLETED;
+    order.orderStatus !== OrderStatusEnum.COMPLETED &&
+    order.orderStatus !== OrderStatusEnum.REJECTED;
 
   const displayRatingButton =
     profileType === ProfileTypeEnum.Forwarder &&
@@ -161,10 +162,77 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
         return requestUpdateOrder(OrderStatusEnum.IN_PROGRESS);
       case OrderStatusEnum.IN_PROGRESS:
         return requestUpdateOrder(OrderStatusEnum.COMPLETED);
-      case OrderStatusEnum.WAITING:
-        return requestUpdateOrder(OrderStatusEnum.ACCEPTED);
+      // case OrderStatusEnum.WAITING:
+      // return requestUpdateOrder(OrderStatusEnum.ACCEPTED);
       default:
         return requestUpdateOrder(OrderStatusEnum.ACCEPTED);
+    }
+  };
+
+  const renderNextStatusButtonForWaitingStatus = (
+    buttonText: string,
+    onPress: () => void,
+    isReject: boolean
+  ) => (
+    <MainButtonComponent
+      buttonStyle={{
+        right: isReject ? 0 : "51%",
+        position: "absolute",
+        bottom: 0,
+        width: "49%",
+        marginHorizontal: 0,
+        borderTopRightRadius: 24,
+        borderTopLeftRadius: 24,
+        backgroundColor: isReject
+          ? theme.colors.primaryDarkGreen
+          : theme.colors.lightGreen,
+      }}
+      text={buttonText}
+      onPress={onPress}
+    />
+  );
+
+  // button should be rendered on for accepted and in progress, two for waiting
+  const renderStatusButton = () => {
+    if (
+      order.orderStatus === OrderStatusEnum.ACCEPTED ||
+      order.orderStatus === OrderStatusEnum.IN_PROGRESS
+    ) {
+      return (
+        <MainButtonComponent
+          buttonStyle={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            marginHorizontal: 0,
+            borderTopRightRadius: 24,
+            borderTopLeftRadius: 24,
+          }}
+          text={selectButtonText()}
+          onPress={handleStatusButtonPress}
+        />
+      );
+    } else if (order.orderStatus === OrderStatusEnum.WAITING) {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            // justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {renderNextStatusButtonForWaitingStatus(
+            "Zaakceptuj",
+            () => requestUpdateOrder(OrderStatusEnum.ACCEPTED),
+            false
+          )}
+          {renderNextStatusButtonForWaitingStatus(
+            "Odrzuć",
+            () => requestUpdateOrder(OrderStatusEnum.REJECTED),
+            true
+          )}
+        </View>
+      );
     }
   };
 
@@ -333,20 +401,21 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
         </View>
       </ScrollView>
 
-      {displayStatusButton && (
-        <MainButtonComponent
-          buttonStyle={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-            marginHorizontal: 0,
-            borderTopRightRadius: 24,
-            borderTopLeftRadius: 24,
-          }}
-          text={selectButtonText()}
-          onPress={handleStatusButtonPress}
-        />
-      )}
+      {displayStatusButton && renderStatusButton()}
+      {/*{displayStatusButton && (*/}
+      {/*  <MainButtonComponent*/}
+      {/*    buttonStyle={{*/}
+      {/*      position: "absolute",*/}
+      {/*      bottom: 0,*/}
+      {/*      width: "100%",*/}
+      {/*      marginHorizontal: 0,*/}
+      {/*      borderTopRightRadius: 24,*/}
+      {/*      borderTopLeftRadius: 24,*/}
+      {/*    }}*/}
+      {/*    text={selectButtonText()}*/}
+      {/*    onPress={handleStatusButtonPress}*/}
+      {/*  />*/}
+      {/*)}*/}
 
       {displayRatingButton && (
         <MainButtonComponent
