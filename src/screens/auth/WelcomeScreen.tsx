@@ -12,7 +12,9 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.screenContainer}>
       <View>
-        <Headline style={styles.headlineStyle}>Tytuł Aplikacji</Headline>
+        <Headline style={styles.headlineStyle}>
+          Mobilna Platforma Logistyczna
+        </Headline>
       </View>
       <View style={styles.buttonGroup}>
         <MainButtonComponent

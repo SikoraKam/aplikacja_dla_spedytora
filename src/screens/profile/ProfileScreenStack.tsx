@@ -6,6 +6,8 @@ import { useNotificationHandler } from "../../hooks/notifications/useNotificatio
 import { theme } from "../../theme";
 import { MyProfileScreen } from "./MyProfileScreen";
 import { DrawerIcon } from "../home/HomeScreenStack";
+import { ProfileEditRouteParams } from "../../types/routeParameters/ProfileEditRouteParams";
+import { ProfileEditScreen } from "../ProfileEditScreen";
 
 type ProfileScreenStackProps = DrawerScreenProps<
   DrawerScreensParamList,
@@ -14,6 +16,7 @@ type ProfileScreenStackProps = DrawerScreenProps<
 
 export type ProfileScreenStackParamList = {
   MyProfileScreen: undefined;
+  ProfileEditScreen: ProfileEditRouteParams;
 };
 
 const Stack = createStackNavigator<ProfileScreenStackParamList>();
@@ -34,6 +37,13 @@ export const ProfileScreenStack: React.FC<ProfileScreenStackProps> = ({
         options={{
           headerLeft: DrawerIcon,
           headerTitle: "Profil",
+        }}
+      />
+      <Stack.Screen
+        name={"ProfileEditScreen"}
+        component={ProfileEditScreen}
+        options={{
+          headerTitle: "Edytuj Profil",
         }}
       />
     </Stack.Navigator>

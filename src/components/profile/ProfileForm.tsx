@@ -18,11 +18,13 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
     userObject.profileType === ProfileTypeEnum.Provider && (
       <>
         <ShortInputComponent
-          text=""
+          isEditable={editMode}
+          text={userObject.preferredRatePerHour}
           placeholder="Preferowana stawka za godzinę"
         />
         <ShortInputComponent
-          text=""
+          isEditable={editMode}
+          text={userObject.preferredStartPlaces}
           placeholder="Informacja o preferowanej okolicy startu"
         />
       </>
@@ -34,8 +36,10 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
         <Text style={styles.subtitleTextStyle}>Dodatkowe informacje</Text>
         <ShortInputComponent
           multiline
-          text=""
-          placeholder="Dodatkowe informacje. Na przykład niedostępność w konkretnych dniach, preferowana godzina startu, email"
+          isEditable={editMode}
+          text={userObject.additionalInfo}
+          placeholder="Dodatkowe informacje. Na przykład niedostępność w konkretnych dniach,
+           preferowana godzina startu, email"
         />
       </View>
     );
@@ -44,8 +48,13 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
     <ScrollView style={styles.componentContainer}>
       <View style={styles.sectionContainer}>
         <Text style={styles.subtitleTextStyle}>Imię i Nazwisko</Text>
-        <ShortInputComponent text={userObject.name} placeholder="Imię" />
         <ShortInputComponent
+          isEditable={editMode}
+          text={userObject.name}
+          placeholder="Imię"
+        />
+        <ShortInputComponent
+          isEditable={editMode}
           text={userObject.lastName}
           placeholder="Nazwisko"
         />
@@ -53,7 +62,11 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
 
       <View style={styles.sectionContainer}>
         <Text style={styles.subtitleTextStyle}>Kontakt</Text>
-        <ShortInputComponent text="" placeholder="Telefon" />
+        <ShortInputComponent
+          isEditable={editMode}
+          text={userObject.phoneNumber}
+          placeholder="Telefon"
+        />
         {renderProviderContactSection()}
       </View>
 
