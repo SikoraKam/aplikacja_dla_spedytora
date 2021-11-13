@@ -5,9 +5,9 @@ import {
   ActivityIndicator,
   Platform,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
-  Text,
 } from "react-native";
 
 import { theme } from "../../theme";
@@ -85,11 +85,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     const newOrdersArray = [...ordersArray];
     newOrdersArray.reverse();
     const lastThreeActualOrders = newOrdersArray
-      .filter((order) => order.orderStatus !== OrderStatusEnum.COMPLETED)
+      .filter(
+        (order) =>
+          order.orderStatus !== OrderStatusEnum.COMPLETED &&
+          order.orderStatus !== OrderStatusEnum.REJECTED
+      )
       .slice(0, 3);
 
     const completedArray = newOrdersArray
-      .filter((order) => order.orderStatus === OrderStatusEnum.COMPLETED)
+      .filter(
+        (order) =>
+          order.orderStatus === OrderStatusEnum.COMPLETED ||
+          order.orderStatus === OrderStatusEnum.REJECTED
+      )
       .slice(0, 4 - lastThreeActualOrders.length);
 
     setLastThreeActualOrders(lastThreeActualOrders);

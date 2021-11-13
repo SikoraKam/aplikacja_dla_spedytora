@@ -402,20 +402,6 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
       </ScrollView>
 
       {displayStatusButton && renderStatusButton()}
-      {/*{displayStatusButton && (*/}
-      {/*  <MainButtonComponent*/}
-      {/*    buttonStyle={{*/}
-      {/*      position: "absolute",*/}
-      {/*      bottom: 0,*/}
-      {/*      width: "100%",*/}
-      {/*      marginHorizontal: 0,*/}
-      {/*      borderTopRightRadius: 24,*/}
-      {/*      borderTopLeftRadius: 24,*/}
-      {/*    }}*/}
-      {/*    text={selectButtonText()}*/}
-      {/*    onPress={handleStatusButtonPress}*/}
-      {/*  />*/}
-      {/*)}*/}
 
       {displayRatingButton && (
         <MainButtonComponent
