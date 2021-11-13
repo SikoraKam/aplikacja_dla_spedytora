@@ -7,6 +7,8 @@ import { useNotificationHandler } from "../../hooks/notifications/useNotificatio
 import { DrawerIcon } from "../home/HomeScreenStack";
 import { theme } from "../../theme";
 import { UsersOverviewScreen } from "./UsersOverviewScreen";
+import { ProfileOverviewRouteParams } from "../../types/routeParameters/ProfileOverviewRouteParams";
+import { ProfileOverviewScreen } from "./ProfileOverviewScreen";
 
 type UsersOverviewScreenStackProps = DrawerScreenProps<
   DrawerScreensParamList,
@@ -15,6 +17,7 @@ type UsersOverviewScreenStackProps = DrawerScreenProps<
 
 export type UsersOverviewScreenStackParamList = {
   UsersOverviewScreen: undefined;
+  ProfileOverviewScreen: ProfileOverviewRouteParams;
 };
 
 const Stack = createStackNavigator<UsersOverviewScreenStackParamList>();
@@ -35,6 +38,11 @@ export const UsersOverviewScreenStack: React.FC<UsersOverviewScreenStackProps> =
         options={{
           headerLeft: DrawerIcon,
         }}
+      />
+      <Stack.Screen
+        name="ProfileOverviewScreen"
+        component={ProfileOverviewScreen}
+        options={theme.highHeader}
       />
     </Stack.Navigator>
   );

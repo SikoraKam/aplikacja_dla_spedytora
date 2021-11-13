@@ -17,11 +17,8 @@ export const ProfileHeaderSection: React.FC<ProfileHeaderSectionProps> = ({
   profileType,
   userData,
 }) => {
-  const nameAndLastName = useProfileStore((state) => state.nameAndLastName);
-
   const renderRating = () => {
-    if (profileType === ProfileTypeEnum.Forwarder || !userData?.rating)
-      return <View />;
+    if (profileType === ProfileTypeEnum.Forwarder) return <View />;
     return (
       <View
         style={{
@@ -33,7 +30,7 @@ export const ProfileHeaderSection: React.FC<ProfileHeaderSectionProps> = ({
         }}
       >
         <Text style={styles.ratingTextStyle}>
-          {userData?.rating > 0 ? userData?.rating.toFixed(2) : "Brak Ocen"}
+          {userData?.rating ? userData?.rating.toFixed(2) : "Brak Ocen"}
         </Text>
         <MaterialCommunityIcons
           name="star-outline"
@@ -45,10 +42,7 @@ export const ProfileHeaderSection: React.FC<ProfileHeaderSectionProps> = ({
   };
 
   const getInitials = () => {
-    const seperate = nameAndLastName.split(" ");
-    const name = seperate[0];
-    const lastName = seperate[1];
-    return `${name[0]}${lastName[0]}`;
+    return `${userData.name[0]}${userData.lastName[0]}`;
   };
 
   return (

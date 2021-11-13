@@ -25,6 +25,7 @@ import {
 } from "./usersOverview/UsersOverviewScreenStack";
 import { useProfileStore } from "../store/useProfileStore";
 import { ProfileTypeEnum } from "../types/user/ProfileTypeEnum";
+import { GroupIcon } from "../components/icons/GroupIcon";
 
 export type DrawerScreensParamList = {
   Home: NavigatorScreenParams<HomeScreenStackParamList>;
@@ -84,15 +85,6 @@ export const AppScreenStack: React.FC = () => {
         }}
       />
       <Drawer.Screen
-        name="Profile"
-        component={ProfileScreenStack}
-        options={{
-          headerShown: false,
-          drawerLabel: "Profil",
-          drawerIcon: AccountIcon,
-        }}
-      />
-      <Drawer.Screen
         name="UsersOverview"
         component={UsersOverviewScreenStack}
         options={{
@@ -101,6 +93,15 @@ export const AppScreenStack: React.FC = () => {
             profileType === ProfileTypeEnum.Provider
               ? "Spedytorzy"
               : "Dostawcy",
+          drawerIcon: GroupIcon,
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreenStack}
+        options={{
+          headerShown: false,
+          drawerLabel: "Profil",
           drawerIcon: AccountIcon,
         }}
       />

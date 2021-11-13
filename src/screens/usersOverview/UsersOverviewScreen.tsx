@@ -53,8 +53,7 @@ export const UsersOverviewScreen: React.FC<UsersOverviewScreenProps> = ({
     );
 
   const onPressItem = (item: UserObject) => {
-    return;
-    // navigation.push("", { order: item });
+    navigation.push("ProfileOverviewScreen", { userObject: item });
   };
 
   const renderListItem = ({ item, index }: ListRenderItemInfo<UserObject>) => (

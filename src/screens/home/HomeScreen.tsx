@@ -4,15 +4,14 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   ActivityIndicator,
   Platform,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
+  Text,
 } from "react-native";
 
 import { theme } from "../../theme";
 import { MainButtonComponent } from "../../components/MainButtonComponent";
-import { logoutRequest } from "../../services/AuthService";
 import { useOrders } from "../../hooks/orders/useOrders";
 import { useProfileStore } from "../../store/useProfileStore";
 import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
@@ -126,7 +125,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       </View>
     );
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <ActualOrders lastThreeNotCompletedOrders={lastThreeActualOrders} />
       <HistoryOrders slicedCompletedOrders={completedOrdersToDisplay} />
 
@@ -137,11 +136,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           navigation.navigate("Orders", { screen: "OrdersScreen" })
         }
       >
-        <MaterialCommunityIcons
-          name="arrow-down-circle-outline"
-          size={30}
-          style={{ color: theme.colors.lightGreen }}
-        />
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <Text style={{ color: theme.colors.darkBlackGreen }}>
+            Zobacz więcej
+          </Text>
+          <MaterialCommunityIcons
+            name="arrow-down-circle-outline"
+            size={30}
+            style={{ color: theme.colors.lightGreen }}
+          />
+        </View>
       </TouchableOpacity>
 
       <View style={styles.addButtonContainer}>
@@ -150,17 +154,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           text="Zrealizuj nowe zlecenie"
           onPress={() => navigation.push("NewOrderScreen")}
         />
-        <MainButtonComponent
-          buttonStyle={styles.addButtonStyle}
-          text="wyloguj"
-          onPress={() => {
-            logoutRequest();
-            // @ts-ignore
-            cache.clear();
-          }}
-        />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -189,10 +184,12 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    marginBottom: 12,
+    marginBottom: 4,
+    bottom: 0,
   },
   addButtonStyle: {},
   loadMoreIconContainer: {
     alignSelf: "center",
+    justifyContent: "center",
   },
 });
