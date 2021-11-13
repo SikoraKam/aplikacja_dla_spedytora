@@ -134,7 +134,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         style={styles.loadMoreIconContainer}
         onPress={() =>
           // @ts-ignore
-          navigation.navigate("Deliverers", { screen: "OrdersScreen" })
+          navigation.navigate("Orders", { screen: "OrdersScreen" })
         }
       >
         <MaterialCommunityIcons
