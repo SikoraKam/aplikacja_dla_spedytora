@@ -7,4 +7,19 @@ export interface UserObject {
   lastName: string;
   name: string;
   rating?: number;
+
+  phoneNumber?: string;
+  preferredRatePerHour?: string;
+  preferredStartPlaces?: string;
+  additionalInfo?: string;
+}
+
+export interface UserObjectFormValues {
+  lastName?: string;
+  name?: string;
+  rating?: number;
+  phoneNumber?: string;
+  preferredRatePerHour?: string;
+  preferredStartPlaces?: string;
+  additionalInfo?: string;
 }

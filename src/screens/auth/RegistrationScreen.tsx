@@ -24,7 +24,9 @@ export const RegistrationScreen: React.FC<RegisterScreenProps> = ({
     <KeyboardAvoidingView style={styles.screenContainer}>
       <ScrollView style={styles.scrollContainer}>
         <View>
-          <Headline style={styles.headlineStyle}>Tytuł Aplikacji</Headline>
+          <Headline style={styles.headlineStyle}>
+            Mobilna Platforma Logistyczna
+          </Headline>
           <Text style={styles.subheader}>
             Zarejestruj się aby korzystać z aplikacji
           </Text>

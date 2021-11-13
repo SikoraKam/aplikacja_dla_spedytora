@@ -31,12 +31,12 @@ export const ActualOrders: React.FC<ActualOrdersProps> = ({
             orderItem={element}
             onPress={async () => {
               // @ts-ignore
-              await navigation.navigate("Deliverers", {
+              await navigation.navigate("Orders", {
                 screen: "OrdersScreen",
                 params: { order: element },
               });
               // @ts-ignore
-              await navigation.navigate("Deliverers", {
+              await navigation.navigate("Orders", {
                 screen: "OrderDetailsScreen",
                 params: { order: element },
               });

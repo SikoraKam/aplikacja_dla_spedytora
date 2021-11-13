@@ -26,6 +26,8 @@ declare global {
       inputTextColor: string;
       greenyBlack: string;
       lightGreenInactive: string;
+      mediumGreen: string;
+      primaryDarkGreen: string;
     }
 
     interface Theme {
@@ -71,7 +73,7 @@ const colors = {
   lightGreen: "#BAE75B",
   greenBackgroundLight: "#D6F6B6",
   greenyWhite: "#fbffeb",
-  secondaryGreen: "#C4F592",
+  secondaryGreen: "#c4f592",
   white: "#FFFFFF",
   black: "#000000",
   error: "#ea4747",
@@ -80,6 +82,8 @@ const colors = {
   disabledGreen: "#eef6d8",
   inputTextColor: "#4f6b0d",
   greenyBlack: "#223024",
+  mediumGreen: "#cbfaa6", //to change
+  primaryDarkGreen: "#92bf5b",
 };
 
 const sizes = {
@@ -108,14 +112,48 @@ export const theme = {
       fontSize: 24,
       textAlign: "center",
       color: colors.darkBlackGreen,
+      fontFamily: "sans-serif-medium",
+      letterSpacing: 0.85,
     },
   },
+
   authHeader: {
     headerStyle: {
       elevation: 0,
       height: 80,
       backgroundColor: colors.background,
       shadowColor: "transparent",
+      fontFamily: "sans-serif-medium",
+      letterSpacing: 0.85,
+    },
+  },
+
+  highHeader: {
+    headerTitleAlign: "center",
+    headerStyle: {
+      elevation: 10,
+      height: 250,
+      backgroundColor: colors.primaryGreen,
+      shadowColor: "transparent",
+      borderBottomStartRadius: 32,
+      borderBottomEndRadius: 32,
+    },
+    headerTitleStyle: {
+      fontSize: 28,
+      textAlign: "center",
+      color: colors.darkBlackGreen,
+      fontFamily: "sans-serif-medium",
+      letterSpacing: 0.85,
+    },
+    headerTitleContainerStyle: {
+      height: "100%",
+      justifyContent: "flex-start",
+      marginTop: 12,
+    },
+    headerLeftContainerStyle: {
+      justifyContent: "flex-start",
+      marginLeft: 4,
+      marginTop: 24,
     },
   },
   defaultTextStyle: {
