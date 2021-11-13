@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { ProfileScreenStackParamList } from "./ProfileScreenStack";
 import { StyleSheet, Text, View } from "react-native";
-import { Avatar } from "react-native-paper";
+import { Avatar, Button } from "react-native-paper";
 import { useProfileStore } from "../../store/useProfileStore";
 import { theme } from "../../theme";
+import { ProfileForm } from "../../components/profile/ProfileForm";
+import { useUser } from "../../hooks/user/useUser";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
+import { logoutRequest } from "../../services/AuthService";
+import { MainButtonComponent } from "../../components/MainButtonComponent";
+import { useSWRConfig } from "swr";
 
 type MyProfileScreenProps = StackScreenProps<
   ProfileScreenStackParamList,
@@ -17,7 +24,37 @@ export const MyProfileScreen: React.FC<MyProfileScreenProps> = ({
   navigation,
   route,
 }) => {
+  const { cache } = useSWRConfig();
+  const { user: userData, isError: userDataError } = useUser();
   const nameAndLastName = useProfileStore((state) => state.nameAndLastName);
+  const profileType = useProfileStore((state) => state.profileType);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => renderLogoutButton(),
+      headerRightContainerStyle: {
+        height: "100%",
+        justifyContent: "flex-start",
+        marginRight: 4,
+        marginTop: 16,
+      },
+    });
+  }, [navigation]);
+
+  const renderLogoutButton = () => (
+    <Button
+      onPress={async () => await logoutProcess()}
+      labelStyle={{ color: theme.colors.darkBlackGreen }}
+    >
+      Wyloguj
+    </Button>
+  );
+
+  const logoutProcess = async () => {
+    await logoutRequest();
+    // @ts-ignore
+    cache.clear();
+  };
 
   const getInitials = () => {
     const seperate = nameAndLastName.split(" ");
@@ -26,9 +63,34 @@ export const MyProfileScreen: React.FC<MyProfileScreenProps> = ({
     return `${name[0]}${lastName[0]}`;
   };
 
+  const renderRating = () => {
+    if (profileType === ProfileTypeEnum.Forwarder) return <View />;
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: -20,
+          marginBottom: 24,
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.ratingTextStyle}>
+          {userData?.rating > 0 ? userData?.rating : "Brak Ocen"}
+        </Text>
+        <MaterialCommunityIcons
+          name="star-outline"
+          color={theme.colors.darkGreen}
+          size={30}
+        />
+      </View>
+    );
+  };
+
   return (
     <View style={styles.screenContainer}>
       <View style={styles.avatarWrapper}>
+        {renderRating()}
         <Avatar.Text
           size={AVATAR_SIZE}
           label={getInitials()}
@@ -38,7 +100,7 @@ export const MyProfileScreen: React.FC<MyProfileScreenProps> = ({
       </View>
 
       <View style={styles.contentContainer}>
-        <Text>HEHE</Text>
+        <ProfileForm userObject={userData} />
       </View>
     </View>
   );
@@ -55,7 +117,7 @@ const styles = StyleSheet.create({
   },
   avatarWrapper: {
     alignItems: "center",
-    marginTop: -AVATAR_SIZE / 2 - 30,
+    marginTop: -AVATAR_SIZE / 2 - 40,
     position: "relative",
   },
   contentContainer: {
@@ -64,7 +126,6 @@ const styles = StyleSheet.create({
   },
   avatarStyle: {
     backgroundColor: theme.colors.secondaryGreen,
-    // borderWidth: 5,5
     borderColor: theme.colors.primaryDarkGreen,
     borderStartWidth: 4,
     borderEndWidth: 4,
@@ -73,5 +134,10 @@ const styles = StyleSheet.create({
   },
   avatarTextStyle: {
     color: theme.colors.darkBlackGreen,
+  },
+  ratingTextStyle: {
+    ...theme.defaultTextStyle,
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });

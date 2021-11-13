@@ -33,8 +33,7 @@ export const ProfileScreenStack: React.FC<ProfileScreenStackProps> = ({
         component={MyProfileScreen}
         options={{
           headerLeft: DrawerIcon,
-          // headerLeftContainerStyle: {}
-          headerTitle: "Twój Profil",
+          headerTitle: "Profil",
         }}
       />
     </Stack.Navigator>
