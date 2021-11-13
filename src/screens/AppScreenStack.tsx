@@ -11,6 +11,10 @@ import {
 } from "./orders/OrdersScreenStack";
 import { useNotification } from "../hooks/notifications/useNotification";
 import { updateExpoPushTokenRequest } from "../services/PatchService";
+import { theme } from "../theme";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { HomeIcon } from "../components/icons/HomeIcon";
+import { TruckFastIcon } from "../components/icons/TruckFastIcon";
 
 export type DrawerScreensParamList = {
   Home: NavigatorScreenParams<HomeScreenStackParamList>;
@@ -34,16 +38,32 @@ export const AppScreenStack: React.FC = () => {
   }, [expoPushToken, hasPushedNotificationsToken]);
 
   return (
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        drawerActiveBackgroundColor: theme.colors.secondaryGreen,
+        drawerActiveTintColor: theme.colors.darkBlackGreen,
+        drawerType: "back",
+        drawerStyle: { backgroundColor: theme.colors.greenyWhite },
+      }}
+    >
       <Drawer.Screen
         name="Home"
         component={HomeScreenStack}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          drawerLabel: "Start",
+          drawerIcon: HomeIcon,
+        }}
       />
       <Drawer.Screen
-        name="Deliverers"
+        name="Orders"
         component={OrdersScreenStack}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          drawerLabel: "Zamówienia",
+          drawerIcon: TruckFastIcon,
+        }}
       />
     </Drawer.Navigator>
   );
