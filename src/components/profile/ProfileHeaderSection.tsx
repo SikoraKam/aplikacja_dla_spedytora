@@ -33,7 +33,7 @@ export const ProfileHeaderSection: React.FC<ProfileHeaderSectionProps> = ({
         }}
       >
         <Text style={styles.ratingTextStyle}>
-          {userData?.rating > 0 ? userData?.rating : "Brak Ocen"}
+          {userData?.rating > 0 ? userData?.rating.toFixed(2) : "Brak Ocen"}
         </Text>
         <MaterialCommunityIcons
           name="star-outline"

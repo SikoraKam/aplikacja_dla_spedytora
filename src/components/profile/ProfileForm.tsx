@@ -1,6 +1,6 @@
 import React from "react";
-import { UserObject, UserObjectFormValues } from "../../types/user/UserObject";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { UserObjectFormValues } from "../../types/user/UserObject";
+import { StyleSheet, Text, View } from "react-native";
 import { ShortInputComponent } from "../shared/ShortInputComponent";
 import { theme } from "../../theme";
 import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";

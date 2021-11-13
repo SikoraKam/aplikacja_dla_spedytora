@@ -73,7 +73,7 @@ const colors = {
   lightGreen: "#BAE75B",
   greenBackgroundLight: "#D6F6B6",
   greenyWhite: "#fbffeb",
-  secondaryGreen: "#C4F592",
+  secondaryGreen: "#c4f592",
   white: "#FFFFFF",
   black: "#000000",
   error: "#ea4747",
@@ -82,7 +82,7 @@ const colors = {
   disabledGreen: "#eef6d8",
   inputTextColor: "#4f6b0d",
   greenyBlack: "#223024",
-  mediumGreen: "#b0ef66", //to change
+  mediumGreen: "#cbfaa6", //to change
   primaryDarkGreen: "#92bf5b",
 };
 

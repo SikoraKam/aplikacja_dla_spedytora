@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { ProfileScreenStackParamList } from "./profile/ProfileScreenStack";
-import { ScreenStackProps } from "react-native-screens";
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { StyleSheet, View } from "react-native";
 import { ProfileForm } from "../components/profile/ProfileForm";
 import { ProfileHeaderSection } from "../components/profile/ProfileHeaderSection";
 import { MainButtonComponent } from "../components/MainButtonComponent";
 import { updateUserFormRequest } from "../services/PatchService";
-import useSWR, { useSWRConfig } from "swr";
-import { QUERY_USERS, QUERY_USERS_USER } from "../constants/queryConstants";
+import { useSWRConfig } from "swr";
+import { QUERY_USERS_USER } from "../constants/queryConstants";
 
 type ProfileEditScreenProps = StackScreenProps<
   ProfileScreenStackParamList,
