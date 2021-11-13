@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: -AVATAR_SIZE / 2 - 40,
     position: "relative",
+    zIndex: 900,
   },
   avatarStyle: {
     backgroundColor: theme.colors.secondaryGreen,
