@@ -8,6 +8,7 @@ import { MainButtonComponent } from "../components/MainButtonComponent";
 import { updateUserFormRequest } from "../services/PatchService";
 import { useSWRConfig } from "swr";
 import { QUERY_USERS_USER } from "../constants/queryConstants";
+import { displayOneButtonAlert } from "../utils/displayAlert";
 
 type ProfileEditScreenProps = StackScreenProps<
   ProfileScreenStackParamList,
@@ -30,8 +31,8 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   const [preferredRatePerHour, setPreferredRatePerHour] = useState(
     user.preferredRatePerHour
   );
-  const [preferredStartPlaces, setPreferredStartPlaces] = useState(
-    user.preferredStartPlaces
+  const [availableStartPlaces, setAvailableStartPlaces] = useState(
+    user.availableStartPlaces
   );
   const [additionalInfo, setAdditionalInfo] = useState(user.additionalInfo);
 
@@ -40,7 +41,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     lastName,
     phoneNumber,
     preferredRatePerHour,
-    preferredStartPlaces,
+    availableStartPlaces,
     additionalInfo,
   };
 
@@ -48,10 +49,22 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     if (isLoading) return;
     setIsLoading(true);
 
-    const res = await updateUserFormRequest(tempUserValues);
-    await mutate(QUERY_USERS_USER);
-    setIsLoading(false);
-    navigation.goBack();
+    try {
+      const availablePlacesArrayId = availableStartPlaces.map(
+        (element) => element?._id
+      );
+      const userRequestBody = {
+        ...tempUserValues,
+        availableStartPlaces: availablePlacesArrayId,
+      };
+      const res = await updateUserFormRequest(tempUserValues);
+      await mutate(QUERY_USERS_USER);
+      setIsLoading(false);
+      navigation.goBack();
+    } catch (e) {
+      displayOneButtonAlert();
+      console.log("ERROR", e);
+    }
   };
 
   return (
@@ -74,8 +87,9 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
             setAdditionalInfo,
             setPhoneNumber,
             setPreferredRatePerHour,
-            setPreferredStartPlaces,
           }}
+          setAvailableStartPlaces={setAvailableStartPlaces}
+          availableStartPlacesArray={availableStartPlaces}
           setHideSaveButton={setHideSaveButton}
         />
       </View>

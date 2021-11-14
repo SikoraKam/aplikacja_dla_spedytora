@@ -4,6 +4,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   ActivityIndicator,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -133,7 +134,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       </View>
     );
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       <ActualOrders lastThreeNotCompletedOrders={lastThreeActualOrders} />
       <HistoryOrders slicedCompletedOrders={completedOrdersToDisplay} />
 
@@ -156,14 +157,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
-      <View style={styles.addButtonContainer}>
-        <MainButtonComponent
-          buttonStyle={styles.addButtonStyle}
-          text="Zrealizuj nowe zlecenie"
-          onPress={() => navigation.push("NewOrderScreen")}
-        />
-      </View>
-    </View>
+      {profileType === ProfileTypeEnum.Forwarder && (
+        <View style={styles.addButtonContainer}>
+          <MainButtonComponent
+            buttonStyle={styles.addButtonStyle}
+            text="Zrealizuj nowe zlecenie"
+            onPress={() => navigation.push("NewOrderScreen")}
+          />
+        </View>
+      )}
+    </ScrollView>
   );
 };
 
@@ -192,7 +195,7 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    marginBottom: 4,
+    marginVertical: 4,
     bottom: 0,
   },
   addButtonStyle: {},
