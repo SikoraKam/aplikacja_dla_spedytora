@@ -11,7 +11,6 @@ export interface UserObject {
 
   phoneNumber?: string;
   preferredRatePerHour?: string;
-  // preferredStartPlaces?: string;
   availableStartPlaces: PlaceObject[];
   additionalInfo?: string;
 }
@@ -22,7 +21,6 @@ export interface UserObjectFormValues {
   rating?: number;
   phoneNumber?: string;
   preferredRatePerHour?: string;
-  // preferredStartPlaces?: string;
   availableStartPlaces: PlaceObject[];
   additionalInfo?: string;
 }

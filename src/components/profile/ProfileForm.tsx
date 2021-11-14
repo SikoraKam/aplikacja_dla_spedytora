@@ -1,13 +1,11 @@
 import React from "react";
 import { UserObjectFormValues } from "../../types/user/UserObject";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { ShortInputComponent } from "../shared/ShortInputComponent";
 import { theme } from "../../theme";
 import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { PlaceObject } from "../../types/places/PlaceObject";
-import { TileComponent } from "../shared/TileComponent";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ProfileFormPlacesSection } from "./ProfileFormPlacesSection";
 import { usePlaces } from "../../hooks/places/usePlaces";
 
@@ -19,7 +17,6 @@ type ProfileFormProps = {
   setLastName?(value: string): void;
   setPhoneNumber?(value: string): void;
   setPreferredRatePerHour?(value: string): void;
-  // setPreferredStartPlaces?(value: string): void;
   setAdditionalInfo?(value: string): void;
   setHideSaveButton?(val: boolean): void;
   setAvailableStartPlaces?(array: PlaceObject[]): void;
@@ -34,7 +31,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
   setLastName = () => {},
   setPhoneNumber = () => {},
   setPreferredRatePerHour = () => {},
-  // setPreferredStartPlaces = () => {},
   setAdditionalInfo = () => {},
   setHideSaveButton = () => {},
   setAvailableStartPlaces = () => {},
@@ -61,14 +57,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           text={userObject.preferredRatePerHour}
           placeholder="Preferowana stawka za godzinę"
         />
-        {/*<ShortInputComponent*/}
-        {/*  onFocus={() => setHideSaveButton(true)}*/}
-        {/*  onBlur={() => setHideSaveButton(false)}*/}
-        {/*  isEditable={editMode}*/}
-        {/*  setText={setPreferredStartPlaces}*/}
-        {/*  text={userObject.preferredStartPlaces}*/}
-        {/*  placeholder="Informacja o preferowanej okolicy startu"*/}
-        {/*/>*/}
       </View>
     );
 
