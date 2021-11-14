@@ -1,4 +1,5 @@
 import { ProfileTypeEnum } from "./ProfileTypeEnum";
+import { PlaceObject } from "../places/PlaceObject";
 
 export interface UserObject {
   _id: string;
@@ -10,7 +11,8 @@ export interface UserObject {
 
   phoneNumber?: string;
   preferredRatePerHour?: string;
-  preferredStartPlaces?: string;
+  // preferredStartPlaces?: string;
+  availableStartPlaces: PlaceObject[];
   additionalInfo?: string;
 }
 
@@ -20,6 +22,7 @@ export interface UserObjectFormValues {
   rating?: number;
   phoneNumber?: string;
   preferredRatePerHour?: string;
-  preferredStartPlaces?: string;
+  // preferredStartPlaces?: string;
+  availableStartPlaces: PlaceObject[];
   additionalInfo?: string;
 }
