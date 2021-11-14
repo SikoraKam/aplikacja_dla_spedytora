@@ -26,6 +26,7 @@ import { DescriptionSection } from "../../components/orders/DescriptionSection";
 import { WeightSection } from "../../components/orders/WeightSection";
 import { IncotermsSection } from "../../components/orders/IncotermsSection";
 import { TruckTypeSection } from "../../components/orders/TruckTypeSection";
+import { UserObject } from "../../types/user/UserObject";
 
 type NewOrderScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -76,6 +77,28 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
     () => placesData?.filter((element: PlaceObject) => element !== placeStart),
     [placeStart]
   );
+  const availableProviders = useMemo(() => {
+    if (!placeStart) return providersData;
+
+    const filtered = providersData.filter((provider: UserObject) => {
+      if (
+        !provider.availableStartPlaces ||
+        provider.availableStartPlaces.length === 0
+      ) {
+        return provider;
+      }
+
+      const availableStartPlacesId = provider.availableStartPlaces.map(
+        (item) => item._id
+      );
+
+      if (availableStartPlacesId.includes(placeStart?._id)) {
+        return provider;
+      }
+    });
+
+    return filtered;
+  }, [placeStart]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -227,7 +250,7 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
           />
           <Text style={styles.subTitleStyle}>Dostawca</Text>
           <ProviderSection
-            providers={providersData}
+            providers={availableProviders}
             setSelectedProviderId={setProviderId}
           />
 
