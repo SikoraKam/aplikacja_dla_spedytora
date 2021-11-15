@@ -4,13 +4,16 @@ import { theme } from "../../theme";
 import { OrderObject } from "../../types/orders/OrderObject";
 import { useNavigation } from "@react-navigation/native";
 import { OrdersListItem } from "../orders/OrdersListItem";
+import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 
 type HistoryOrdersProps = {
   slicedCompletedOrders: OrderObject[];
+  profileType: ProfileTypeEnum | null;
 };
 
 export const HistoryOrders: React.FC<HistoryOrdersProps> = ({
   slicedCompletedOrders,
+  profileType,
 }) => {
   const navigation = useNavigation();
 
@@ -24,6 +27,7 @@ export const HistoryOrders: React.FC<HistoryOrdersProps> = ({
       <View>
         {slicedCompletedOrders?.map((element) => (
           <OrdersListItem
+            profileType={profileType}
             key={element._id}
             orderItem={element}
             onPress={async () => {

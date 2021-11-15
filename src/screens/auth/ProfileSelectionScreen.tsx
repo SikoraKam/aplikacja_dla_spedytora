@@ -8,6 +8,7 @@ import { ProfileTypeComponent } from "../../components/auth/ProfileTypeComponent
 import { Foundation, MaterialCommunityIcons } from "@expo/vector-icons";
 import { registerRequest } from "../../services/AuthService";
 import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
+import { displayOneButtonAlert } from "../../utils/displayAlert";
 
 type ProfileSelectionScreenProps = StackScreenProps<
   AuthScreenStackParamList,
@@ -28,11 +29,15 @@ export const ProfileSelectionScreen: React.FC<ProfileSelectionScreenProps> = ({
 
     try {
       await registerRequest(name, lastName, email, password, profileType);
+      setIsRegistrationInProcess(false);
+      displayOneButtonAlert(
+        "Twoje konto zostało utworzone",
+        "Zaloguj się swoimi danymi"
+      );
+      navigation.popToTop();
     } catch (err) {
       console.warn(err);
     }
-    navigation.popToTop();
-    setIsRegistrationInProcess(false);
   };
 
   return (
