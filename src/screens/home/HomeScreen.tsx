@@ -1,8 +1,14 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "./HomeScreenStack";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import {
   ActivityIndicator,
+  InteractionManager,
   Platform,
   ScrollView,
   StyleSheet,
@@ -28,6 +34,7 @@ import { ActualOrders } from "../../components/home/ActualOrders";
 import { HistoryOrders } from "../../components/home/HistoryOrders";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSWRConfig } from "swr";
+import { useFocusEffect } from "@react-navigation/native";
 
 type HomeScreenProps = StackScreenProps<HomeScreenStackParamList, "HomeScreen">;
 
@@ -35,8 +42,6 @@ defineUpdateLocationTask();
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const profileType = useProfileStore((state) => state.profileType);
-  const userNameAndLastName = useProfileStore((state) => state.nameAndLastName);
-  const { cache } = useSWRConfig();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -63,7 +68,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     orders: ordersData,
     isLoading: isOrdersDataLoading,
     isError: isOrdersDataError,
+    mutate: mutateOrders,
   } = useOrders(profileType);
+
+  useFocusEffect(
+    useCallback(() => {
+      mutateOrders();
+    }, [])
+  );
 
   useLayoutEffect(() => {
     if (!navigation || !profileType) return;
@@ -135,8 +147,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     );
   return (
     <ScrollView style={{ flex: 1 }}>
-      <ActualOrders lastThreeNotCompletedOrders={lastThreeActualOrders} />
-      <HistoryOrders slicedCompletedOrders={completedOrdersToDisplay} />
+      <ActualOrders
+        profileType={profileType}
+        lastThreeNotCompletedOrders={lastThreeActualOrders}
+      />
+      <HistoryOrders
+        profileType={profileType}
+        slicedCompletedOrders={completedOrdersToDisplay}
+      />
 
       <TouchableOpacity
         style={styles.loadMoreIconContainer}

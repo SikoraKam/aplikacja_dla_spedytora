@@ -28,6 +28,7 @@ declare global {
       lightGreenInactive: string;
       mediumGreen: string;
       primaryDarkGreen: string;
+      lightError: string;
     }
 
     interface Theme {
@@ -80,6 +81,7 @@ const colors = {
   background: "#ffffff",
   disabled: "#f5f5f5",
   disabledGreen: "#eef6d8",
+  lightError: "#efd6d6",
   inputTextColor: "#4f6b0d",
   greenyBlack: "#223024",
   mediumGreen: "#cbfaa6", //to change

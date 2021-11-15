@@ -9,6 +9,8 @@ import { Button, HelperText } from "react-native-paper";
 import { MainButtonComponent } from "../MainButtonComponent";
 import { theme } from "../../theme";
 import { loginRequest } from "../../services/AuthService";
+import { displayOneButtonAlert } from "../../utils/displayAlert";
+import { AxiosError } from "axios";
 
 type LoginFormProps = {
   onPressRecoveryPasswordScreenButton(): void;
@@ -57,6 +59,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       await loginRequest(email, password);
     } catch (error) {
       setResponseErrors(error, setError);
+      displayOneButtonAlert(
+        "Nieprawidłowe logowanie",
+        "Sprawdź poprawność danych"
+      );
     }
     setIsLoginInProcess(false);
   };

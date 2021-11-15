@@ -48,7 +48,8 @@ export const PositionOnMapScreen: React.FC<PositionOnMapScreenProps> = ({
     />
   );
 
-  if (isLoading) return <ActivityIndicator color={theme.colors.primaryGreen} />;
+  if (order.orderStatus === OrderStatusEnum.IN_PROGRESS && isLoading)
+    return <ActivityIndicator color={theme.colors.primaryGreen} />;
   return (
     <View style={styles.screenContainer}>
       {order.orderStatus === OrderStatusEnum.IN_PROGRESS

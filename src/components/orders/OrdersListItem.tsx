@@ -1,23 +1,36 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { theme } from "../../theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { OrderObject } from "../../types/orders/OrderObject";
 import { format } from "date-fns";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
+import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 
 type OrdersListItemProps = {
   orderItem: OrderObject;
   onPress?(): void;
+  profileType: ProfileTypeEnum | null;
 };
 
 export const OrdersListItem: React.FC<OrdersListItemProps> = ({
   orderItem,
   onPress,
+  profileType,
 }) => {
   const addComa = (index: number) => {
     if (index === orderItem?.destinations.length - 1) return "";
     else return ", ";
+  };
+
+  const getContainerBackgroundColorStyle = () => {
+    if (orderItem?.orderStatus === OrderStatusEnum.REJECTED) {
+      return { backgroundColor: theme.colors.lightError };
+    }
+    if (orderItem?.orderStatus === OrderStatusEnum.COMPLETED) {
+      return { backgroundColor: theme.colors.mediumGreen };
+    }
+    return { backgroundColor: theme.colors.greenyWhite };
   };
 
   const translateOrderStatus = (orderStatus: OrderStatusEnum) => {
@@ -39,7 +52,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={styles.container}>
+      <View style={[styles.container, getContainerBackgroundColorStyle()]}>
         <View style={styles.rowContainer}>
           <Text
             numberOfLines={1}
@@ -93,13 +106,17 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
               numberOfLines={1}
               style={[styles.textStyle, styles.thirdColumnText]}
             >
-              {orderItem?.provider?.name}
+              {profileType === ProfileTypeEnum.Forwarder
+                ? orderItem?.provider?.name
+                : orderItem?.forwarder.name}
             </Text>
             <Text
               numberOfLines={1}
               style={[styles.textStyle, styles.thirdColumnText]}
             >
-              {orderItem?.provider?.lastName}
+              {profileType === ProfileTypeEnum.Forwarder
+                ? orderItem?.provider?.lastName
+                : orderItem?.forwarder.lastName}
             </Text>
           </View>
         </View>
@@ -111,7 +128,7 @@ export const OrdersListItem: React.FC<OrdersListItemProps> = ({
 const styles = StyleSheet.create({
   container: {
     height: 105,
-    backgroundColor: theme.colors.greenyWhite,
+    // backgroundColor: theme.colors.greenyWhite,
     marginVertical: 2,
     elevation: 2,
     shadowColor: "#000",

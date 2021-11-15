@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
   ListRenderItemInfo,
@@ -17,6 +17,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { OrderStatusEnum } from "../../types/orders/OrderStatusEnum";
 import { theme } from "../../theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 type OrdersScreenProps = StackScreenProps<
   OrdersScreenStackParamList,
@@ -41,7 +42,14 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
     orders: ordersData,
     isLoading: isOrdersDataLoading,
     isError: isOrdersDataError,
+    mutate: mutateOrders,
   } = useOrders(profileType);
+
+  useFocusEffect(
+    useCallback(() => {
+      mutateOrders();
+    }, [])
+  );
 
   useEffect(() => {
     if (!ordersData) return;
@@ -65,6 +73,7 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({ navigation }) => {
 
   const renderListItem = ({ item, index }: ListRenderItemInfo<OrderObject>) => (
     <OrdersListItem
+      profileType={profileType}
       key={`${item?._id}${index}`}
       orderItem={item}
       onPress={() => onPressItem(item)}

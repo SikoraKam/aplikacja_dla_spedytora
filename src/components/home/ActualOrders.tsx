@@ -4,13 +4,16 @@ import { theme } from "../../theme";
 import { OrderObject } from "../../types/orders/OrderObject";
 import { useNavigation } from "@react-navigation/native";
 import { OrdersListItem } from "../orders/OrdersListItem";
+import { ProfileTypeEnum } from "../../types/user/ProfileTypeEnum";
 
 type ActualOrdersProps = {
   lastThreeNotCompletedOrders: OrderObject[];
+  profileType: ProfileTypeEnum | null;
 };
 
 export const ActualOrders: React.FC<ActualOrdersProps> = ({
   lastThreeNotCompletedOrders,
+  profileType,
 }) => {
   const navigation = useNavigation();
 
@@ -27,6 +30,7 @@ export const ActualOrders: React.FC<ActualOrdersProps> = ({
       <View>
         {lastThreeNotCompletedOrders?.map((element) => (
           <OrdersListItem
+            profileType={profileType}
             key={element._id}
             orderItem={element}
             onPress={async () => {

@@ -33,7 +33,6 @@ export const loginRequest = async (email: string, password: string) => {
 };
 
 export const logoutRequest = async () => {
-  // await axios.post("auth/logout");
   const locationTaskIsActive = await checkIfTaskUpdateLocationIsRegistered();
   if (locationTaskIsActive) {
     await stopLocationUpdate();
