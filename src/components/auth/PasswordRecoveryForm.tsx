@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFormState } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Keyboard, StyleSheet, View } from "react-native";
 import { setResponseErrors } from "../../utils/setResponseErrors";
@@ -8,16 +8,12 @@ import { MainInputComponent } from "../MainInputComponent";
 import { Button, HelperText } from "react-native-paper";
 import { MainButtonComponent } from "../MainButtonComponent";
 import { theme } from "../../theme";
+import { useNavigation } from "@react-navigation/native";
 
-type PasswordRecoveryFormProps = {
-  onPressRecoveryPasswordScreenButton(): void;
-};
+type PasswordRecoveryFormProps = {};
 
 type PasswordRecoveryFormData = {
-  name: string;
   email: string;
-  password: string;
-  passwordConfirm: string;
 };
 
 const PasswordRecoverySchema = yup.object().shape({
@@ -27,9 +23,7 @@ const PasswordRecoverySchema = yup.object().shape({
     .required("Podaj adres email aby się zalogować"),
 });
 
-export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
-  onPressRecoveryPasswordScreenButton,
-}) => {
+export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({}) => {
   const {
     register,
     setValue,
@@ -39,6 +33,8 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
   } = useForm<PasswordRecoveryFormData>({
     resolver: yupResolver(PasswordRecoverySchema),
   });
+
+  const navigation = useNavigation();
 
   const [
     isPasswordRecoveryInProcess,
@@ -50,12 +46,15 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
     register("password");
   }, [register]);
 
-  const onSubmit = async () => {
+  const onSubmit = async ({ email }: PasswordRecoveryFormData) => {
     setIsPasswordRecoveryInProcess(true);
     Keyboard.dismiss();
 
     try {
-      // TODO await function for register
+      // @ts-ignore
+      navigation.navigate("NewPasswordScreen", {
+        email,
+      });
     } catch (error) {
       setResponseErrors(error, setError);
     }
