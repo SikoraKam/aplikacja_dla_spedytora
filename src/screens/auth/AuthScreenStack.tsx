@@ -30,15 +30,8 @@ export const AuthScreenStack: React.FC = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTitle: (props) => (
-          <AppLogo
-            style={{ alignSelf: "center" }}
-            size={32}
-            color={theme.colors.darkGreen}
-            {...props}
-          />
-        ),
         headerTitleAlign: "center",
+        headerTitle: "",
         headerStyle: {
           elevation: 0,
           height: 80,

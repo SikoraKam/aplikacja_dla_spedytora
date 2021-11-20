@@ -5,6 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/typ
 import { AuthScreenStackParamList } from "./AuthScreenStack";
 import { theme } from "../../theme";
 import { Headline, Text } from "react-native-paper";
+import { Octicons } from "@expo/vector-icons";
 
 type WelcomeScreenProps = StackScreenProps<AuthScreenStackParamList, "Welcome">;
 
@@ -16,6 +17,14 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
           Mobilna Platforma Logistyczna
         </Headline>
       </View>
+
+      <Octicons
+        name="package"
+        size={150}
+        style={{ alignSelf: "center", marginTop: 40 }}
+        color={theme.colors.blackGreen}
+      />
+
       <View style={styles.buttonGroup}>
         <MainButtonComponent
           text="Zarejestruj się"
