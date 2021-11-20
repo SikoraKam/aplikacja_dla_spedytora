@@ -11,8 +11,13 @@ import { theme } from "../../theme";
 import { loginRequest } from "../../services/AuthService";
 import { displayOneButtonAlert } from "../../utils/displayAlert";
 import { AxiosError } from "axios";
+import { passwordResetRequest } from "../../services/PostService";
+import { useNavigation } from "@react-navigation/native";
 
-type NewPasswordFormProps = {};
+type NewPasswordFormProps = {
+  email: string;
+  onPasswordReset(): void;
+};
 
 type NewPasswordFormData = {
   code: string;
@@ -29,17 +34,19 @@ const LoginSchema = yup.object().shape({
     .required("Powtórz hasło"),
 });
 
-export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({}) => {
+export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({
+  email,
+  onPasswordReset,
+}) => {
   const {
     register,
     setValue,
     setError,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>({
+  } = useForm<NewPasswordFormData>({
     resolver: yupResolver(LoginSchema),
   });
-
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -48,18 +55,25 @@ export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({}) => {
     register("passwordConfirm");
   }, [register]);
 
-  const onSubmit = async ({ password }: NewPasswordFormData) => {
+  const onSubmit = async ({
+    password,
+    code,
+    passwordConfirm,
+  }: NewPasswordFormData) => {
+    if (passwordConfirm !== password) return;
     setIsLoading(true);
     Keyboard.dismiss();
 
     try {
-      //todo
+      await passwordResetRequest({ email, code, newPassword: password });
+      onPasswordReset();
     } catch (error) {
       setResponseErrors(error, setError);
       displayOneButtonAlert(
         "Nieprawidłowe dane",
-        "Sprawdź poprawność kodu, który otrzymałeś"
+        "Nieprawidłowy lub nieważny kod"
       );
+      console.log(error);
     }
     setIsLoading(false);
   };

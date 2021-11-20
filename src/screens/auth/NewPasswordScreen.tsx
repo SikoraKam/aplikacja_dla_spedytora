@@ -16,10 +16,15 @@ export const NewPasswordScreen: React.FC<NewPasswordScreenProps> = ({
   navigation,
   route,
 }) => {
+  const { email } = route.params;
+
   return (
     <View style={styles.screenContainer}>
       <Headline style={styles.headlineStyle}>Ustaw nowe hasło</Headline>
-      <NewPasswordForm />
+      <NewPasswordForm
+        email={email}
+        onPasswordReset={() => navigation.popToTop()}
+      />
     </View>
   );
 };

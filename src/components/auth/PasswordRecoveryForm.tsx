@@ -9,6 +9,8 @@ import { Button, HelperText } from "react-native-paper";
 import { MainButtonComponent } from "../MainButtonComponent";
 import { theme } from "../../theme";
 import { useNavigation } from "@react-navigation/native";
+import { sendCodeRequest } from "../../services/PostService";
+import { displayOneButtonAlert } from "../../utils/displayAlert";
 
 type PasswordRecoveryFormProps = {};
 
@@ -43,7 +45,6 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({}) =>
 
   useEffect(() => {
     register("email");
-    register("password");
   }, [register]);
 
   const onSubmit = async ({ email }: PasswordRecoveryFormData) => {
@@ -51,12 +52,15 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({}) =>
     Keyboard.dismiss();
 
     try {
+      await sendCodeRequest({ email });
       // @ts-ignore
       navigation.navigate("NewPasswordScreen", {
         email,
       });
     } catch (error) {
       setResponseErrors(error, setError);
+      console.log(JSON.stringify(error));
+      displayOneButtonAlert("Nie znaleziono użytkownika z takim adresem email");
     }
     setIsPasswordRecoveryInProcess(false);
   };
