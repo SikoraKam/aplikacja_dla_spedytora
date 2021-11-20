@@ -3,6 +3,8 @@ import { CreateOrderPayload } from "../types/orders/CreateOrderPayload";
 import { PlaceObject } from "../types/places/PlaceObject";
 import {
   QUERY_ORDERS,
+  QUERY_PASSWORD_RESET,
+  QUERY_PASSWORD_RESET_NEW_PASSWORD,
   QUERY_PLACES_TSP,
   QUERY_POSITIONS,
   QUERY_POSITIONS_PROVIDER,
@@ -36,9 +38,23 @@ export const deletePositionRequest = async (providerId: string) => {
   await axios.delete(`${QUERY_POSITIONS_PROVIDER}/${providerId}`);
 };
 
+// notifications
 export const sendNotification = async (
   receiverId: string,
   payload: { title: string; announcement: string; orderObject: OrderObject }
 ) => {
   await axios.post(`${QUERY_USER_NOTIFICATIONS}/${receiverId}`, payload);
+};
+
+// auth
+export const sendCodeRequest = async (payload: { email: string }) => {
+  await axios.post(`${QUERY_PASSWORD_RESET}`, payload);
+};
+
+export const passwordResetRequest = async (payload: {
+  email: string;
+  code: string;
+  newPassword: string;
+}) => {
+  await axios.post(`${QUERY_PASSWORD_RESET_NEW_PASSWORD}`, payload);
 };

@@ -15,3 +15,6 @@ export const QUERY_USERS_USER = "users/user";
 export const QUERY_USERS = "users";
 export const QUERY_USER_RATING = "users/rating";
 export const QUERY_USER_NOTIFICATIONS = "users/notifications/pushToken";
+
+export const QUERY_PASSWORD_RESET = "auth/reset";
+export const QUERY_PASSWORD_RESET_NEW_PASSWORD = "auth/reset/password";

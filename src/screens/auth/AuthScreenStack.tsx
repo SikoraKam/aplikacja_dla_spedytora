@@ -10,6 +10,8 @@ import { ProfileSelectionScreen } from "./ProfileSelectionScreen";
 import { ProfileSelectionRouteParameters } from "../../types/routeParameters/ProfileSelectionRouteParameters";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { DrawerScreensParamList } from "../AppScreenStack";
+import { NewPasswordScreenRouteParams } from "../../types/routeParameters/NewPasswordScreenRouteParams";
+import { NewPasswordScreen } from "./NewPasswordScreen";
 
 export type AuthScreenStackParamList = {
   Welcome: undefined;
@@ -17,6 +19,7 @@ export type AuthScreenStackParamList = {
   Login: undefined;
   PasswordRecovery: undefined;
   ProfileSelection: ProfileSelectionRouteParameters;
+  NewPasswordScreen: NewPasswordScreenRouteParams;
 };
 
 const Stack = createStackNavigator<AuthScreenStackParamList>();
@@ -27,15 +30,8 @@ export const AuthScreenStack: React.FC = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTitle: (props) => (
-          <AppLogo
-            style={{ alignSelf: "center" }}
-            size={32}
-            color={theme.colors.darkGreen}
-            {...props}
-          />
-        ),
         headerTitleAlign: "center",
+        headerTitle: "",
         headerStyle: {
           elevation: 0,
           height: 80,
@@ -55,6 +51,7 @@ export const AuthScreenStack: React.FC = () => {
         name={"ProfileSelection"}
         component={ProfileSelectionScreen}
       />
+      <Stack.Screen name={"NewPasswordScreen"} component={NewPasswordScreen} />
     </Stack.Navigator>
   );
 };

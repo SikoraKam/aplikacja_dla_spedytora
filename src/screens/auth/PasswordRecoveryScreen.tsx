@@ -18,11 +18,10 @@ export const PasswordRecoveryScreen: React.FC<PasswordRecoveryScreenProps> = ({
     <View style={styles.screenContainer}>
       <Headline style={styles.headlineStyle}>Odzyskiwanie hasła</Headline>
       <Text style={styles.subheader}>
-        Podaj adres email na który wyślemy nowe hasło
+        Podaj adres email, na który otrzymasz kod potrzebny do wygenerowania
+        nowego hasła
       </Text>
-      <PasswordRecoveryForm
-        onPressRecoveryPasswordScreenButton={() => navigation.push("Welcome")}
-      />
+      <PasswordRecoveryForm />
     </View>
   );
 };
@@ -44,5 +43,6 @@ const styles = StyleSheet.create({
     ...theme.defaultTextStyle,
     color: theme.colors.darkBlackGreen,
     fontSize: 14,
+    marginHorizontal: 8,
   },
 });
