@@ -7,6 +7,8 @@ import { LatLng } from "react-native-maps";
 import { HomeScreenStackParamList } from "../home/HomeScreenStack";
 import { PlaceObject } from "../../types/places/PlaceObject";
 import { theme } from "../../theme";
+import { createPlace } from "../../services/PostService";
+import { displayOneButtonAlert } from "../../utils/displayAlert";
 
 type SelectPlaceFromMapScreenProps = StackScreenProps<
   HomeScreenStackParamList,
@@ -27,12 +29,26 @@ export const SelectPlaceFromMapScreen: React.FC<SelectPlaceFromMapScreenProps> =
   const [selectedPlace, setSelectedPlace] = useState<PlaceObject | null>(null);
   const isLocationSelected = selectedPlace !== null;
 
-  const onPress = () => {
-    if (selectedPlace && selectStartPlace) {
-      setPlaceStart(selectedPlace);
-    }
-    if (selectedPlace && !selectStartPlace) {
-      setDestinationsArray([...destinationsArray, selectedPlace]);
+  const onPress = async () => {
+    try {
+      if (selectedPlace) {
+        const createdPlace = await createPlace({
+          name: selectedPlace?.name,
+          address: selectedPlace?.address,
+          longitude: selectedPlace?.longitude,
+          latitude: selectedPlace?.latitude,
+        });
+
+        if (selectStartPlace) {
+          setPlaceStart(createdPlace);
+        }
+        if (!selectStartPlace) {
+          setDestinationsArray([...destinationsArray, createdPlace]);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      displayOneButtonAlert("Nie udało się utworzyć miejsca");
     }
     navigation.goBack();
   };
