@@ -15,6 +15,7 @@ type NewOrderDestinationsSectionProps = {
   initialDestinationsArray?: PlaceObject[];
   approvedArray: PlaceObject[];
   setApprovedArray?(value: PlaceObject[]): void;
+  pushSelectPlaceFromMapScreen?(): void;
 };
 
 export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionProps> = ({
@@ -23,6 +24,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
   initialDestinationsArray = [],
   approvedArray,
   setApprovedArray = () => {},
+  pushSelectPlaceFromMapScreen = () => {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAdditionalModalVisible, setIsAdditionalModalVisible] = useState(
@@ -78,6 +80,7 @@ export const NewOrderDestinationsSection: React.FC<NewOrderDestinationsSectionPr
 
   const additionalModalButtonOnPress = () => {
     setIsModalVisible(false);
+    pushSelectPlaceFromMapScreen();
   };
 
   const renderAdditionalModalContent = () => <>{/*<MainInputComponent />*/}</>;
