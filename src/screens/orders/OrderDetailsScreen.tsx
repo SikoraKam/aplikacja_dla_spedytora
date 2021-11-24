@@ -34,7 +34,10 @@ import {
 } from "../../services/PostService";
 import { checkIfTaskUpdateLocationIsRegistered } from "../../services/TasksService";
 import { useSWRConfig } from "swr";
-import { QUERY_POSITIONS_PROVIDER } from "../../constants/queryConstants";
+import {
+  QUERY_POSITIONS_PROVIDER,
+  QUERY_PROVIDERS,
+} from "../../constants/queryConstants";
 import { CategorySection } from "../../components/orders/CategorySection";
 import { WeightSection } from "../../components/orders/WeightSection";
 import { DescriptionSection } from "../../components/orders/DescriptionSection";
@@ -252,6 +255,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
       const latitude = position.coords?.latitude;
       const longitude = position.coords?.longitude;
 
+      const res = await Location.enableNetworkProviderAsync();
       const positionResponse = await createPositionRequest({
         latitude,
         longitude,
@@ -327,6 +331,7 @@ export const OrderDetailsScreen: React.FC<OrderDetailsScreenProps> = ({
     };
     try {
       await updateProviderRating(order.provider._id, ratingBody);
+      mutate(QUERY_PROVIDERS);
       navigation.pop();
     } catch (error) {
       displayOneButtonAlert();

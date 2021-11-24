@@ -5,6 +5,7 @@ import {
   QUERY_ORDERS,
   QUERY_PASSWORD_RESET,
   QUERY_PASSWORD_RESET_NEW_PASSWORD,
+  QUERY_PLACES,
   QUERY_PLACES_TSP,
   QUERY_POSITIONS,
   QUERY_POSITIONS_PROVIDER,
@@ -22,6 +23,16 @@ export const createOrder = async (body: CreateOrderPayload) => {
 // places
 export const solveTsp = async (body: PlaceObject[]) => {
   const response = await axios.post(`${QUERY_PLACES_TSP}`, body);
+  return response.data;
+};
+
+export const createPlace = async (body: {
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+}) => {
+  const response = await axios.post(`${QUERY_PLACES}`, body);
   return response.data;
 };
 

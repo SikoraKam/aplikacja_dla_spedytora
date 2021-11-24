@@ -14,12 +14,14 @@ import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NewOrderScreen } from "./NewOrderScreen";
 import { ThreeHorizontalDots } from "../../components/icons/ThreeHorizontalDots";
 import { useNotificationHandler } from "../../hooks/notifications/useNotificationHandler";
+import { SelectPlaceFromMapScreen } from "../orders/SelectPlaceFromMapScreen";
 
 type HomeScreenStackProps = DrawerScreenProps<DrawerScreensParamList, "Home">;
 
 export type HomeScreenStackParamList = {
   HomeScreen: undefined;
   NewOrderScreen: undefined;
+  SelectPlaceFromMapScreen: SelectPlaceFromMapRouteParams;
 };
 
 const Stack = createStackNavigator<HomeScreenStackParamList>();
@@ -42,6 +44,11 @@ export const HomeScreenStack: React.FC<HomeScreenStackProps> = ({
         name="NewOrderScreen"
         component={NewOrderScreen}
         options={{ title: "Nowe zlecenie" }}
+      />
+      <Stack.Screen
+        name="SelectPlaceFromMapScreen"
+        component={SelectPlaceFromMapScreen}
+        options={{ title: "Wybierz miejsce na mapie" }}
       />
     </Stack.Navigator>
   );

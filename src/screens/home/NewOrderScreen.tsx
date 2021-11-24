@@ -247,6 +247,13 @@ export const NewOrderScreen: React.FC<NewOrderScreenProps> = ({
             approvedArray={destinationsArray}
             setApprovedArray={setDestinationsArray}
             places={availableDestinations}
+            pushSelectPlaceFromMapScreen={() =>
+              navigation.push("SelectPlaceFromMapScreen", {
+                destinationsArray,
+                setDestinationsArray,
+                selectStartPlace: false,
+              })
+            }
           />
           <Text style={styles.subTitleStyle}>Dostawca</Text>
           <ProviderSection
