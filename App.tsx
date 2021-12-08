@@ -1,6 +1,6 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import React, { useCallback, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { LogBox, StyleSheet } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { AppScreen } from "./src/screens/AppScreen";
 import { theme } from "./src/theme";
@@ -9,6 +9,7 @@ import { getToken } from "./src/utils/tokenUtils";
 import { NotificationProvider } from "./src/hooks/notifications/useNotification";
 
 export default function App() {
+  LogBox.ignoreAllLogs();
   const setAuthToken = useAuthStore(useCallback((state) => state.setToken, []));
 
   useEffect(() => {
